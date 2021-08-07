@@ -22,11 +22,11 @@
         <div id="open">
             <img id="rightchevron"  src="{% static 'recipe/images/rightchevron.png' %}" />
             <img id="leftchevron"  src="{% static 'recipe/images/leftchevron.png' %}" />
-            <img src='{{recipe.image.url}}'>
-            <h1> {{recipe.name}}</h1>
-            <h4>By {{recipe.username}}</h4>
-            <h4>Rating:{{recipe.rating}}</h4>
         </div>
+        <img src='{{recipe.image.url}}'>
+        <h1> {{recipe.name}}</h1>
+        <h4>By {{recipe.username}}</h4>
+        <h4>Rating:{{recipe.rating}}</h4>
     </div>
 {% endblock content %} 
 {% block scripts %}
