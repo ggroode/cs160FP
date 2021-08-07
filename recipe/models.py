@@ -56,6 +56,8 @@ class Recipe(models.Model):
         self.save()
         self.steps.append(stepText)
         self.save()
+    def ingredientsAsText(self):
+        return Recipe.ingredientsToText(self.ingredients)
     @staticmethod
     def mergeIngredients(recipeList):
         ingredients = dict()
@@ -69,6 +71,13 @@ class Recipe(models.Model):
                 else:
                     ingredients[ingredientName] = recipe.ingredients[ingredientName]
         return ingredients
+    @staticmethod
+    def createRecipe(name,description,cookingTime,image,classification,servings,servingSize,authorUserName,private=False,ingredients=[],steps=[],tags=[]):
+        r = Recipe(name=name,description=description,cookingTime=cookingTime,image=image,classification=classification)
+    @staticmethod
+    def ingredientsToText(ingredients):
+        for name in ingredients.keys():
+            ing = ingredients[name]
                
 
 class Tag(models.Model):

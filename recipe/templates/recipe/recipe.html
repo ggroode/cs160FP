@@ -1,13 +1,13 @@
 {% extends 'recipe/base.html' %}
 {% load static %}
+
 {% block style %}
         <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
 {% endblock style %} 
+
 {% block content %}
     <div id="mySidebar" class="sidebar">
-        <!-- Why do I need this??????? -->
-        <div id="mymeal">
-        </div>
+        {% comment %} <!-- Why do I need this??????? -->
         <div id="what">
             My meal
         </div>
@@ -15,8 +15,8 @@
             <!-- This is where we will add all the recipe names with meals -->
         </div>
         <button type="button" class="btn" id="shoppinglist">Show Shopping List</button>
-        <button type="button" class="btn" id="recipes">Show Meal Recipes</button>
-        
+        <button type="button" class="btn" id="recipes">Show Meal Recipes</button> {% endcomment %}
+        {% include 'recipe/menubar.html' %}
     </div>
     <div id="main">
         <div id="open">
@@ -29,10 +29,8 @@
         </div>
     </div>
 {% endblock content %} 
+
 {% block scripts %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     <script>
     $(document).ready(function(){
         var open = false;
