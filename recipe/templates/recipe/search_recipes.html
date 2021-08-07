@@ -1,14 +1,18 @@
 {% extends 'recipe/base.html' %}
 
-{% block content %} 
-    <ul>
-        {% for recipe in recipes %} 
-            <li> 
-                {{recipe.name}} 
-                <img src="{{recipe.image.url}}"/>
+{% block content %}
+    <div class='row'>
+        <div id="menuArea" class='col-3'></div> 
+        <div id="mainSearchArea" class='col-6 h-100'>
+            <div id='searchTop' class='row'></div>
+            <div id='recipeArea' class='row w-100 h-100'>
+                {% for recipe in recipes %} 
+                    {% include 'recipe/recipe_box.html' %}
+                {% endfor %}    
+            </div>
+        </div>
+        <div id='filterArea' class='col-3'></div>
+    </div>
 
-            </li>
-        {% endfor %}    
-    </ul>
 
 {% endblock content %}

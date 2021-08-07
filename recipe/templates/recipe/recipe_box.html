@@ -1,0 +1,6 @@
+<div class='border col-4' >
+    <a href="{% url 'recipe' recipe.id %}" class="h-100 w-100">
+        <img src='{{recipe.image.url}}' class='h-50 w-100 border'/>
+        <h5> {{recipe.name}} </h5>
+    </a>
+</div>
