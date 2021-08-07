@@ -1,1 +1,14 @@
 {% extends 'recipe/base.html' %}
+
+{% block content %} 
+    <ul>
+        {% for recipe in recipes %} 
+            <li> 
+                {{recipe.name}} 
+                <img src="{{recipe.image.url}}"/>
+
+            </li>
+        {% endfor %}    
+    </ul>
+
+{% endblock content %}

@@ -1,9 +1,10 @@
 from django.shortcuts import render
 import json
-
+from .models import Recipe
 # Create your views here.
 def search_recipes(request):
-    return render(request,'recipe/search_recipes.html')
+    recipes = Recipe.objects.all()
+    return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
 def create_recipe(request,id=-1):
     return render(request,'recipe/create_recipe.html')
 def recipe(request,id):
