@@ -1,14 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
+from django.core.validators import MaxValueValidator
 from nltk.stem import PorterStemmer
-
+import re
   
 ps = PorterStemmer()
+
+def pluralize(noun):
+    if re.search('[sxz]$', noun):
+         return re.sub('$', 'es', noun)
+    elif re.search('[^aeioudgkprt]h$', noun):
+        return re.sub('$', 'es', noun)
+    elif re.search('[aeiou]y$', noun):
+        return re.sub('y$', 'ies', noun)
+    else:
+        return noun + 's'
 
 # Create your models here.
 def get_list():
     return []
+
 class Recipe(models.Model):
     class Classifications(models.TextChoices):
         DESSERT = 'de'
@@ -41,23 +53,36 @@ class Recipe(models.Model):
             return 0
         return sum(ratings)/len(ratings)
 
-    def addIngredient(self,ingredientName,unit,quantity):
-        self.save()
-        ingredientName = " ".join([ps.stem(word) for word in ingredientName.split(' ')])
-        self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
-        if (Ingredient.objects.filter(name=ingredientName)):
-            Ingredient.objects.get(name=ingredientName).recipes.add(self)
+    def rate(self,userName,ratingValue):
+        # assert ratingValue in [1,2,3,4,5]
+        user = User.objects.get(username=userName)
+        rating = Rating.objects.filter(recipe_id=self.id,author=user).first()
+        if rating:
+            rating.value = ratingValue
         else:
+            Rating.objects.create(recipe=self,author=user,value=ratingValue)
+            
+
+    def addIngredient(self,ingredientName,unit,quantity):
+        ingredientName = " ".join([ps.plur2sing(word) for word in ingredientName.split(' ')])
+        self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
+        ing = Ingredient.objects.fitler(name=ingredientName).first()
+        if not ing:
             ing = Ingredient.objects.create(name=ingredientName)
-            ing.recipes.add(self)
-            ing.save()
-        self.save()
+        ing.recipes.add(self)
+
     def addStep(self,stepText):
-        self.save()
         self.steps.append(stepText)
-        self.save()
-    def ingredientsAsText(self):
-        return Recipe.ingredientsToText(self.ingredients)
+    
+    def ingredientsAsText(self,multiplier=1):
+        return Recipe.ingredientsToText(self.ingredients,multiplier=1)
+
+    def addTag(self,tagName):
+        tag = Tag.objects.filter(name=tagName).first()
+        if not tag:
+            tag = Tag.objects.create(name=tagName)
+        tag.recipes.add(self)
+    
     @staticmethod
     def mergeIngredients(recipeList):
         ingredients = dict()
@@ -71,14 +96,38 @@ class Recipe(models.Model):
                 else:
                     ingredients[ingredientName] = recipe.ingredients[ingredientName]
         return ingredients
+    
     @staticmethod
     def createRecipe(name,description,cookingTime,image,classification,servings,servingSize,authorUserName,private=False,ingredients=[],steps=[],tags=[]):
-        r = Recipe(name=name,description=description,cookingTime=cookingTime,image=image,classification=classification)
+        user = User.objects.get(username=authorUserName)
+        r = Recipe(name=name,description=description,cookingTime=cookingTime,image=image,classification=classification,servings=servings,servingSize=servingSize,author=user,private=private)
+        r.save()
+        for name,quantity,unit in ingredients:
+            r.addIngredient(name,unit,quantity)
+        for step in steps:
+            r.addStep(step)
+        for tag in tags:
+            r.addTag(step)
+    
     @staticmethod
-    def ingredientsToText(ingredients):
+    def ingredientsToText(ingredients,multiplier=1):
+        ingTextList=[]
         for name in ingredients.keys():
             ing = ingredients[name]
-               
+            unit,quantity = ing['unit'],ing['quantity']*multiplier
+            if unit in ['count','cnt']:
+                if quantity == 1:
+                    ingTextList.append("{} {}".format(quantity,name))
+                else:
+                    ingTextList.append("{} {}".format(quantity,pluralize(name)))
+            else:
+                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name)))
+        return ingTextList
+
+class Meal(models.Model):
+    name = models.CharField(max_length=50)
+    recipes = models.ManyToManyField(Recipe)
+    author = models.ForeignKey(User,on_delete=CASCADE)
 
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True,primary_key=True)
@@ -95,7 +144,7 @@ class Comment(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
 class Rating(models.Model):
-    recipe_id = models.ForeignKey(Recipe,on_delete=CASCADE)
+    recipe = models.ForeignKey(Recipe,on_delete=CASCADE)
     author = models.ForeignKey(User,on_delete=CASCADE)
-    value = models.IntegerField() #1,2,3,4,5
+    value = models.IntegerField(validators=[MaxValueValidator(5)]) #1,2,3,4,5
 
