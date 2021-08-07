@@ -1,11 +1,11 @@
 {% extends 'recipe/base.html' %}
 
 {% block content %}
-    <div class='row'>
+    <div class='row h-100 w-100'>
         <div id="menuArea" class='col-3'></div> 
         <div id="mainSearchArea" class='col-6 h-100'>
             <div id='searchTop' class='row'></div>
-            <div id='recipeArea' class='row w-100 h-100'>
+            <div id='recipeArea' class='row w-100 h-auto'>
                 {% for recipe in recipes %} 
                     {% include 'recipe/recipe_box.html' %}
                 {% endfor %}    
