@@ -2,3 +2,10 @@
   width:20%;
   font-size:calc(0.3rem+1vw);
 }
+
+.button1{
+  background-color: white;
+}
+.button1:target{
+  background-color:#66B3BA;
+}
