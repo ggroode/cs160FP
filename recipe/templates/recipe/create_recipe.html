@@ -1,34 +1,74 @@
 {% extends 'recipe/base.html' %}
+{% load static %}
 {% block content %}
     <div class="row">
-      <div class="col-lg-4 col-sm-12">
-        <input type="text" value="" placeholder="Name..." maxlength="50">
-        <input type="text" value="" placeholder="Description..." maxlength="250">
-        <input type="text" value="" placeholder="Cooking Time (minutes)...">
-        <span>
-          <p>Servings: </p>
-          <input type="text" value="" placeholder="Servings" maxlength="2">
-        </span>
-        <span>
-          <p>Serving Size: </p>
-          <input type="text" value="" placeholder="Serving Size">
-        </span>
-        <span>
+      <!-- <form class="" action="index.html" method="post"> -->
+        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-content-center">
+          <label for="name">Name: </label>
+          <input id="name" type="text" value="" placeholder="Name..." maxlength="50">
 
-        </span>
-        <!-- <img src="" /> -->
-        <input type="image" value="[Upload or Drag Image]">
-        <span>
-          <button type="button" name="button" class="btn" style="background-color:rgba(58,248,200,.2)">Preview</button>
-          <button type="button" name="button">Save</button>
-          <button type="button" name="button">Publish</button>
-        </span>
-      </div>
-      <div class="col-lg-4 col-sm-12">
+          <label for="description">Description: </label>
+          <!-- <input  type="text" value="" placeholder="Description..." maxlength="250" class="form-control"> -->
+          <textarea id="description">
 
-      </div>
-      <div class="col-lg-4 col-sm-12">
+          </textarea>
+          <input type="text" value="" placeholder="Cooking Time (minutes)...">
 
-      </div>
+
+          <span>
+            <label for="servings">Servings: </label>
+            <input id="servings" type="text" value="" placeholder="Servings" maxlength="2">
+          </span>
+
+          <span>
+            <label for="servingSize">Serving Size: </label>
+            <input id="servingSize" type="text" value="" placeholder="Serving Size">
+          </span>
+
+
+
+          <div class="input-group mb-3">
+            {% for c in classifications %}
+              <input type="radio" class="btn-check" name="options" id="option{{forloop.counter}}" autocomplete="off">
+              <label class="btn border btn-info" for="option{{forloop.counter}}" onclick="recipeType = this.innerHTML">{{c.label}}</label>
+            {% endfor %}
+          </div>
+
+          <!-- <img src="" /> -->
+          <label for="recipe-pic">[Upload or Drag Image]</label>
+          <input id="recipe-pic" type="image" style="display:none">
+          <span>
+            <button type="button" name="button" class="btn" style="background-color:rgba(58,248,200,.2)">Preview</button>
+            <button type="button" name="button">Save</button>
+            <button type="button" name="button">Publish</button>
+          </span>
+        </div>
+        <div class="col-lg-4 col-sm-12 d-flex flex-column align-content-center">
+          <h3><u>Instructions</u></h3>
+          <ol id="steps">
+
+          </ol>
+          <button type="button" class="btn btn-info" onClick="addStep()" style="font-size:3rem">⊕</button>
+          <h3><u>Tags</u></h3>
+          <textarea id="tags">
+
+          </textarea>
+          <!-- <button type="button" class="btn btn-info" onClick="addTags()" style="font-size:3rem">⊕</button> -->
+        </div>
+        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-content-center">
+          <h3><u>Ingredients</u></h3>
+          <ol id="ingredients">
+
+          </ol>
+          <button type="button" class="btn btn-info" onClick="addIngredient()" style="font-size:3rem">⊕</button>
+        </div>
+      <!-- </form> -->
     </div>
 {% endblock %}
+
+{% block scripts %}
+  <script type="text/javascript" src="{% static 'recipe/js/create.js' %}"></script>
+  <script type="text/javascript">
+    let recipeType = "Entree";
+  </script>
+{% endblock scripts %}

@@ -1,1 +1,275 @@
 {% extends 'recipe/base.html' %}
+
+  {% block content %}
+
+	<style type="text/css">
+
+		.container{
+			height: 100vh; 
+			background-color: magenta;
+			font-family: Ubuntu;
+		}
+		#box1{
+			font-family: Ubuntu;
+			height: 100vh; 
+			background-color: #F0D2D1;
+			border-right: 5px solid #8EB19D;
+		}
+		#box2{
+			padding-top: 10px;
+			font-family: Ubuntu;
+			height: 100vh;
+			background-color: #F0D2D1;
+			border-right: 5px solid #8EB19D;
+			}
+		#box3{
+			height: 100vh;
+			background-color: #F0D2D1;
+
+		}
+		h1{
+			text-align: center;
+			margin-top: 20px;
+			font-weight: bold;
+			text-decoration: underline;
+		}
+		h2{
+			margin-top: 40px;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			text-decoration: underline;
+		}
+		h5{
+			text-align: center;
+		}
+		input[type='number'] {
+    		width: 55px;
+    		height: 50px;
+    		font-size: 18px;
+    		margin-bottom: 20px;
+		}
+		.ingredients{
+			margin-top: 30px;
+			margin-bottom: 0px;
+			text-align: center;
+			font-size: 38px;
+			text-decoration: underline;
+
+		}
+		.ordered-ing{
+			margin-top: 0px;
+			font-size: 22px;
+			list-style-position: inside;
+			text-align: left;
+		}
+		.steps{
+			margin-top: 60px;
+			text-align: center;
+			font-size: 38px;
+			text-decoration: underline;
+
+		}
+		.ordered-sps{
+			margin-top: 20px;
+			font-size: 22px;
+			list-style-position: inside;
+			text-align: left;
+		}
+		.scroll{
+			overflow-y: auto;
+			overflow-x: hidden;
+			position: relative;
+		}
+		#exampleModalLabel{
+			text-align: center;
+		}
+		ol {
+            font-weight:bold;
+        }
+        ol li span {
+            font-weight:normal;
+        }
+
+        .rating{
+            background-color: #F6EFA6;
+            color: grey;
+            box-shadow: 2px 8px rgba(153, 166, 176, 0.62);
+            min-width: 150px;
+            min-height: 50px;
+            border-radius: 30px;
+            font-family: Ubuntu;
+            font-weight: bold;
+            font-size: 30px;
+            margin-top: 20px;
+        
+        }
+        .menu{
+        	background-color: #F6EFA6;
+        	margin-top: 10px;
+        	margin-left: 10px;
+
+        }
+        .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-image:none !important;
+ 		}
+ 		.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            background-color:#8EB19D;
+ 		}
+ 		.exit{
+ 			background-color: red;
+ 			float: right;
+ 			margin-right: auto;
+ 			margin-left: auto;
+
+ 		}
+ 		li input {
+    		position: absolute;
+    		margin-left: -47px;
+    		margin-top: 7px;
+    		padding: 10px;
+		}
+		.filler{
+			margin-top: 60px;
+		}
+
+	</style>
+	</head>
+
+
+<div class="container-fluid h-100 p-0">
+  <div class="row">
+    <div class="col-md-4 scroll mx-auto p-0" id= "box1"> 
+   <div class="dropdown">
+  <button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+    Menu
+  </button>
+  <button type="button" class="btn-close exit" aria-label="Close"></button>
+
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="#">Shopping List</a></li>
+     <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#">Recipes</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#">+ New Recipe</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="#">Save Meal</a></li>
+  </ul>
+</div>
+    	<h1> Mashed Potatoes </h1>
+    	<!-- Button trigger modal -->
+ <div class= "mx-auto text-center">
+	<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+  		Rating
+	</button>
+</div>
+<button type="button" class="btn btn-default" aria-label="Left Align">
+  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="false"></span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: 3.7/5</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        How would you rate this recipe? 
+        <div style="display:inline-block;" id="rateYo"></div>
+        <input type="hidden" name="rating" id="rating_input"/>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+    	<div class="ingredients">
+    		Ingredients | Yields: <input type="number" value=4 min=0> cups
+    	</div>
+    	<ol class="ordered-ing">
+  			<li><span>2 pounds baking potatoes</span></li>
+  			<li><span>2 tablespoon butter</span></li>
+  			<li><span>1 cup milk</span></li>
+  			<li><span>To taste: salt and pepper </span></li>
+		</ol> 
+    	<div class="steps">
+    		Steps | 25 min
+    	</div>
+        <ol class="ordered-sps">
+  			<li><input type= "checkbox"><span>Rinse the potatoes.</span></li>
+  			<li><input type= "checkbox"><span>Bring a pot of salted water to a boil. Add potatoes and cook until tender but still firm, about 15 minutes; drain.</span></li>
+  			<li><input type= "checkbox"><span>In a small saucepan heat butter and milk over low heat until butter is melted. Using a potato masher or electric beater, slowly blend milk mixture into potatoes until smooth and creamy. Season with salt and pepper to taste.</span></li>
+		</ol> 
+
+
+    </div>
+    <div class="col-md-4 scroll mx-auto p-0" id="box2">
+<div class="dropdown">
+	  <button type="button" class="btn-close exit" aria-label="Close"></button>
+</div>
+	<div class= "filler">
+    	<h1> Mashed Potatoes </h1>
+    </div>
+    	<!-- Button trigger modal -->
+ <div class= "mx-auto text-center">
+	<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+  		Rating
+	</button>
+</div>
+<button type="button" class="btn btn-default" aria-label="Left Align">
+  <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="false"></span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: 3.7/5</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        How would you rate this recipe? 
+        <div style="display:inline-block;" id="rateYo"></div>
+        <input type="hidden" name="rating" id="rating_input"/>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+    	<div class="ingredients">
+    		Ingredients | Yields: <input type="number" value=4 min=0> cups
+    	</div>
+    	<ol class="ordered-ing">
+  			<li><span>2 pounds baking potatoes</span></li>
+  			<li><span>2 tablespoon butter</span></li>
+  			<li><span>1 cup milk</span></li>
+  			<li><span>To taste: salt and pepper </span></li>
+		</ol> 
+    	<div class="steps">
+    		Steps | 25 min
+    	</div>
+        <ol class="ordered-sps">
+  			<li><input type= "checkbox"><span>Rinse the potatoes.</span></li>
+  			<li><input type= "checkbox"><span>Bring a pot of salted water to a boil. Add potatoes and cook until tender but still firm, about 15 minutes; drain.</span></li>
+		</ol> 
+
+
+    </div>
+    <div class="col-md-4 scroll" id="box3">
+    	 
+    </div>
+ 
+  </div>
+</div>
+
+
+{% endblock content %}
+

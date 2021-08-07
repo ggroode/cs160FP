@@ -6,12 +6,13 @@ def search_recipes(request):
     recipes = Recipe.objects.all()
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
 def create_recipe(request,id=-1):
-    return render(request,'recipe/create_recipe.html')
+    return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 def recipe(request,id):
     recipe = Recipe.objects.filter(id=id)[0]
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe })
-def meal(request,ids):
+def meal(request,ids="5"):
     ids = json.loads(ids)
     return render(request,'recipe/meal.html',context={'ids':ids})
 def help(request):
     return render(request,'recipe/help.html')
+
