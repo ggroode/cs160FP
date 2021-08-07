@@ -1,0 +1,45 @@
+#main {
+    transition: 0.5s;
+}
+#mySidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #F6EFA6;
+    transition: 0.5s;
+    overflow-x: hidden;
+    text-align: center;
+}
+#mymeal {
+    height: 100px;
+    width: 200px;
+    background-color: aliceblue;
+    color: black;
+    visibility: hidden;
+}
+#what {
+    columns: white;
+    height: 100px;
+    width: 200px;
+    background-color: #8EB19D;
+    font-size: 40px;
+    color: white;
+    border-radius: 30px;
+}
+#open {
+    height: 60px;
+    width: 60px;
+    transition: 0.5s;
+    cursor: pointer;
+}
+#rightchevron {
+    height: 100%;
+    width: 100%;
+}
+#leftchevron {
+    height: 100%;
+    width: 100%;
+}

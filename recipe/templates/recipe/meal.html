@@ -2,7 +2,174 @@
 
   {% block content %}
 
-Hello
+<!-- <style>
+  .column {
+  background-color: blue;
+  float: left;
+  width: 33.33%;
+}
+</style>
 
-  {% endblock content %}
+
+<div class="row">
+  <div class="column"> HI</div>
+
+  <div class="column">HIII</div>
+  <div class="column">HOLA</div>
+</div> -->
+
+
+
+
+	<style type="text/css">
+
+		.container{
+			height: 100vh; 
+			background-color: magenta;
+		}
+		#box1{
+			height: 100vh; 
+			background-color: pink;
+		}
+		#box2{
+			height: 100vh;
+			background-color: yellow;
+		}
+		#box3{
+			height: 100vh;
+			background-color: orange;
+		}
+		h1{
+			text-align: center;
+			margin-top: 30px;
+			text-decoration: underline;
+		}
+		h2{
+			margin-top: 40px;
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+			text-decoration: underline;
+		}
+		input[type='number']{
+    		width: 70px;
+    		margin-bottom: 50px;
+		}
+		.ingredients{
+			margin-top: 60px;
+			margin-bottom: 0px;
+			text-align: center;
+			font-size: 38px;
+			text-decoration: underline;
+
+		}
+		.ordered-ing{
+			margin-top: 0px;
+			font-size: 28px;
+			list-style-position: inside;
+			text-align: left;
+		}
+		.steps{
+			margin-top: 60px;
+			text-align: center;
+			font-size: 38px;
+			text-decoration: underline;
+
+		}
+		.ordered-sps{
+			margin-top: 20px;
+			font-size: 28px;
+			list-style-position: inside;
+			text-align: left;
+		}
+		.scroll{
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		#exampleModalLabel{
+			text-align: center;
+		}
+		ol {
+            font-weight:bold;
+        }
+        ol li span {
+            font-weight:normal;
+        }
+
+        .rating{
+            background-color: #F6EFA6;
+            color: grey;
+            box-shadow: 2px 8px rgba(153, 166, 176, 0.62);
+            min-width: 150px;
+            min-height: 50px;
+            border-radius: 30px;
+            font-family: Ubuntu;
+            font-weight: bold;
+            font-size: 30px;
+        
+        }
+
+	</style>
+	</head>
+
+
+<div class="container-fluid h-100 p-0">
+  <div class="row">
+    <div class="col-md-4 scroll mx-auto" id= "box1"> 
+    	<h1> Mashed Potatoes </h1>
+    	<!-- Button trigger modal -->
+ <div class= "mx-auto">
+	<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+  		Rating
+	</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">Average Rating: 3.7/5</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        How would you rate this recipe? 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+    	<div class="ingredients">
+    		Ingredients | Yields: <input type="number" value=4 min=0> cups
+    	</div>
+    	<ol class="ordered-ing">
+  			<li><span>2 pounds baking potatoes</span></li>
+  			<li><span>2 tablespoon butter</span></li>
+  			<li><span>1 cup milk</span></li>
+  			<li><span>To taste: salt and pepper </span></li>
+		</ol> 
+    	<div class="steps">
+    		Steps | 25 min
+    	</div>
+        <ol class="ordered-sps">
+  			<li><span>Rinse the potatoes.</span></li>
+  			<li><span>Bring a pot of salted water to a boil. Add potatoes and cook until tender but still firm, about 15 minutes; drain.</span></li>
+  			<li><span>In a small saucepan heat butter and milk over low heat until butter is melted. Using a potato masher or electric beater, slowly blend milk mixture into potatoes until smooth and creamy. Season with salt and pepper to taste.</span></li>
+		</ol> 
+
+    </div>
+    <div class="col-md-4 scroll" id="box2">
+    	
+    </div>
+    <div class="col-md-4 scroll" id="box3">
+    	 
+    </div>
+ 
+  </div>
+</div>
+
+
+{% endblock content %}
 
