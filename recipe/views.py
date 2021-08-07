@@ -8,7 +8,8 @@ def search_recipes(request):
 def create_recipe(request,id=-1):
     return render(request,'recipe/create_recipe.html')
 def recipe(request,id):
-    return render(request,'recipe/recipe.html',context={'id':id})
+    recipe = Recipe.objects.filter(id=id)
+    return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe })
 def meal(request,ids):
     ids = json.loads(ids)
     return render(request,'recipe/meal.html',context={'ids':ids})
