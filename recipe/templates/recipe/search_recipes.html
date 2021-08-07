@@ -70,7 +70,7 @@
         mealApp.removeFromMeal = function(t,id){
             $(t).parent().remove();
             $('#addToMeal-'+id).html('+')
-            mealApp.meal_recipes.splice(mealApp.meal_recipes.indexOf(id)-1,1)
+            mealApp.meal_recipes.splice(mealApp.meal_recipes.indexOf(id),1)
         }
     }
 </script>
