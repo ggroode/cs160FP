@@ -1,1 +1,48 @@
 {% extends 'recipe/base.html' %}
+
+{% block style %}
+<style>
+    a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 8px 16px;
+    }
+    a:hover {
+        background-color: #ddd;
+        color: black;
+    }
+    .helpPrevious {
+        background-color: #f1f1f1;
+        border-radius: 50%;
+        color: black;
+    }
+</style>
+{% endblock style %}
+
+{% block content %}
+<a href="#" class="helpPrevious">&#8249;</a>
+<h1 style="text-align:center; margin-top: 0%;">Help Page</h1>
+<ul>
+    <li>All users will first be asked to 
+        <span style="color: #D7B400">login</span> 
+        to their account.</li>
+    <li>To 
+        <span style="color: #D7B400">browse</span>
+        through an assortment of recipes, click on the “Browse Recipes” button in 
+        the Navogation Bar at the very top. This will take you to a page displaying several 
+        recipes, where you can customize search results by using filters. You can view the 
+        filters when you click on the filter icon. When you find your desired meals/recipes, 
+        you can click on the + icon to add them to your meal planner. Clicking on a specific 
+        recipe from your meal planner will take you to the corresponding recipe page containing 
+        the relevant details for that recipe. </li>
+    <li>To 
+        <span style="color: #D7B400">create</span> 
+        or 
+        <span style="color: #D7B400">upload</span> 
+        your own recipe,  click the “Create Recipe” button on the navigation 
+        bar. This will take you to a page where you can add an image of your recipe and provide 
+        details like the name, description, ingredients, intructions, as well as any relevant 
+        tags. Once you are done, you can publish your recipe so that it is accessible to the 
+        community.</li>
+</ul>
+{% endblock content %}

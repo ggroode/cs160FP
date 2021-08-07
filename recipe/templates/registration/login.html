@@ -1,12 +1,32 @@
 {% extends 'recipe/base.html' %}
 
+<!-- <style>
+body {
+    background-image: url('');
+}
+</style> -->
+
 {% block content %}
-<h2>Login</h2>
+<div class="container">
+    <div class="row"><!-- Blank Space --></div>
+    <div class="row">
+        <div class="col-4"><!-- Blank Space --></div>
+        <div class="col-4">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="text" value="Username..."><br><br>
+                <input type="text" value="Password..."><br><br>
+                <input type="submit" value="Login"><br><br>
+                <input type="submit" value="Login in with service"><br><br>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login">
-</form>
-
+                <p>Forgot username? <a href="#">Click here</a></p>
+                <p>Forgot password? <a href="#">Click here</a></p>
+                
+            </form>
+        </div>
+        <div class="col-4"><!-- Blank Space --></div>
+    </div>
+    <div class="row"><!-- Blank Space --></div>
+</div>
 {% endblock %}
