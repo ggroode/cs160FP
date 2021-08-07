@@ -1,4 +1,4 @@
-<div class='border border-dark col-lg-4 col-md-6 col-sm-12 px-0 mx-2'>
+<div class='border border-dark col-lg-4 col-md-6 col-xs-12 px-0 m-2'>
     <a href="{% url 'recipe' recipe.id %}" class="h-100 w-100">
         <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark' style="height:60%"/>
     </a>
@@ -6,8 +6,8 @@
          <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
          <div class="float-start">
             <h6>Rating: {{recipe.rating}}</h6>
-            <h6>By {{recipe.author.username}}</h6>
+            <p>By {{recipe.author.username}}</p>
          </div>
-         <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end">+</button>
+         <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="app.addToMeal(this,{{recipe.id}},'{{recipe.name}}','{% url "recipe" recipe.id %}')">+</button>
     </div>  
 </div>

@@ -1,18 +1,77 @@
 {% extends 'recipe/base.html' %}
-
+{% block style %}
+    <style>
+        #closeMenu{
+            float:right;
+            position: absolute;
+            top:0;
+            right:0;
+            z-index:2;
+        }
+        main{
+            padding-left:0px !important;
+            padding-right:0px !important;
+        }
+    </style>
+{% endblock style %}
 {% block content %}
-    <div class='row h-100 w-100'>
-        <div id="menuArea" class='col-3'></div> 
-        <div id="mainSearchArea" class='col-6 h-100'>
+    <div class='row h-100 w-100 px-0'>
+        <div id="menuArea" class='col-md-3'>
+            <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+            <div id="menubar" class="position-relative">
+                {% include 'recipe/menubar.html' %}
+                <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button>
+            </div>
+        </div> 
+        <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
             <div id='searchTop' class='row'></div>
-            <div id='recipeArea' class='row w-100 h-auto'>
+            <div id='recipeArea' class='row w-100 h-auto p-4'>
                 {% for recipe in recipes %} 
                     {% include 'recipe/recipe_box.html' %}
                 {% endfor %}    
             </div>
         </div>
-        <div id='filterArea' class='col-3'></div>
+        <div id='filterArea' class='col-md-3'></div>
     </div>
+    
 
 
 {% endblock content %}
+
+{% block scripts %}
+<script>
+    app = {};
+    mealApp = {};
+    mealApp.meal_recipes=[];
+    window.onload = function(){
+        app.setup = function(){
+            $("#menubar").hide();
+            app.meal_recipes=[];
+        }   
+        app.setup()
+        app.addToMeal = function(t,id,name,url){
+            console.log(id);
+            if (mealApp.meal_recipes.includes(id)){
+                $('#removeFromMeal-'+id).click()
+            } else{
+                mealApp.meal_recipes.push(id);
+                $(t).html('-');
+                $('#menu-recipes').append(
+                    `<li>
+                        
+                        <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" onclick="mealApp.removeFromMeal(this,`+id+`)"> X </button>
+                        <a href=`+url+`>`
+                        + name +
+                        `</a>
+                    </li>`       
+                );
+            }
+        }
+        mealApp.removeFromMeal = function(t,id){
+            $(t).parent().remove();
+            $('#addToMeal-'+id).html('+')
+            mealApp.meal_recipes.splice(mealApp.meal_recipes.indexOf(id)-1,1)
+        }
+    }
+</script>
+{% endblock scripts %}
