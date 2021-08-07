@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
       <!-- <form class="" action="index.html" method="post"> -->
-        <div class="col-lg-4 col-sm-12 border">
+        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-content-center">
           <label for="name">Name: </label>
           <input id="name" type="text" value="" placeholder="Name..." maxlength="50">
 
@@ -30,7 +30,7 @@
           <div class="input-group mb-3">
             {% for c in classifications %}
               <input type="radio" class="btn-check" name="options" id="option{{forloop.counter}}" autocomplete="off">
-              <label class="btn border btn-info" for="option{{forloop.counter}}" onclick="console.log(this.innerHTML.toString)">{{c.label}}</label>
+              <label class="btn border btn-info" for="option{{forloop.counter}}" onclick="recipeType = this.innerHTML">{{c.label}}</label>
             {% endfor %}
           </div>
 
@@ -43,15 +43,24 @@
             <button type="button" name="button">Publish</button>
           </span>
         </div>
-        <div class="col-lg-4 col-sm-12 d-flex justify-content-center">
+        <div class="col-lg-4 col-sm-12 d-flex flex-column align-content-center">
           <h3><u>Instructions</u></h3>
           <ol id="steps">
 
           </ol>
-          <button type="button" name="button" onClick="addStep()">+</button>
-        </div>
-        <div class="col-lg-4 col-sm-12">
+          <button type="button" class="btn btn-info" onClick="addStep()" style="font-size:3rem">⊕</button>
+          <h3><u>Tags</u></h3>
+          <textarea id="tags">
 
+          </textarea>
+          <!-- <button type="button" class="btn btn-info" onClick="addTags()" style="font-size:3rem">⊕</button> -->
+        </div>
+        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-content-center">
+          <h3><u>Ingredients</u></h3>
+          <ol id="ingredients">
+
+          </ol>
+          <button type="button" class="btn btn-info" onClick="addIngredient()" style="font-size:3rem">⊕</button>
         </div>
       <!-- </form> -->
     </div>
@@ -59,4 +68,7 @@
 
 {% block scripts %}
   <script type="text/javascript" src="{% static 'recipe/js/create.js' %}"></script>
+  <script type="text/javascript">
+    let recipeType = "Entree";
+  </script>
 {% endblock scripts %}

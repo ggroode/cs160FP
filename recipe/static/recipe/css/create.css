@@ -9,3 +9,7 @@
 .button1:target{
   background-color:#66B3BA;
 }
+
+.btn-info {
+  background-color: white;
+}
