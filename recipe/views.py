@@ -6,7 +6,7 @@ def search_recipes(request):
     recipes = Recipe.objects.all()
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
 def create_recipe(request,id=-1):
-    return render(request,'recipe/create_recipe.html')
+    return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 def recipe(request,id):
     recipe = Recipe.objects.filter(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe })
