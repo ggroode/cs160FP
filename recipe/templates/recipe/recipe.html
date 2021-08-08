@@ -28,6 +28,14 @@
         <h4>By {{recipe.username}}</h4>
         <h4>Rating:{{recipe.rating}}</h4>
         <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
+        {% for ingredient in recipe.ingredientsAsText %} 
+            <h5>{{ingredient}}</h5>
+            <br>
+        {% endfor %}
+        {% for instruction in recipe.steps %} 
+            <h5>{{instruction}}</h5>
+            <br>
+        {% endfor %}
     </div>
 {% endblock content %} 
 
