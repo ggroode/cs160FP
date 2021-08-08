@@ -100,6 +100,7 @@
         
     $(document).ready(function(){
         var open = false;
+        let servings = {{recipe.servings}};
         $("#leftchevron").hide();
         $( "#open" ).click(function() {
             if (open) {
@@ -119,9 +120,17 @@
         $('#servings').on('input', function() {
             var val = $("#servings").val();
             console.log(val);
-            var newingredient = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:6 %} <li>{{ingredient}}</li>{% endfor %}</ul>";
-            // var stringy = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:"+val+" %} <li>{{ingredient}}</li>{% endfor %}</ul>";
-            $( "#inglist" ).replaceWith(newingredient)
+            // page refresh? tmux
+            // var newingredient = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:6 %} <li>{{ingredient}}</li>{% endfor %}</ul>";
+            var h = window.location.href+ "?test=" +val;
+            {% comment %} if(window.location.href.contains('?')) {
+            var url = window.location.href+ "&test=" + val;
+            }else{
+                var url = window.location.href+ "?test=" + val;
+            } {% endcomment %}
+            window.location = h;
+            var stringy = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:test %} <li>{{ingredient}}</li>{% endfor %}</ul>";
+            $( "#inglist" ).replaceWith(stringy)
         });
     });
     </script>
