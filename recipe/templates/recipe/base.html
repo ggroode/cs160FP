@@ -68,6 +68,7 @@
 
         highlight (index) {
             this.stars.forEach((star, i) => {
+                {% comment %} star.classList.toggle('half', index < i < index + .5); {% endcomment %}
                 star.classList.toggle('full', i <= index);
             });
         }

@@ -44,6 +44,9 @@
                         <div>
                             <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
                         </div>
+                        <div id="edit">
+                            <img id="pencil" src="{% static 'recipe/images/pencil.png' %}" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -124,6 +127,9 @@
     }
         
     $(document).ready(function(){
+        if ({{user.id}} != {{recipe.author.id}}) {
+            $("#edit").hide();
+        }
         var open = false;
         let servings = {{recipe.servings}};
         $("#leftchevron").hide();
