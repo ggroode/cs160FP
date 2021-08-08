@@ -61,6 +61,7 @@ class Recipe(models.Model):
         # assert ratingValue in [1,2,3,4,5]
         user = User.objects.get(id=userName)
         rating = Rating.objects.filter(recipe_id=self.id,author=user).first()
+
         if rating:
             rating.value = ratingValue
             rating.save()

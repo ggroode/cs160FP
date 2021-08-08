@@ -75,6 +75,10 @@
         constructor () {
             super();
             this.number = this.number;
+            if (this.getAttribute('display') == "no") {
+                console.log(this.getAttribute('value'))
+                this.highlight(this.getAttribute('value') - 1 || 0);
+            }
             this.addEventListener('click', e => {
                 let box = this.getBoundingClientRect(),
                     starIndex = Math.floor((e.pageX - box.left) / box.width * this.stars.length);
