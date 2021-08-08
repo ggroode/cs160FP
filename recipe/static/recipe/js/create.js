@@ -94,7 +94,7 @@ function removeIngredient(item) {
   item.remove();
 }
 
-function removedTags(item) {
+function removeTags(item) {
   // TODO: finish
   item.remove();
 }
