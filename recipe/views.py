@@ -15,6 +15,6 @@ def meal(request,ids="5"):
     return render(request,'recipe/meal.html',context={'ids':ids})
 def help(request):
     return render(request,'recipe/help.html')
-def shoppingList(request):
+def shoppingList(request,ids):
     return render(request,'recipe/base.html')
 

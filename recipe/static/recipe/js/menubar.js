@@ -53,6 +53,12 @@ mealApp.setup = function(){
        
     }
 }
+mealApp.goToMeal = function(){
+    window.location.href = '/meal/'+mealApp.recipe_ids.join(",")
+}
+mealApp.goToShoppingList = function(){
+    window.location.href = '/meal/'+mealApp.recipe_ids.join(",")+"/shopping-list"
+}
 window.onload = function(){
     mealApp.setup()
 }
