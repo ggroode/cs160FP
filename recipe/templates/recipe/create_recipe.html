@@ -4,28 +4,34 @@
     <div class="row">
       <!-- <form class="" action="index.html" method="post"> -->
         <div class="col-lg-4 col-sm-12 border d-flex flex-column align-content-center">
-          <label for="name">Name: </label>
-          <input id="name" type="text" value="" placeholder="Name..." maxlength="50">
+          <div class="input-group mb-3">
+            <!-- TODO: put label & input in same span with no extra space -->
+            <!-- <span class="mx-0 px-0 mw-100">
+              <label for="name">Name:</label>
+              <input id="name" class="mx-2 w-25" type="text" value="" placeholder="Name" maxlength="50">
+            </span>
+            <span class="mx-0 px-0 mw-100">
+              <label for="ct">Cooking Time:</label>
+              <input id="ct" class="mx-2 w-25" type="text" value="" placeholder="Minutes">
+            </span> -->
+            <label for="name">Name:</label>
+            <input id="name" class="mx-2 mb-1" type="text" value="" placeholder="My Recipe" maxlength="50" style="width:25%">
+            <label for="ct">Cooking Time (minutes):</label>
+            <input id="ct" class="mx-2 mb-1" type="text" value="" placeholder="45" maxlength="6" style="width:10%">
+          </div>
+
+          <div class="input-group mb-3">
+            <label for="servings">Servings:</label>
+            <input id="servings" class="mx-2 mb-1" type="text" value="" placeholder="1" maxlength="2" style="width:25%">
+            <label for="servingSize">Serving Size:</label>
+            <input id="servingSize" class="mx-2 mb-1" type="text" value="" placeholder="1 cup" style="width:25%">
+          </div>
 
           <label for="description">Description: </label>
           <!-- <input  type="text" value="" placeholder="Description..." maxlength="250" class="form-control"> -->
           <textarea id="description">
 
           </textarea>
-          <input type="text" value="" placeholder="Cooking Time (minutes)...">
-
-
-          <span>
-            <label for="servings">Servings: </label>
-            <input id="servings" type="text" value="" placeholder="Servings" maxlength="2">
-          </span>
-
-          <span>
-            <label for="servingSize">Serving Size: </label>
-            <input id="servingSize" type="text" value="" placeholder="Serving Size">
-          </span>
-
-
 
           <div class="input-group mb-3">
             {% for c in classifications %}
@@ -39,8 +45,11 @@
           <input id="recipe-pic" type="image" style="display:none">
           <span>
             <button type="button" name="button" class="btn" style="background-color:rgba(58,248,200,.2)">Preview</button>
-            <button type="button" name="button">Save</button>
-            <button type="button" name="button">Publish</button>
+            <input type="checkbox" id="priv" checked="true" onchange="priva = !priva">
+            <label for="priv">Private</label>
+
+            <button id="save" type="button" name="button" onClick="saveRecipe()">Save</button>
+            <!-- <button type="button" name="button">Publish</button> -->
           </span>
         </div>
         <div class="col-lg-4 col-sm-12 d-flex flex-column align-content-center">
@@ -48,7 +57,7 @@
           <ol id="steps">
 
           </ol>
-          <button type="button" class="btn btn-info" onClick="addStep()" style="font-size:3rem">⊕</button>
+          <button type="button" class="btn btn-info w-25" onClick="addStep()" style="font-size:2rem">⊕</button>
           <h3><u>Tags</u></h3>
           <textarea id="tags">
 
@@ -60,7 +69,7 @@
           <ol id="ingredients">
 
           </ol>
-          <button type="button" class="btn btn-info" onClick="addIngredient()" style="font-size:3rem">⊕</button>
+          <button type="button" class="btn btn-info" onClick="addIngredient()" style="font-size:2rem; width:25%">⊕</button>
         </div>
       <!-- </form> -->
     </div>
@@ -69,6 +78,6 @@
 {% block scripts %}
   <script type="text/javascript" src="{% static 'recipe/js/create.js' %}"></script>
   <script type="text/javascript">
-    let recipeType = "Entree";
+    const uid = {{user.id}};
   </script>
 {% endblock scripts %}
