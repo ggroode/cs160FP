@@ -25,7 +25,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     {% block scripts %}{% endblock scripts %}
-    {% comment %} <script src="{% static 'recipe/js/rating.js' %}"></script> {% endcomment %}
+    <script>
+        let basee = {}
+        base.url = new URL(window.location.href);
+        flash = url.searchParams.get("flash");
+        if(flash){
+            alert(flash);
+        }
+    </script>
 </body>
 
 </html>
