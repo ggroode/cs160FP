@@ -25,7 +25,11 @@
             </div>
         </div> 
         <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
-            <div id='searchTop' class='row'></div>
+            <div id='searchTop' class='row'>
+                <div class="input-group">
+                    <input id="search-input" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <button type="button" class="btn btn-outline-primary" onclick="app.search()">search</button>
+                </div>
             <div id='recipeArea' class='row w-100 h-auto p-4'>
                 {% for recipe in recipes %} 
                     {% include 'recipe/recipe_box.html' %}
@@ -43,12 +47,22 @@
 <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
 <script>
     app = {};
+    app.setup = function(){
+        $("#menubar").hide();
+        let url = new URL(window.location.href);
+        let name = url.searchParams.get("name");
+        if(name){
+            $("#search-input").val(name);
+        }
+        
+    }
+    app.search  = function(){
+        let name = $("#search-input").val();
+        window.location.href = "{% url 'search-recipes' %}" +"?name="+name;
+    } 
     let currentOnload = window.onload
     window.onload = function(){
         currentOnload()
-        app.setup = function(){
-            $("#menubar").hide();
-        }   
         app.setup()
     } 
 </script>

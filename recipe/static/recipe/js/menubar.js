@@ -54,10 +54,20 @@ mealApp.setup = function(){
     }
 }
 mealApp.goToMeal = function(){
-    window.location.href = '/meal/'+mealApp.recipe_ids.join(",")
+    if (mealApp.recipe_ids.length){
+        window.location.href = '/meal/'+mealApp.recipe_ids.join(",")
+    } else{
+        alert("You need to add something to your list first");
+    }
+    
 }
 mealApp.goToShoppingList = function(){
-    window.location.href = '/meal/'+mealApp.recipe_ids.join(",")+"/shopping-list"
+    if (mealApp.recipe_ids.length){
+        window.location.href = '/meal/'+mealApp.recipe_ids.join(",")+"/shopping-list"
+    }else{
+        alert("You need to add something to your list first");
+    }
+    
 }
 window.onload = function(){
     mealApp.setup()
