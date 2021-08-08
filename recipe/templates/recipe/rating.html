@@ -1,1 +1,5 @@
-Rating: {{rating}}
+{% if rating == 'input' %}
+    <x-star-rating value={{rating}} number="5" display="yes"></x-star-rating>
+{% else %}
+    <x-star-rating value={{rating}} number="5" display="yes"></x-star-rating>
+{% endif %}

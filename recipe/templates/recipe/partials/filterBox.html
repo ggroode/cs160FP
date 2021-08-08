@@ -1,10 +1,13 @@
-<div class="btn border color3 mt-5 w-75 p-0 float-none">
+<div class="btn border color3 mt-3 w-75 p-0">
     <div class="w-100 color2 ">{{variable|capfirst}}</div>
     {% if type == 'text' %}
-        <input id="{{variable}}Input" type="text" class="form-control m-0" placeholder="Enter: {{variable}}(s)"></input>
-    {% elif type == 'multiSelect' %}
+        <input id="{{variable}}Input" type="text" name="{{variable}}" class="form-control m-0" placeholder="Enter: {{variable}}(s)">
+    {% elif type == 'multi-select' %}
         {% for opt in options %}
-
+            <span>
+                <input id="{{varaible}}-{{opt}}" type="checkbox" name="{{variable}}-{{opt}}" value="true" checked>
+                <label for="{{varaible}}-{{opt}}">{{opt|capfirst}}</label>
+            </span>
         {% endfor %}
     {% endif %}
 </div>

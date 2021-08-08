@@ -1,0 +1,41 @@
+{% extends 'recipe/base.html' %}
+
+{% block style %}
+<style>
+body {
+    background-image: url("../../static/recipe/images/pexels-lukas-616401.jpg");
+    background-size:100% auto;
+}
+#registerInput {
+    width: 260px; 
+    border-color: black;
+    border-radius: 25px;
+}
+#registerColMain {
+    /* margin-top: 15%; */
+    background-color: rgba(255, 255, 255, 0.5);
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+        <div class="col-sm"><!-- Blank Space --></div>
+        <div class="col-sm border border-2 border-dark rounded" id="registerColMain">
+            <br>
+            <h2>Register</h2>
+            
+            <form method="post">
+                {% csrf_token %}
+                {{form}}
+                <input id="registerInput" type="submit" value="Register">
+            </form>
+
+            <a href="{% url 'login' %}" style="text-decoration:none">Back to login</a>
+            <br><br>
+        </div>
+        <div class="col-sm"><!-- Blank Space --></div>
+    </div>
+</div>
+{% endblock %}
