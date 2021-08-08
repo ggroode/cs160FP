@@ -1,3 +1,9 @@
 <div class="color4 h-100 w-100 text-center">
     <div class="btn btn-rounded border color5 mt-3 text-center "><h3>Filters</h3></div>
+    {% with variable="author" type="text" options=1 %}
+        {% include "recipe/partials/filterBox.html" %}
+    {% endwith %}
+    {% with variable="tag" type="text" options=1 %}
+        {% include "recipe/partials/filterBox.html" %}
+    {% endwith %}
 </div>
