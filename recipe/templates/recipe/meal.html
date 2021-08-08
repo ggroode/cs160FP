@@ -1,5 +1,5 @@
 {% extends 'recipe/base.html' %}
-
+{% load app_filters %}
   {% block content %}
 
 	<style type="text/css">
@@ -248,7 +248,7 @@ a:hover {
 			Ingredients | Yields: <input type="number" value="{{recipe.servings}}" min=0> {{recipe.servingSize|slice:"2:"}}
     	</div>
     	<ol class="ordered-ing">
-          {% for ing in recipe.ingredientsAsText %} 
+          {% for ing in recipe|get_right_ingredients:1 %} 
   			<li><span>{{ing}}</span></li>
   		  {% endfor %}    
 

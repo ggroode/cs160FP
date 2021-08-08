@@ -1,0 +1,10 @@
+<div class="btn border color3 mt-5 w-75 p-0 float-none">
+    <div class="w-100 color2 ">{{variable|capfirst}}</div>
+    {% if type == 'text' %}
+        <input id="{{variable}}Input" type="text" class="form-control m-0" placeholder="Enter: {{variable}}(s)"></input>
+    {% elif type == 'multiSelect' %}
+        {% for opt in options %}
+
+        {% endfor %}
+    {% endif %}
+</div>
