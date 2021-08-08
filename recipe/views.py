@@ -9,17 +9,38 @@ from django.http import HttpResponse
 def search_recipes(request):
     name = request.GET.get("name","")
     recipes = Recipe.objects.filter(name__contains=name)
-    filters = zip(['visibility','classification','author','tag',],['text','text','multi-select'],[(),(),('entree','side')])
+    filters = zip(['visibility','classification','min-rating','cooking-time','author','tag','ingredients'],
+    ['multi-select','multi-select','text','text','text','text','text'],
+    [('public','private'),('entree','side','dessert','appetizer'),(),(),(),(),(),()])
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
-def create_recipe(request,id=-1):
+def create_recipe(request,rid=-1):
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
+    if request.method == "POST":
+        # add recipe to database
+        id = 4
+        recipe = Recipe.objects.get(id=id)
+        test = 0
+        return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
+    context={'classifications':Recipe.Classifications}
+    if rid != -1:
+        r = Recipe.objects.get(id=rid)
+        if r.author.id != request.user.id:
+            pass;
+        else:
+            pass;
+    return render(request,'recipe/create_recipe.html', context)
+
+def edit_recipe(request, rid):
     if not request.user.is_authenticated:
         return redirect('accounts/login')
     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
+
 def recipe(request,id):
     test = request.GET.get("test",1)
-    recipe = Recipe.objects.filter(id=id)[0]
+    recipe = Recipe.objects.get(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
 def meal(request,ids):
     ids = ids.split(",")
