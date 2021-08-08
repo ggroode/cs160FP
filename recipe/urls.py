@@ -12,4 +12,5 @@ urlpatterns = [
     path("meal/<str:ids>/shopping-list",views.shoppingList,name='shopping-list'),
     #path("meal",views.meal,name='meal'),
     path("help",views.help,name='help'),
+    path("get_new_ing_list", views.get_new_ing_list,name="get_new_ing_list"),
 ]
