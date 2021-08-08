@@ -1,5 +1,6 @@
 {% extends 'recipe/base.html' %}
 {% load static %}
+{% load app_filters %}
 
 {% block style %}
         <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
@@ -7,15 +8,6 @@
 
 {% block content %}
     <div id="mySidebar" class="sidebar">
-        {% comment %} <!-- Why do I need this??????? -->
-        <div id="what">
-            My meal
-        </div>
-        <div id="mealnames">
-            <!-- This is where we will add all the recipe names with meals -->
-        </div>
-        <button type="button" class="btn" id="shoppinglist">Show Shopping List</button>
-        <button type="button" class="btn" id="recipes">Show Meal Recipes</button> {% endcomment %}
         {% include 'recipe/menubar.html' %}
     </div>
     <div id="main">
@@ -26,7 +18,7 @@
         <div id="top_display">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <img src='{{recipe.image.url}}'>
                     </div>
                     <div id ="name_and_desc" class="col-md-3">
@@ -37,10 +29,12 @@
                             By {{recipe.author}}
                         </div>
                         <div id="desc">
+                            Description: 
+                            <br>
                             {{recipe.description}}
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div>
                             Rating: {{recipe.rating}}
                         </div>
@@ -49,31 +43,54 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        {{recipe.classification}}
-                        <br>
-                        {% for tag in recipe.tags %} 
-                            {{tag}}
-                             <br>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    Classification: {{recipe.classification.label}}
+                    <br>
+                    Tags:
+                    <br>
+                    {% for tag in recipe.tags %} 
+                        {{tag}}
+                            <br>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <!-- need to figure out how to deal with the servings -->
+                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
+                    <div id="inglist">
+                        <ul type="circle">
+                        {% for ingredient in recipe|get_right_ingredients:recipe.servings %} 
+                            <li>
+                            {{ingredient}}
+                            </li>
                         {% endfor %}
+                        </ul>
                     </div>
+                    Instructions | {{recipe.cookingTime}} min
+                    <ol type="1">
+                    {% for instruction in recipe.steps %} 
+                        <li>{{instruction}}</li>
+                    {% endfor %}
+                    </ol>
+                    Rate this Recipe:
+                    <!-- figure out the star ratings? Maybe only one rating combo of user and recipe? and then you replace it -->
                 </div>
             </div>
         </div>
-        <!-- <img src='{{recipe.image.url}}'>
-        <h1> {{recipe.name}}</h1>
-        <h4>By {{recipe.username}}</h4>
-        <h4>Rating:{{recipe.rating}}</h4>
-        <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
-        {% for ingredient in recipe.ingredientsAsText %} 
-            <h5>{{ingredient}}</h5>
+        <div id="comments">
+            Comments:
             <br>
-        {% endfor %}
-        {% for instruction in recipe.steps %} 
-            <h5>{{instruction}}</h5>
+            {% for comment in recipe.comments %} 
+                    {{comment.author}}: {{comment.content}}
+                    <br>
+                    written: {{comment.date_modified}}
+                    <br>
             <br>
-        {% endfor %} -->
+            {% endfor %}
+        </div>
     </div>
 {% endblock content %} 
 
@@ -99,13 +116,13 @@
                 open = true;
             }
         });
-        $( "#shoppinglist" ).click(function() {
-            // figure out later
+        $('#servings').on('input', function() {
+            var val = $("#servings").val();
+            console.log(val);
+            var newingredient = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:6 %} <li>{{ingredient}}</li>{% endfor %}</ul>";
+            // var stringy = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:"+val+" %} <li>{{ingredient}}</li>{% endfor %}</ul>";
+            $( "#inglist" ).replaceWith(newingredient)
         });
-        $( "#recipes" ).click(function() {
-            // figure
-        });
-
     });
     </script>
 {% endblock scripts %}

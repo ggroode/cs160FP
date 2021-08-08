@@ -20,29 +20,48 @@
 {% endblock style %}
 
 {% block content %}
-<a href="#" class="helpPrevious">&#8249;</a>
+<br>
+<a href="#" class="helpPrevious" onclick="history.back();">&#8249;</a>
 <h1 style="text-align:center; margin-top: 0%;">Help Page</h1>
 <ul>
-    <li>All users will first be asked to 
-        <span style="color: #D7B400">login</span> 
-        to their account.</li>
-    <li>To 
-        <span style="color: #D7B400">browse</span>
+    <li>
+        All users will first be asked to 
+        <span> 
+            {% if user.is_authenticated %}
+                <a class="nav-link" href="{% url 'logout' %}" style="color: #D7B400; display: inline; margin: 0%; padding: 0%;">login</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}" style="color: #D7B400; display: inline; margin: 0%; padding: 0%;">login</a>
+            {% endif %}
+        </span>
+        to their account.
+    </li>
+    <li>
+        To 
+        <span>
+            <a class="nav-link" href="{% url 'search-recipes' %}" style="color: #D7B400; display: inline; margin: 0%; padding: 0%;">browse</a>
+        </span>
         through an assortment of recipes, click on the “Browse Recipes” button in 
-        the Navogation Bar at the very top. This will take you to a page displaying several 
+        the Navigation Bar at the very top. This will take you to a page displaying several 
         recipes, where you can customize search results by using filters. You can view the 
         filters when you click on the filter icon. When you find your desired meals/recipes, 
         you can click on the + icon to add them to your meal planner. Clicking on a specific 
         recipe from your meal planner will take you to the corresponding recipe page containing 
-        the relevant details for that recipe. </li>
-    <li>To 
-        <span style="color: #D7B400">create</span> 
+        the relevant details for that recipe. 
+    </li>
+    <li>
+        To 
+        <span>
+            <a class="nav-link" href="{% url 'create-recipe' %}" style="color: #D7B400; display: inline; margin: 0%; padding: 0%;">create</a>
+        </span>
         or 
-        <span style="color: #D7B400">upload</span> 
+        <span>
+            <a class="nav-link" href="{% url 'create-recipe' %}" style="color: #D7B400; display: inline; margin: 0%; padding: 0%;">upload</a>
+        </span> 
         your own recipe,  click the “Create Recipe” button on the navigation 
         bar. This will take you to a page where you can add an image of your recipe and provide 
-        details like the name, description, ingredients, intructions, as well as any relevant 
+        details like the name, description, ingredients, instructions, as well as any relevant 
         tags. Once you are done, you can publish your recipe so that it is accessible to the 
-        community.</li>
+        community.
+    </li>
 </ul>
 {% endblock content %}
