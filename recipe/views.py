@@ -34,3 +34,14 @@ def get_new_ing_list(request):
     recipe = Recipe.objects.filter(id=recipe_id)[0]
     newlist = recipe.ingredientsAsText(multiplier)
     return HttpResponse(','.join(newlist))
+
+@csrf_exempt
+def rate(request):
+    rater = request.POST.get("rater")
+    recipe_id = request.POST.get("id")
+    rating = request.POST.get("rating")
+    recipe = Recipe.objects.filter(id=recipe_id)[0]
+    print(recipe)
+    # recipe.ingredientsAsText(2)
+    recipe.rate(rater,rating)
+    return HttpResponse(1)

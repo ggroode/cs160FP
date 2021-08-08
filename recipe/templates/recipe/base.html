@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
     
     <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/base.css' %}" />
+
+    <link rel="stylesheet" href="{% static 'recipe/css/StarRating.css' %}">
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     
     {% block style %}{% endblock style %} 
 </head>
@@ -26,14 +29,70 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     {% block scripts %}{% endblock scripts %}
     <script>
+        const uid = {{user.id}};
         let base = {}
         base.url = new URL(window.location.href);
         flash = base.url.searchParams.get("flash");
         if(flash){
             alert(flash);
         }
+        class StarRating extends HTMLElement {
+            get value () {
+            return this.getAttribute('value') || 0;
+            }
+            set value (val) {
+                this.setAttribute('value', val);
+                this.highlight(this.value - 1);
+            }
+            get number () {
+                return this.getAttribute('number') || 5;
+            }
+
+            get display() {
+                return this.getAttribute('display') || "no";
+            }
+            set number (val) {
+                this.setAttribute('number', val);
+                this.stars = [];
+                while (this.firstChild) {
+                    this.removeChild(this.firstChild);
+            }
+            for (let i = 0; i < this.number; i++) {
+                let s = document.createElement('div');
+                s.className = 'star';
+                this.appendChild(s);
+                this.stars.push(s);
+            }
+            this.value = this.value;
+        }
+
+        highlight (index) {
+            this.stars.forEach((star, i) => {
+                star.classList.toggle('full', i <= index);
+            });
+        }
+
+        constructor () {
+            super();
+            this.number = this.number;
+            this.addEventListener('click', e => {
+                let box = this.getBoundingClientRect(),
+                    starIndex = Math.floor((e.pageX - box.left) / box.width * this.stars.length);
+                if (this.getAttribute('display') == "yes") {
+                    console.log({{recipe.id}})
+                    console.log(uid)
+                    console.log(starIndex + 1)
+                    $.post("{% url 'rate' %}",{id: {{recipe.id}}, rater: uid, rating: starIndex + 1});
+                    this.highlight(starIndex);
+                }
+            });
+        }
+        }
+        customElements.define('x-star-rating', StarRating);
     </script>
 </body>
 
 </html>
+
+{% comment %} help https://github.com/GeekLaunch/star-rating {% endcomment %}
 

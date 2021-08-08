@@ -51,14 +51,19 @@ class Recipe(models.Model):
         ratings = Rating.objects.filter(recipe_id=self.id)
         if len(ratings)==0:
             return 0
-        return sum(ratings)/len(ratings)
+        totalvalue = 0
+        for rate in ratings:
+            totalvalue += rate.value
+            print(totalvalue)
+        return totalvalue/len(ratings)
 
     def rate(self,userName,ratingValue):
         # assert ratingValue in [1,2,3,4,5]
-        user = User.objects.get(username=userName)
+        user = User.objects.get(id=userName)
         rating = Rating.objects.filter(recipe_id=self.id,author=user).first()
         if rating:
             rating.value = ratingValue
+            rating.save()
         else:
             Rating.objects.create(recipe=self,author=user,value=ratingValue)
             
