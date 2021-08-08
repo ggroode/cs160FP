@@ -42,7 +42,7 @@ class Recipe(models.Model):
     steps = models.JSONField(default=get_list)
     @property
     def tags(self):
-        return [tag.name for tag in Tag.objects.filter(recipe_id=self.id)]
+        return [tag.name for tag in Tag.objects.filter(recipes__id=self.id)]
     @property
     def comments(self):
         return Comment.objects.filter(recipe_id=self.id)
@@ -74,8 +74,8 @@ class Recipe(models.Model):
     def addStep(self,stepText):
         self.steps.append(stepText)
     
-    def ingredientsAsText(self,multiplier=1):
-        return Recipe.ingredientsToText(self.ingredients,multiplier=1)
+    def ingredientsAsText(self,multiplier):
+        return Recipe.ingredientsToText(self.ingredients,multiplier)
 
     def addTag(self,tagName):
         tag = Tag.objects.filter(name=tagName).first()
@@ -110,7 +110,7 @@ class Recipe(models.Model):
             r.addTag(tag)
     
     @staticmethod
-    def ingredientsToText(ingredients,multiplier=1):
+    def ingredientsToText(ingredients,multiplier):
         ingTextList=[]
         for name in ingredients.keys():
             ing = ingredients[name]

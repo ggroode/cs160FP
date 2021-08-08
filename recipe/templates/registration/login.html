@@ -1,32 +1,52 @@
 {% extends 'recipe/base.html' %}
 
-<!-- <style>
+{% block style %}
+<style>
 body {
-    background-image: url('');
+    background-image: url("../../static/recipe/images/pexels-lukas-616401.jpg");
+    background-size:100% auto;
 }
-</style> -->
+#loginInput {
+    width: 260px; 
+    border-color: black;
+    border-radius: 25px;
+}
+#loginColMain {
+    /* margin-top: 15%; */
+    background-color: rgba(255, 255, 255, 0.5);
+}
+</style>
+{% endblock style %} 
 
 {% block content %}
-<div class="container">
-    <div class="row"><!-- Blank Space --></div>
-    <div class="row">
-        <div class="col-4"><!-- Blank Space --></div>
-        <div class="col-4">
+<div class="container text-center">
+    <div class="row h-100 d-flex justify-content-center align-items-center">
+        <div class="col-sm"><!-- Blank Space --></div>
+        <div class="col-sm border border-2 border-dark rounded" id="loginColMain">
             <form method="post">
+                <br>
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="text" value="Username..."><br><br>
-                <input type="text" value="Password..."><br><br>
-                <input type="submit" value="Login"><br><br>
-                <input type="submit" value="Login in with service"><br><br>
-
-                <p>Forgot username? <a href="#">Click here</a></p>
-                <p>Forgot password? <a href="#">Click here</a></p>
-                
+                <!-- <input type="text" value="Username..."><br><br>
+                <input type="text" value="Password..."><br><br> -->
+                <br>
+                <input id="loginInput" type="submit" value="Login"><br>
             </form>
+            <input class="loginBroken" id="loginInput" type="submit" value="Login with service"><br><br>
+            <p><a href="#" style="text-decoration:none" class="loginBroken">Forgot username?</a></p>
+            <p><a href="#" style="text-decoration:none" class="loginBroken">Forgot password?</a></p>
         </div>
-        <div class="col-4"><!-- Blank Space --></div>
+        <div class="col-sm"><!-- Blank Space --></div>
     </div>
-    <div class="row"><!-- Blank Space --></div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+$(function(){
+    $(".loginBroken").click(function() {
+        alert("We apologize, but this feature has not been implemented.");
+    });
+});
+</script>
+{% endblock scripts %}
