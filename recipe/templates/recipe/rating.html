@@ -1,1 +1,5 @@
-Rating: {{rating}}
+{% if rating == 'input' %}
+
+{% else %}
+    Rating: {{rating}}
+{% endif %}

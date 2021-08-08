@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 import json
@@ -13,6 +13,8 @@ def search_recipes(request):
 
 @csrf_exempt
 def create_recipe(request,id=-1):
+    if not request.user.is_authenticated:
+        return redirect('accounts/login')
     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 def recipe(request,id):
     test = request.GET.get("test",1)
