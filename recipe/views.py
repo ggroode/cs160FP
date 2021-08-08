@@ -8,10 +8,12 @@ def search_recipes(request):
     name = request.GET.get("name","")
     recipes = Recipe.objects.filter(name__contains=name)
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
+
+@csrf_exempt
 def create_recipe(request,id=-1):
     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 def recipe(request,id):
-    test = request.GET.get("test",1) 
+    test = request.GET.get("test",1)
     recipe = Recipe.objects.filter(id=id)[0]
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
 def meal(request,ids):
@@ -30,5 +32,3 @@ def get_new_ing_list(request):
     recipe = Recipe.objects.filter(id=recipe_id)[0]
     newlist = recipe.ingredientsAsText(multiplier)
     return HttpResponse(','.join(newlist))
-
-
