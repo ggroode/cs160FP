@@ -38,7 +38,6 @@ def get_new_ing_list(request):
     newlist = recipe.ingredientsAsText(multiplier)
     return HttpResponse(','.join(newlist))
 
-<<<<<<< HEAD
 @csrf_exempt
 def rate(request):
     rater = request.POST.get("rater")
@@ -49,7 +48,6 @@ def rate(request):
     # recipe.ingredientsAsText(2)
     recipe.rate(rater,rating)
     return HttpResponse(1)
-=======
 def register(request):
     if request.method == "GET":
         return render(
@@ -62,4 +60,3 @@ def register(request):
             user = form.save()
             login(request, user)
             return search_recipes(request)
->>>>>>> 57ee52ac857193caf74a245341bb9a6a20e20e7a
