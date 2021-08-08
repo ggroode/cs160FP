@@ -25,7 +25,7 @@ def shoppingList(request,ids):
 @csrf_exempt
 def get_new_ing_list(request):
     recipe_id = request.POST.get("id")
-    multiplier = int(request.POST.get("mult"))
+    multiplier = float(request.POST.get("mult"))
     recipe = Recipe.objects.filter(id=recipe_id)[0]
     newlist = recipe.ingredientsAsText(multiplier)
     return HttpResponse(','.join(newlist))
