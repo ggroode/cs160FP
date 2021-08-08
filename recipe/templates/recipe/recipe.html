@@ -27,11 +27,14 @@
         <h1> {{recipe.name}}</h1>
         <h4>By {{recipe.username}}</h4>
         <h4>Rating:{{recipe.rating}}</h4>
+        <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
     </div>
 {% endblock content %} 
 
 {% block scripts %}
+    <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
     <script>
+        
     $(document).ready(function(){
         var open = false;
         $("#leftchevron").hide();
