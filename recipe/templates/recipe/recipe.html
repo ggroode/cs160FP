@@ -37,6 +37,9 @@
                     <div class="col-md-4">
                         <div>
                             Rating: {{recipe.rating}}
+                            {% with recipe.rating as rating %}
+                                {% include 'recipe/rating.html' %}
+                            {% endwith %}
                         </div>
                         <div>
                             <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
@@ -79,7 +82,9 @@
                     {% endfor %}
                     </ol>
                     Rate this Recipe: <br>
-                    {% include 'recipe/rating.html' %}
+                    {% with input as rating %}
+                        {% include 'recipe/rating.html' %}
+                    {% endwith %}
                     <!-- figure out the star ratings? Maybe only one rating combo of user and recipe? and then you replace it -->
                 </div>
             </div>
