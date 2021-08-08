@@ -2,16 +2,27 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 import json
-from .models import Recipe
+from .models import Recipe,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+import re
+
 # Create your views here.
 def search_recipes(request):
+    #getting search parameters
     name = request.GET.get("name","")
+    authors = request.GET.get('author',"")
+    tags = request.GET.get('tag',"")
+    # putting search parameters in proper form and filtering
     recipes = Recipe.objects.filter(name__contains=name)
+    if authors:
+        authors = User.objects.filter(username__in=re.split("[^\w]+",authors))
+        recipes = recipes.filter(author__in= authors)
+    #Setting backup filters
     filters = zip(['visibility','classification','rating','cooking time','author','tag','ingredients'],
     ['multi-select','multi-select','numeric','numeric','text','text','text'],
     [('public','private'),('entree','side','dessert','appetizer'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
+
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
