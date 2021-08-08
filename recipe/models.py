@@ -115,6 +115,8 @@ class Recipe(models.Model):
         for name in ingredients.keys():
             ing = ingredients[name]
             unit,quantity = ing['unit'],ing['quantity']*multiplier
+            if (quantity % 1 == 0):
+                quantity = int(quantity)
             if unit in ['count','cnt']:
                 if quantity == 1:
                     ingTextList.append("{} {}".format(quantity,name))
