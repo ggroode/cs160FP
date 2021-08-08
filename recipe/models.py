@@ -74,8 +74,8 @@ class Recipe(models.Model):
     def addStep(self,stepText):
         self.steps.append(stepText)
     
-    def ingredientsAsText(self,multiplier=1):
-        return Recipe.ingredientsToText(self.ingredients,multiplier=1)
+    def ingredientsAsText(self,multiplier):
+        return Recipe.ingredientsToText(self.ingredients,multiplier)
 
     def addTag(self,tagName):
         tag = Tag.objects.filter(name=tagName).first()
@@ -110,7 +110,7 @@ class Recipe(models.Model):
             r.addTag(tag)
     
     @staticmethod
-    def ingredientsToText(ingredients,multiplier=1):
+    def ingredientsToText(ingredients,multiplier):
         ingTextList=[]
         for name in ingredients.keys():
             ing = ingredients[name]
