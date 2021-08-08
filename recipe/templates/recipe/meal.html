@@ -9,12 +9,20 @@
 			background-color: magenta;
 			font-family: Ubuntu;
 		}
+		.row{
+			background-color: #F0D2D1;
+		}
 		#box1{
 			font-family: Ubuntu;
 			height: 100vh; 
+			margin-left: 0px;
+			margin-right: 0px;
 			background-color: #F0D2D1;
+			border-top: 5px solid #8EB19D;
 			border-right: 5px solid #8EB19D;
+
 		}
+
 		#box2{
 			padding-top: 10px;
 			font-family: Ubuntu;
@@ -48,6 +56,9 @@
     		height: 50px;
     		font-size: 18px;
     		margin-bottom: 20px;
+    		background-color: rgb(214, 212, 210);
+    	    border-radius: 5px;
+	
 		}
 		.ingredients{
 			margin-top: 30px;
@@ -80,6 +91,8 @@
 			overflow-y: auto;
 			overflow-x: hidden;
 			position: relative;
+			margin-left: 0px;
+			margin-right: 0px;
 		}
 		#exampleModalLabel{
 			text-align: center;
@@ -106,8 +119,8 @@
         }
         .menu{
         	background-color: #F6EFA6;
-        	margin-top: 10px;
-        	margin-left: 10px;
+        	margin-top: 0px;
+        	margin-left: 0px;
 
         }
         .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
@@ -121,6 +134,7 @@
  			float: right;
  			margin-right: auto;
  			margin-left: auto;
+ 			border-radius: 0px;
 
  		}
  		li input {
@@ -133,19 +147,44 @@
 			margin-top: 65px;
 		}
 
+
+
+a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 8px 16px;
+}
+
+a:hover {
+  background-color: #8EB19D;;
+  color: black;
+}
+
+.previous {
+  background-color: #F6EFA6;
+  color: black;
+}
+
+.next {
+  background-color: #F6EFA6;
+  color: black;
+}
+
+
+#rec-overflow{
+	float: right;
+}
+
 	</style>
 	</head>
 
 
 <div class="container-fluid h-100 p-0">
   <div class="row">
- 	 {% for recipe in recipes %} 
-    <div class="col-md-4 scroll mx-auto p-0" id= "box1"> 
-   <div class="dropdown">
+  	   <div class="dropdown">
   <button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     Menu
   </button>
-  <button type="button" class="btn-close exit" aria-label="Close"></button>
 
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
     <li><a class="dropdown-item" href="#">Shopping List</a></li>
@@ -156,7 +195,20 @@
     <li><hr class="dropdown-divider"></li>
     <li><a class="dropdown-item" href="#">Save Meal</a></li>
   </ul>
+
+  <div id= "rec-overflow">
+  <a href="#" class="previous">  &#8592;</a>
+  <a href="#" class="next">&#8594;</a>
+
+
 </div>
+
+</div>
+
+ 	 {% for recipe in recipes %} 
+    <div class="col-md-4 scroll p-0" id= "box1"> 
+  <button type="button" class="btn-close exit" aria-label="Close"></button>
+
     	<h1> {{recipe.name}} </h1>
     	<!-- Button trigger modal -->
  <div class= "mx-auto text-center">
@@ -245,6 +297,7 @@
         <input type="hidden" name="rating" id="rating_input"/>
 
       </div>
+      <ignore>
       <div class="modal-footer">
         <button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
       </div>
