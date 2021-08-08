@@ -1,4 +1,5 @@
 {% extends 'recipe/base.html' %}
+{% load static %}
 {% block style %}
     <style>
         #closeMenu{
@@ -39,39 +40,16 @@
 {% endblock content %}
 
 {% block scripts %}
+<script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
 <script>
     app = {};
-    mealApp = {};
-    mealApp.meal_recipes=[];
+    let currentOnload = window.onload
     window.onload = function(){
+        currentOnload()
         app.setup = function(){
             $("#menubar").hide();
-            app.meal_recipes=[];
         }   
         app.setup()
-        app.addToMeal = function(t,id,name,url){
-            console.log(id);
-            if (mealApp.meal_recipes.includes(id)){
-                $('#removeFromMeal-'+id).click()
-            } else{
-                mealApp.meal_recipes.push(id);
-                $(t).html('-');
-                $('#menu-recipes').append(
-                    `<li>
-                        
-                        <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" onclick="mealApp.removeFromMeal(this,`+id+`)"> X </button>
-                        <a href=`+url+`>`
-                        + name +
-                        `</a>
-                    </li>`       
-                );
-            }
-        }
-        mealApp.removeFromMeal = function(t,id){
-            $(t).parent().remove();
-            $('#addToMeal-'+id).html('+')
-            mealApp.meal_recipes.splice(mealApp.meal_recipes.indexOf(id),1)
-        }
-    }
+    } 
 </script>
 {% endblock scripts %}
