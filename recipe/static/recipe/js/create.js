@@ -1,7 +1,7 @@
 // additions
 const steps = [];
 const ingredients = [];
-const tags = [];
+let tags = [];
 let priva = true;
 let recipeType = "Entree";
 let recipeName = "";
@@ -19,9 +19,9 @@ const removedTags = [];
 const ingredientItem = `
 <li>
   <span name="ingli">
-    <input type="text" value="" placeholder="ingredient" class="border">
-    <input type="text" value="" placeholder="amount" class="border">
-    <input type="text" value="" placeholder="unit" class="border">
+    <input type="text" value="" placeholder="ingredient" class="border" style="width:35%">
+    <input type="text" value="" placeholder="amount" class="border" style="width:15%">
+    <input type="text" value="" placeholder="unit" class="border" style="width:25%">
   </span>
   <button type="button" class="btn btn-danger" onClick="removeIngredient(this.parentNode)">X</button>
 </li>`;
@@ -31,7 +31,7 @@ const stepItem = `
     <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode)">X</button>
   </li>`;
 
-
+// create XMLHttpRequest
 function addStep() {
   document.getElementById('steps').innerHTML += stepItem;
 }
@@ -66,8 +66,7 @@ function setBasicInfo() {
 }
 
 function pushTags() {
-  // TODO: finish
-  return;
+  tags = $('#tags').val().split(/[^a-zA-Z0-9]/);
 }
 
 function setRecipeInfo() {
@@ -80,8 +79,10 @@ function setRecipeInfo() {
 function sendRecipeInfo() {
   // TODO: finish
   setRecipeInfo();
-  const message = createJSON();
-  return;
+  const message = createDict();
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", "#", true);
+  xhr.send(message);
 }
 
 function removeStep(item) {
@@ -99,13 +100,13 @@ function removeTags(item) {
   item.remove();
 }
 
-function createJSON() {
-  const message = {};
+function createDict() {
+  const message = new FormData();
 
   message["name"] = recipeName;
   message["description"] = recipeDesc;
   message["cookingTime"] = recipeCT;
-  message["image"];
+  message["image"] = document.getElementById('upload').files[0];
   message["classification"] = recipeType;
   message["servings"] = recipeServings;
   message["servingSize"] = recipeServingSize;
@@ -118,5 +119,41 @@ function createJSON() {
   message["removedIngredients"] = removedIngredients;
   message["removedTags"] = removedTags;
 
-  return JSON.stringify(message);
+  return message;
+}
+
+
+// very cool image js
+/*  ==========================================
+    SHOW UPLOADED IMAGE
+* ========================================== */
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#imageResult')
+                .attr('src', e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(function () {
+    $('#upload').on('change', function () {
+        readURL(input);
+    });
+});
+
+/*  ==========================================
+    SHOW UPLOADED IMAGE NAME
+* ========================================== */
+var input = document.getElementById( 'upload' );
+var infoArea = document.getElementById( 'upload-label' );
+
+input.addEventListener( 'change', showFileName );
+function showFileName( event ) {
+  var input = event.srcElement;
+  var fileName = input.files[0].name;
+  infoArea.textContent = 'File name: ' + fileName;
 }
