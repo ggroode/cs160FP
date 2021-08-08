@@ -42,7 +42,7 @@ class Recipe(models.Model):
     steps = models.JSONField(default=get_list)
     @property
     def tags(self):
-        return [tag.name for tag in Tag.objects.filter(recipe_id=self.id)]
+        return [tag.name for tag in Tag.objects.filter(recipes__id=self.id)]
     @property
     def comments(self):
         return Comment.objects.filter(recipe_id=self.id)

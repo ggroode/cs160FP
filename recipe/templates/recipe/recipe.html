@@ -23,7 +23,45 @@
             <img id="rightchevron"  src="{% static 'recipe/images/rightchevron.png' %}" />
             <img id="leftchevron"  src="{% static 'recipe/images/leftchevron.png' %}" />
         </div>
-        <img src='{{recipe.image.url}}'>
+        <div id="top_display">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img src='{{recipe.image.url}}'>
+                    </div>
+                    <div id ="name_and_desc" class="col-md-3">
+                        <div id="name">
+                            {{recipe.name}}
+                        </div>
+                        <div id="author">
+                            By {{recipe.author}}
+                        </div>
+                        <div id="desc">
+                            {{recipe.description}}
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div>
+                            Rating: {{recipe.rating}}
+                        </div>
+                        <div>
+                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        {{recipe.classification}}
+                        <br>
+                        {% for tag in recipe.tags %} 
+                            {{tag}}
+                             <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <img src='{{recipe.image.url}}'>
         <h1> {{recipe.name}}</h1>
         <h4>By {{recipe.username}}</h4>
         <h4>Rating:{{recipe.rating}}</h4>
@@ -35,7 +73,7 @@
         {% for instruction in recipe.steps %} 
             <h5>{{instruction}}</h5>
             <br>
-        {% endfor %}
+        {% endfor %} -->
     </div>
 {% endblock content %} 
 
