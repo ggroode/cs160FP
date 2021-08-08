@@ -44,3 +44,11 @@
     height: 100%;
     width: 100%;
 }
+
+#top_display {
+    background-color: #66B3BA;
+}
+#name {
+    text-align: center;
+    text-decoration: underline;
+}
