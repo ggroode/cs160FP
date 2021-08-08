@@ -66,7 +66,7 @@ class Recipe(models.Model):
     def addIngredient(self,ingredientName,unit,quantity):
         ingredientName = " ".join([ps.plur2sing(word) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
-        ing = Ingredient.objects.fitler(name=ingredientName).first()
+        ing = Ingredient.objects.filter(name=ingredientName).first()
         if not ing:
             ing = Ingredient.objects.create(name=ingredientName)
         ing.recipes.add(self)
@@ -107,7 +107,7 @@ class Recipe(models.Model):
         for step in steps:
             r.addStep(step)
         for tag in tags:
-            r.addTag(step)
+            r.addTag(tag)
     
     @staticmethod
     def ingredientsToText(ingredients,multiplier=1):
