@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 import json
 from .models import Recipe
 from django.views.decorators.csrf import csrf_exempt
@@ -7,7 +9,8 @@ from django.http import HttpResponse
 def search_recipes(request):
     name = request.GET.get("name","")
     recipes = Recipe.objects.filter(name__contains=name)
-    return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
+    filters = zip(['visibility','classification','author','tag',],['text','text','multi-select'],[(),(),('entree','side')])
+    return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
 def create_recipe(request,id=-1):
@@ -35,6 +38,7 @@ def get_new_ing_list(request):
     newlist = recipe.ingredientsAsText(multiplier)
     return HttpResponse(','.join(newlist))
 
+<<<<<<< HEAD
 @csrf_exempt
 def rate(request):
     rater = request.POST.get("rater")
@@ -45,3 +49,17 @@ def rate(request):
     # recipe.ingredientsAsText(2)
     recipe.rate(rater,rating)
     return HttpResponse(1)
+=======
+def register(request):
+    if request.method == "GET":
+        return render(
+            request, "registration/register.html",
+            {"form": UserCreationForm}
+        )
+    elif request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return search_recipes(request)
+>>>>>>> 57ee52ac857193caf74a245341bb9a6a20e20e7a

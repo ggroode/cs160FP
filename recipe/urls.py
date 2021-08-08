@@ -13,5 +13,9 @@ urlpatterns = [
     #path("meal",views.meal,name='meal'),
     path("help",views.help,name='help'),
     path("get_new_ing_list", views.get_new_ing_list,name="get_new_ing_list"),
+<<<<<<< HEAD
     path("rate", views.rate,name="rate"),
+=======
+    path("register", views.register, name="register"),
+>>>>>>> 57ee52ac857193caf74a245341bb9a6a20e20e7a
 ]
