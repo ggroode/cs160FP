@@ -1,3 +1,15 @@
+/* https://css-tricks.com/text-input-expanding-bottom-border/ */
+span:contenteditable {
+  position: relative;
+  bottom: -11px;
+  color: white;
+  display: inline-block;
+  padding: 0.4rem 0;
+  border-bottom: 4px solid #D5BA5E;
+  outline: 0;
+}
+
+
 .radbtn {
   width:20%;
   font-size:calc(0.3rem+1vw);
