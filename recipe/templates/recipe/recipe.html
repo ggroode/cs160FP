@@ -62,6 +62,9 @@
                     Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
                         <ul type="circle">
+                        {% comment %} get rid of extraneous zeros {% endcomment %}
+                        {% comment %} link to the edit page if current user matches author id then display button {% endcomment %}
+                        {% comment %} fill back with original {% endcomment %}
                         {% for ingredient in recipe|get_right_ingredients:1 %} 
                             <li>
                             {{ingredient}}
@@ -75,7 +78,8 @@
                         <li>{{instruction}}</li>
                     {% endfor %}
                     </ol>
-                    Rate this Recipe:
+                    Rate this Recipe: <br>
+                    {% include 'recipe/rating.html' %}
                     <!-- figure out the star ratings? Maybe only one rating combo of user and recipe? and then you replace it -->
                 </div>
             </div>
