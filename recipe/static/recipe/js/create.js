@@ -79,10 +79,16 @@ function setRecipeInfo() {
 function sendRecipeInfo() {
   // TODO: finish
   setRecipeInfo();
-  const message = createDict();
+  const message = createFD();
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "#", true);
+  xhr.onload = function () {
+    console.log('a');
+    console.log(xhr.responseURL);
+    window.location.href = xhr.responseURL;
+  };
   xhr.send(message);
+
 }
 
 function removeStep(item) {
@@ -122,6 +128,27 @@ function createDict() {
   return message;
 }
 
+function createFD() {
+  const message = new FormData();
+
+  message.append("name", recipeName);
+  message.append("description", recipeDesc);
+  message.append("cookingTime", recipeCT);
+  message.append("image", document.getElementById('upload').files[0]);
+  message.append("classification", recipeType);
+  message.append("servings", recipeServings);
+  message.append("servingSize", recipeServings);
+  message.append("author", uid);
+  message.append("private", priva);
+  message.append("ingredients", ingredients);
+  message.append("steps", steps);
+  message.append("tags", tags);
+  // message.append("removedSteps", removedSteps);
+  // message.append("removedIngredients", removedIngredients);
+  // message.append("removedTags", removedTags);
+
+  return message;
+}
 
 // very cool image js
 /*  ==========================================
