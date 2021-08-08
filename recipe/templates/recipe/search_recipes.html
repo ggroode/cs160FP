@@ -28,35 +28,37 @@
     </style>
 {% endblock style %}
 {% block content %}
-    <div class='row h-100 w-100 px-0'>
-        <div id="menuArea" class='col-md-3'>
-            <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button>
-            <div id="menubar" class="position-relative">
-                {% include 'recipe/menubar.html' %}
-                <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button>
-            </div>
-        </div> 
-        <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
-            <div id='searchTop' class='row'>
-                <div class="input-group">
-                    <input id="search-input" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <button type="button" class="btn btn-outline-primary" onclick="app.search()">search</button>
+    <form>
+        <div class='row h-100 w-100 px-0'>
+            <div id="menuArea" class='col-md-3'>
+                <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+                <div id="menubar" class="position-relative">
+                    {% include 'recipe/menubar.html' %}
+                    <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                </div>
+            </div> 
+            <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
+                <div id='searchTop' class='row'>
+                    <div class="input-group">
+                        <input id="search-input" name="name" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                        <button type="submit" class="btn btn-outline-primary">search</button>
+                    </div>
+                </div>
+                <div id='recipeArea' class='row w-100 h-auto p-4'>
+                    {% for recipe in recipes %} 
+                        {% include 'recipe/partials/recipe_box.html' %}
+                    {% endfor %}    
                 </div>
             </div>
-            <div id='recipeArea' class='row w-100 h-auto p-4'>
-                {% for recipe in recipes %} 
-                    {% include 'recipe/partials/recipe_box.html' %}
-                {% endfor %}    
+            <div id='filterArea' class='col-md-3'>
+                <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+                <div id="filterbar" class="position-relative">
+                    {% include 'recipe/partials/filterbar.html' %}
+                    <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                </div>
             </div>
         </div>
-        <div id='filterArea' class='col-md-3'>
-            <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button>
-            <div id="filterbar" class="position-relative">
-                {% include 'recipe/partials/filterbar.html' %}
-                <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button>
-            </div>
-        </div>
-    </div>
+    </form>
     
 
 
@@ -69,16 +71,21 @@
     app.setup = function(){
         $("#menubar").hide();
         $("#openFilters").hide();
-        let url = new URL(window.location.href);
-        let name = url.searchParams.get("name");
+        const url = new URL(window.location.href);
+        const name = url.searchParams.get("name");
         if(name){
             $("#search-input").val(name);
         }
-        
+        const form = document.querySelector('form');
+        form.addEventListener('submit', app.search);
     }
-    app.search  = function(){
-        let name = $("#search-input").val();
-        window.location.href = "{% url 'search-recipes' %}" +"?name="+name;
+    app.search  = function(event){
+        //event.preventDefault()
+        const data = new FormData(event.target);
+        const value = data.get('classification');
+        console.log(value)
+        //let name = $("#search-input").val();
+        //window.location.href = "{% url 'search-recipes' %}" +"?name="+name;
     } 
     let currentOnload = window.onload
     window.onload = function(){
