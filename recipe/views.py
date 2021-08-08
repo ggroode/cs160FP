@@ -3,7 +3,8 @@ import json
 from .models import Recipe
 # Create your views here.
 def search_recipes(request):
-    recipes = Recipe.objects.all()
+    name = request.GET.get("name","")
+    recipes = Recipe.objects.filter(name__iregex=r".*"+name+".*")
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes})
 def create_recipe(request,id=-1):
     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
