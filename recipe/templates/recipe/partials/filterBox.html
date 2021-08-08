@@ -4,8 +4,10 @@
         <input id="{{variable}}Input" type="text" name="{{variable}}" class="form-control m-0" placeholder="Enter: {{variable}}(s)">
     {% elif type == 'multi-select' %}
         {% for opt in options %}
-            <input id="{{varaible}}-{{opt}}" type="checkbox" name="{{variable}}-{{opt}}" value="true">
-            <label for="{{varaible}}-{{opt}}">{{opt|capfirst}}</label>
+            <span>
+                <input id="{{varaible}}-{{opt}}" type="checkbox" name="{{variable}}-{{opt}}" value="true" checked>
+                <label for="{{varaible}}-{{opt}}">{{opt|capfirst}}</label>
+            </span>
         {% endfor %}
     {% endif %}
 </div>

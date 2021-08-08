@@ -9,7 +9,7 @@ from django.http import HttpResponse
 def search_recipes(request):
     name = request.GET.get("name","")
     recipes = Recipe.objects.filter(name__contains=name)
-    filters = zip(['author','tag','classification'],['text','text','multi-select'],[(),(),('entree','side')])
+    filters = zip(['visibility','classification','author','tag',],['text','text','multi-select'],[(),(),('entree','side')])
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
