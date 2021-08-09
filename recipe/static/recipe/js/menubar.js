@@ -11,7 +11,6 @@ mealApp.addToMeal = function(t,id,name){
         $(t).html('-');
         $('#menu-recipes').append(
             `<li>
-                
                 <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" onclick="mealApp.removeFromMeal(this,`+id+`)"> X </button>
                 <a href=/recipe/`+id+`>`
                 + name +
