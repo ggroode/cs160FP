@@ -54,7 +54,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    Classification: {{recipe.classification.label}}
+                    Classification: {{recipe.classification}}
                     <br>
                     Tags:
                     <br>
@@ -132,6 +132,7 @@
     }
         
     $(document).ready(function(){
+        var None = -1;
         if ({{user.id}} != {{recipe.author.id}}) {
             $("#edit").hide();
         }
@@ -160,6 +161,10 @@
             // page refresh? tmux
         });
         $('#addcomment').click(function() {
+            if ({{user.id}} == -1) {
+                alert("Please Sign In to Comment!");
+                return;
+            }
             $.post("{% url 'comment'%}",{
             id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:Date.now() }
              {% comment %} },

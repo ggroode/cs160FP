@@ -151,7 +151,6 @@ def rate(request):
     recipe_id = request.POST.get("id")
     rating = request.POST.get("rating")
     recipe = Recipe.objects.filter(id=recipe_id)[0]
-    print(recipe)
     # recipe.ingredientsAsText(2)
     recipe.rate(rater,rating)
     return HttpResponse(1)
