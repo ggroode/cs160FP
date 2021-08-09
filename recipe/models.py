@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.core.validators import MaxValueValidator
-from nltk.stem import PorterStemmer
+from nltk.stem import ARLSTem2
 import re
 
-ps = PorterStemmer()
+ps = ARLSTem2()
 
 def pluralize(noun):
     if re.search('[sxz]$', noun):
