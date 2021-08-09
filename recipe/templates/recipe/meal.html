@@ -4,8 +4,7 @@
 {% block content %}
 
 {% block style %}
-        <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
-{% endblock style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
 	<style type="text/css">
 
 		.container{
@@ -188,7 +187,8 @@
 		}
 
 	</style>
-</head>
+{% endblock style %}
+
 
 
 <div class="container-fluid h-100 p-0">
@@ -204,7 +204,6 @@
 				<li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
 				<li><hr class="dropdown-divider"></li>
 				<li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
-
 			</ul>
 
 			<div id= "rec-overflow">
@@ -217,74 +216,70 @@
 		</div>
 
 		{% for recipe in recipes %} 
-		<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
-			<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
+			<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
+				<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
-			<h1> {{recipe.name}} </h1>
-			<!-- Button trigger modal -->
-			<div class= "mx-auto text-center">
-				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
-					Rating
-				</button>
-			</div>
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							{% with recipe.rating as rating %}
-							<h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: {% include 'recipe/rating.html' %}</h5>
-							{% endwith %}
+				<h1> {{recipe.name}} </h1>
+				<!-- Button trigger modal -->
+				<div class= "mx-auto text-center">
+					<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
+						Rating
+					</button>
+				</div>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								{% with recipe.rating as rating %}
+								<h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: {% include 'recipe/rating.html' %}</h5>
+								{% endwith %}
 
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<h5> How would you rate this recipe? 
-							{% with 'input' as rating %}
-								{% include 'recipe/rating.html' %}
-							{% endwith %}
-							</h5>
-							<div style="display:inline-block;" id="rateYo"></div>
-							<input type="hidden" name="rating" id="rating_input"/>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<h5> How would you rate this recipe? 
+								{% with 'input' as rating %}
+									{% include 'recipe/rating.html' %}
+								{% endwith %}
+								</h5>
+								<div style="display:inline-block;" id="rateYo"></div>
+								<input type="hidden" name="rating" id="rating_input"/>
 
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+							</div>
 						</div>
 					</div>
 				</div>
+				<div class="ingredients">
+					Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
+
+				</div>
+				<div class= "servSize">
+					Serving Size: {{recipe.servingSize}}
+				</div>
+			<div class="ordered-ing"id="inglist-{{recipe.id}}">
+				<ul type="disc">
+					{% for ingredient in recipe|get_right_ingredients:1 %} 
+						<li> {{ingredient}} </li>
+					{% endfor %}
+				</ul>
 			</div>
-			<div class="ingredients">
-    			Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
 
-    		</div>
-    		<div class= "servSize">
-    			Serving Size: {{recipe.servingSize}}
-    		</div>
-<!--     		<ol class="ordered-ing">
-    				{% for ing in recipe|get_right_ingredients:1 %} 
-    				<li><span>{{ing}}</span></li>
-    				{% endfor %}  
-    		</ol>  -->
-		<div class="ordered-ing"id="inglist-{{recipe.id}}">
-			<ul type="disc">
-				{% for ingredient in recipe|get_right_ingredients:1 %} 
-				<li>
-					{{ingredient}}
-				</li>
-				{% endfor %}
-			</ul>
+			<div class="steps">
+				Steps | {{recipe.cookingTime}} min
+			</div>
+			<ol class="ordered-sps">
+				{% for step in recipe.steps %} 
+					<li>
+						<input type= "checkbox">
+						<span>{{step}}</span>
+					</li>
+				{% endfor %} 
+			</ol> 
 		</div>
-
-		<div class="steps">
-			Steps | {{recipe.cookingTime}} min
-		</div>
-		<ol class="ordered-sps">
-			{% for step in recipe.steps %} 
-			<li><input type= "checkbox"><span>{{step}}</span></li>
-			{% endfor %} 
-		</ol> 
-	</div>
 	{% endfor %}    
 </div>
 </div>
@@ -315,12 +310,10 @@
  	 	updatedList.style.listStylePosition = 'inside';
  	  	updatedList.style.textAlign = 'left';
  	  	updatedList.style.marginLeft = '20px';
-
-
-
  		}) 
  		return newings
  	}
+	 
  	$('.servings').on('input', function() {
  		var val = $(this).val();
  		$("#inglist" ).replaceWith("")
@@ -330,22 +323,22 @@
  	});
 
 
-const url = new URL(window.location.href);
-function closeRecipe(t){
-	//window.location.href = 'http://www.google.com'
-    let ids = "{{ids}}".split(",")
-    console.log(ids)
-    let removedID = $(t).attr("id").split("-")[1]
-    ids.splice(ids.indexOf(removedID),1)
-    window.location.href = '/meal/'+ids.join(",")
-}
-window.onload = function(){
-	//size = url.get('size')
-	//if window.size == 'small' and recPerPage != 1:
-		//set recPerPage =1 and refresh
-	//if window.size == 'medium' and size != medium:
-		//set size parameter to medium and refresh
-}
+	const url = new URL(window.location.href);
+	function closeRecipe(t){
+		//window.location.href = 'http://www.google.com'
+		let ids = "{{ids}}".split(",")
+		console.log(ids)
+		let removedID = $(t).attr("id").split("-")[1]
+		ids.splice(ids.indexOf(removedID),1)
+		window.location.href = '/meal/'+ids.join(",")
+	}
+	window.onload = function(){
+		//size = url.get('size')
+		//if window.size == 'small' and recPerPage != 1:
+			//set recPerPage =1 and refresh
+		//if window.size == 'medium' and size != medium:
+			//set size parameter to medium and refresh
+	}
 </script>
 {% endblock scripts %}
 
