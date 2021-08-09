@@ -10,6 +10,10 @@ let recipeCT = 0;
 let recipeServings = 0;
 let recipeServingSize = "";
 
+let stepsJSON = "";
+let ingJSON = "";
+let tagsJSON = "";
+
 // removals
 const removedSteps = [];
 const removedIngredients = [];
@@ -55,18 +59,20 @@ function pushIngredients() {
   for (let i = 0; i < inps.length; i+=3) {
     ingredients.push([inps[i].value, inps[i + 1].value, inps[i + 2].value]);
   }
+  ingJSON = JSON.stringify(ingredients);
 }
 
 function setBasicInfo() {
   recipeName = $('#name').val();
-  recipeDesc = $('description').val();
-  recipeCT = $('ct').val();
-  recipeServings = $('servings').val();
-  recipeServingSize = $('servingSize').val();
+  recipeDesc = $('#description').val();
+  recipeCT = Number($('#ct').val());
+  recipeServings = Number($('#servings').val());
+  recipeServingSize = $('#servingSize').val();
 }
 
 function pushTags() {
-  tags = $('#tags').val().split(/[^a-zA-Z0-9]/);
+  tags = $('#tags').val().split(/[^\w]/);
+  // tagsJSON = JSON.stringify(tags);
 }
 
 function setRecipeInfo() {
@@ -82,11 +88,9 @@ function sendRecipeInfo() {
   const message = createFD();
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "#", true);
-  xhr.onload = function () {
-    console.log('a');
-    console.log(xhr.responseURL);
-    window.location.href = xhr.responseURL;
-  };
+  // xhr.onload = function () {
+  //   window.location.href = xhr.responseURL;
+  // };
   xhr.send(message);
 
 }
@@ -118,7 +122,7 @@ function createDict() {
   message["servingSize"] = recipeServingSize;
   message["author"] = uid;
   message["private"] = priva;
-  message["ingredients"] = ingredients;
+  message["ingredients"] = ingJSON;
   message["steps"] = steps;
   message["tags"] = tags;
   message["removedSteps"] = removedSteps;
@@ -140,7 +144,7 @@ function createFD() {
   message.append("servingSize", recipeServings);
   message.append("author", uid);
   message.append("private", priva);
-  message.append("ingredients", ingredients);
+  message.append("ingredients", ingJSON);
   message.append("steps", steps);
   message.append("tags", tags);
   // message.append("removedSteps", removedSteps);

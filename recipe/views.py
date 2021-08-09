@@ -20,10 +20,31 @@ def create_recipe(request,rid=-1):
         return redirect('accounts/login')
     if request.method == "POST":
         # add recipe to database
-        id = 4
-        recipe = Recipe.objects.get(id=id)
+        # print("\n\n")
+        # for k, v in request.POST.items():
+        #     print(k, v)
+        # print("\n\n")
+        # Recipe.createRecipe()
+        d1 = request.POST
+        d2 = {}
+        for k, v in request.POST.items():
+            d2[k] = v
+        d2["private"] = True if d2["private"] == "true" else False
+        d2["tags"] = d2["tags"].split(",")
+        d2["steps"] = d2["steps"].split(",")
+
+        print("\n\n")
+        print(d2["steps"])
+        print(d2["tags"])
+        print(d2["ingredients"])
+        d2["ingredients"] = json.loads(d2["ingredients"])
+        print(d2["ingredients"])
+        print("\n\n")
+        recipe = Recipe.createRecipeFromDict(d2)
+        id = recipe.id
         test = 0
-        return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
+        return
+        # return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
     context={'classifications':Recipe.Classifications}
     if rid != -1:
         r = Recipe.objects.get(id=rid)
