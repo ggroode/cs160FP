@@ -18,7 +18,10 @@ def search_recipes(request):
     private = bool(request.GET.get('visibility-private',False))
     public =bool(request.GET.get('visibility-public',False))
     # putting search parameters in proper form and filtering
-    recipes = Recipe.objects.filter(Q(private=False) | Q(private=True,author=request.user))
+    if request.user.is_authenticated:
+        recipes = Recipe.objects.filter(Q(private=False) | Q(private=True,author=request.user))
+    else:
+        recipes=Recipe.objects.filter(private=False)
     recipes = recipes.filter(name__contains=name)
     if authors:
         authors = User.objects.filter(username__in=re.split("[^\w]+",authors))
@@ -31,11 +34,8 @@ def search_recipes(request):
         ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
         for ing in ingredients:
             recipes = recipes.filter(ingredient__name=ing)
-    if not (public and private):
-        if not public and not private:
-            recipes=recipes.filter(id=-1) #forces end of query
-        else:
-            recipes = recipes.filter(private=private)
+    if public != private:
+        recipes = recipes.filter(private=private)
     
 
     #Setting backup filters
