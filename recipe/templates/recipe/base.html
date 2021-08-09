@@ -72,12 +72,21 @@
                 });
             }
 
+            highlight2 (index) {
+                this.stars.forEach((star, i) => {
+                    {% comment %} index is the rating so i needs to be larger than the rating but smaller than 1-rating{% endcomment %}
+                    {% comment %} buggy need fix {% endcomment %}
+                    star.classList.toggle('half', index < i < index + 1);
+                });
+            }
+
         constructor () {
             super();
             this.number = this.number;
             if (this.getAttribute('display') == "no") {
                 console.log(this.getAttribute('value'))
                 this.highlight(this.getAttribute('value') - 1 || 0);
+                this.highlight2(this.getAttribute('value') - 1 || 0);
             }
             this.addEventListener('click', e => {
                 let box = this.getBoundingClientRect(),
