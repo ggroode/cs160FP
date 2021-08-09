@@ -133,6 +133,7 @@ def register(request):
             user = form.save()
             login(request, user)
             return search_recipes(request)
+        return redirect(request.path+"?flash=Invalid Password!")
 
 @csrf_exempt
 def comment(request):
