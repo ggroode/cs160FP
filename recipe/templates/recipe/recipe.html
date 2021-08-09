@@ -37,7 +37,7 @@
                     <div class="col-md-4">
                         <div>
                             Rating: {{recipe.rating}}
-                            {% with recipe.rating as rating %}
+                            {% with ecipe.rating as rating %}
                                 {% include 'recipe/rating.html' %}
                             {% endwith %}
                         </div>
@@ -64,7 +64,6 @@
                     {% endfor %}
                 </div>
                 <div class="col-md-4">
-                    <!-- need to figure out how to deal with the servings -->
                     Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
                         <ul type="circle">
@@ -85,7 +84,7 @@
                     {% endfor %}
                     </ol>
                     Rate this Recipe: <br>
-                    {% with input as rating %}
+                    {% with 'input' as rating %}
                         {% include 'recipe/rating.html' %}
                     {% endwith %}
                     <!-- figure out the star ratings? Maybe only one rating combo of user and recipe? and then you replace it -->
@@ -95,8 +94,9 @@
         <div id="comments">
             Comments:
             <input id="yourcomment" type="text" placeholder="Add a comment">
-            <label class="btn border btn-outline-info" id="addcomment"></label>
+            <label class="btn border btn-outline-info" id="addcomment">Save</label>
             <br>
+            <div id ="oldcomments">
             {% for comment in recipe.comments %} 
                     {{comment.author}}: {{comment.content}}
                     <br>
@@ -104,6 +104,7 @@
                     <br>
             <br>
             {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock content %} 
@@ -155,19 +156,14 @@
             var new_val = val/{{recipe.servings}}
             var a = get_new_ing_list(new_val);
             // page refresh? tmux
-            // var newingredient = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:6 %} <li>{{ingredient}}</li>{% endfor %}</ul>";
         });
         $('#addcomment').click(function() {
             $.post("{% url 'comment'%}",{
             id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:Date.now() }
              {% comment %} },
             function(data,status,JqXHR) {
-                const ingredients = data.split(",");
-                document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
-                for (var i = 0; i < ingredients.length;i++) {
-                    document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
-                }
-                document.getElementById("inglist").innerHTML += "</ul>"
+                need this to add the comment
+                $( "#oldcomments" ).prepend();
             } {% endcomment %}
             ) 
 

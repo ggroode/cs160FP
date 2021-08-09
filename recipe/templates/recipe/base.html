@@ -83,10 +83,7 @@
                 let box = this.getBoundingClientRect(),
                     starIndex = Math.floor((e.pageX - box.left) / box.width * this.stars.length);
                 if (this.getAttribute('display') == "yes") {
-                    console.log({{recipe.id}})
-                    console.log(uid)
-                    console.log(starIndex + 1)
-                    $.post("{% url 'rate' %}",{id: {{recipe.id}}, rater: uid, rating: starIndex + 1});
+                    $.post("{% url 'rate' %}",{id: $(this).attr("id").split("-")[1], rater: uid, rating: starIndex + 1});
                     this.highlight(starIndex);
                 }
             });
