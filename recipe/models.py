@@ -61,15 +61,22 @@ class Recipe(models.Model):
         # assert ratingValue in [1,2,3,4,5]
         user = User.objects.get(id=userName)
         rating = Rating.objects.filter(recipe_id=self.id,author=user).first()
+
         if rating:
             rating.value = ratingValue
             rating.save()
         else:
             Rating.objects.create(recipe=self,author=user,value=ratingValue)
 
+    def comment(self, userName,content,date_time):
+        user = User.objects.get(id=userName)
+        print(content)
+        print(date_time)
+        Comment.objects.create(recipe=self,author=user,content=content)
+
 
     def addIngredient(self,ingredientName,unit,quantity):
-        ingredientName = " ".join([ps.plur2sing(word) for word in ingredientName.split(' ')])
+        ingredientName = " ".join([ps.plur2sing(word.lower()) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
         ing = Ingredient.objects.filter(name=ingredientName).first()
         if not ing:
@@ -140,11 +147,11 @@ class Recipe(models.Model):
                 quantity = int(quantity)
             if unit in ['count','cnt']:
                 if quantity == 1:
-                    ingTextList.append("{} {}".format(quantity,name))
+                    ingTextList.append("{} {}".format(quantity,name.capitalize()))
                 else:
-                    ingTextList.append("{} {}".format(quantity,pluralize(name)))
+                    ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
             else:
-                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name)))
+                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
         return ingTextList
 
 class Meal(models.Model):
@@ -165,6 +172,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User,on_delete=CASCADE)
     content = models.CharField(max_length=500)
     date_modified = models.DateTimeField(auto_now=True)
+
 
 class Rating(models.Model):
     recipe = models.ForeignKey(Recipe,on_delete=CASCADE)

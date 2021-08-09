@@ -56,33 +56,34 @@
                 this.stars = [];
                 while (this.firstChild) {
                     this.removeChild(this.firstChild);
+                 }
+                for (let i = 0; i < this.number; i++) {
+                    let s = document.createElement('div');
+                    s.className = 'star';
+                    this.appendChild(s);
+                    this.stars.push(s);
+                }
+                this.value = this.value;
             }
-            for (let i = 0; i < this.number; i++) {
-                let s = document.createElement('div');
-                s.className = 'star';
-                this.appendChild(s);
-                this.stars.push(s);
-            }
-            this.value = this.value;
-        }
 
-        highlight (index) {
-            this.stars.forEach((star, i) => {
-                star.classList.toggle('full', i <= index);
-            });
-        }
+            highlight (index) {
+                this.stars.forEach((star, i) => {
+                    star.classList.toggle('full', i <= index);
+                });
+            }
 
         constructor () {
             super();
             this.number = this.number;
+            if (this.getAttribute('display') == "no") {
+                console.log(this.getAttribute('value'))
+                this.highlight(this.getAttribute('value') - 1 || 0);
+            }
             this.addEventListener('click', e => {
                 let box = this.getBoundingClientRect(),
                     starIndex = Math.floor((e.pageX - box.left) / box.width * this.stars.length);
                 if (this.getAttribute('display') == "yes") {
-                    console.log({{recipe.id}})
-                    console.log(uid)
-                    console.log(starIndex + 1)
-                    $.post("{% url 'rate' %}",{id: {{recipe.id}}, rater: uid, rating: starIndex + 1});
+                    $.post("{% url 'rate' %}",{id: $(this).attr("id").split("-")[1], rater: uid, rating: starIndex + 1});
                     this.highlight(starIndex);
                 }
             });

@@ -2,16 +2,36 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 import json
-from .models import Recipe
+from .models import Recipe,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+import re
+
 # Create your views here.
 def search_recipes(request):
+    #getting search parameters
     name = request.GET.get("name","")
+    authors = request.GET.get('author',"")
+    tags = request.GET.get('tags',"")
+    ingredients = request.GET.get('ingredients',"")
+    # putting search parameters in proper form and filtering
     recipes = Recipe.objects.filter(name__contains=name)
-    filters = zip(['visibility','classification','min-rating','cooking-time','author','tag','ingredients'],
-    ['multi-select','multi-select','text','text','text','text','text'],
-    [('public','private'),('entree','side','dessert','appetizer'),(),(),(),(),(),()])
+    if authors:
+        authors = User.objects.filter(username__in=re.split("[^\w]+",authors))
+        recipes = recipes.filter(author__in= authors)
+    if tags:
+        tags = re.split("[^\w]+",tags)
+        for tag in tags:
+            recipes = recipes.filter(tag__name=tag)
+    if ingredients:
+        ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
+        for ing in ingredients:
+            recipes = recipes.filter(ingredient__name=ing)
+    #Setting backup filters
+    filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
+    ['multi-select','multi-select','numeric','numeric','text','text','text'],
+    [('public','private'),('entree','side','dessert','appetizer'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
+
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
@@ -102,3 +122,14 @@ def register(request):
             user = form.save()
             login(request, user)
             return search_recipes(request)
+
+@csrf_exempt
+def comment(request):
+    rater = request.POST.get("rater")
+    recipe_id = request.POST.get("id")
+    content = request.POST.get("content")
+    date_time = request.POST.get("date_time")
+    recipe = Recipe.objects.filter(id=recipe_id)[0]
+    recipe.comment(rater,content,date_time)
+    return HttpResponse(1)
+

@@ -80,7 +80,6 @@
         form.addEventListener('submit', app.search);
     }
     app.search  = function(event){
-        event.preventDefault()
         const data = new FormData(event.target);
         const value = data.get('classification-entree');
         console.log(value)
