@@ -18,10 +18,10 @@
         <div id="top_display">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
-                        <img src='{{recipe.image.url}}'>
+                    <div class="col-md-3">
+                        <img id="image" src='{{recipe.image.url}}'>
                     </div>
-                    <div id ="name_and_desc" class="col-md-3">
+                    <div id ="name_and_desc" class="col-md-6">
                         <div id="name">
                             {{recipe.name}}
                         </div>
@@ -34,7 +34,7 @@
                             {{recipe.description}}
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div>
                             Rating: {{recipe.rating}}
                             {% with ecipe.rating as rating %}
@@ -53,7 +53,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     Classification: {{recipe.classification.label}}
                     <br>
                     Tags:
@@ -63,7 +63,7 @@
                             <br>
                     {% endfor %}
                 </div>
-                <div class="col-md-4">
+                <div id = "middlecol" class="col-md-6">
                     Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
                         <ul type="circle">
@@ -78,7 +78,7 @@
                         </ul>
                     </div>
                     Instructions | {{recipe.cookingTime}} min
-                    <ol type="1">
+                    <ol id="instlist" type="1">
                     {% for instruction in recipe.steps %} 
                         <li>{{instruction}}</li>
                     {% endfor %}
@@ -92,16 +92,18 @@
             </div>
         </div>
         <div id="comments">
-            Comments:
+            Comments <br>
             <input id="yourcomment" type="text" placeholder="Add a comment">
             <label class="btn border btn-outline-info" id="addcomment">Save</label>
             <br>
             <div id ="oldcomments">
             {% for comment in recipe.comments %} 
+                <div id="comment1">
                     {{comment.author}}: {{comment.content}}
                     <br>
                     written: {{comment.date_modified}}
                     <br>
+                </div>
             <br>
             {% endfor %}
             </div>
@@ -170,7 +172,7 @@
         });
 
         $("#edit").click(function() {
-            window.location.href = '/edit_recipe/' + {{recipe.id}}
+            window.location.href = '/edit-recipe/' + {{recipe.id}}
         });
     });
     </script>
