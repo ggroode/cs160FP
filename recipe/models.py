@@ -54,7 +54,6 @@ class Recipe(models.Model):
         totalvalue = 0
         for rate in ratings:
             totalvalue += rate.value
-            print(totalvalue)
         return totalvalue/len(ratings)
 
     def rate(self,userName,ratingValue):
@@ -70,8 +69,6 @@ class Recipe(models.Model):
 
     def comment(self, userName,content,date_time):
         user = User.objects.get(id=userName)
-        print(content)
-        print(date_time)
         Comment.objects.create(recipe=self,author=user,content=content)
 
 
