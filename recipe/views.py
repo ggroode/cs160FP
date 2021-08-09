@@ -99,10 +99,14 @@ def create_recipe(request,rid=-1):
         d2["ingredients"] = json.loads(d2["ingredients"])
         # print(d2["ingredients"])
         # print("\n\n")
+        if rid != -1:
+            Recipe.objects.get(id=rid).delete()
+            d2["id"] = rid
+            # recipe.setid(rid)
         recipe = Recipe.createRecipeFromDict(d2)
         id = recipe.id
         test = 0
-        return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
+        return redirect('/recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
     context={'classifications':Recipe.Classifications}
     if rid != -1:
         r = Recipe.objects.get(id=rid)
@@ -131,7 +135,7 @@ def meal(request,ids):
 def help(request):
     return render(request,'recipe/help.html')
 def shoppingList(request,ids):
-    #get list of recipes from ids. 
+    #get list of recipes from ids.
     #get merged ingredients from Recipe.mergeIngredients
     #convert to text with Recipe.ingredientsToText(ingredients)
     #add that to the context and of course make it point to a correct html

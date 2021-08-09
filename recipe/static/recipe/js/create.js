@@ -87,9 +87,9 @@ function sendRecipeInfo() {
   const message = createFD();
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "#", true);
-  // xhr.onload = function () {
-  //   window.location.href = xhr.responseURL;
-  // };
+  xhr.onload = function () {
+    window.location.href = xhr.responseURL;
+  };
   xhr.send(message);
 
 }
