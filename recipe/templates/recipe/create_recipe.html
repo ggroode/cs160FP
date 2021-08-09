@@ -17,12 +17,12 @@
             <label for="name">Name:</label>
             <input id="name" class="mx-2 mb-1" type="text" value="{{recipe.name}}" placeholder="My Recipe" maxlength="50" style="width:25%">
             <label for="ct">Cooking Time (minutes):</label>
-            <input id="ct" class="mx-2 mb-1" required pattern="/[0-9]*/g" type="text" value="{{recipe.cookingTime}}" placeholder="45" maxlength="6" style="width:10%">
+            <input id="ct" class="mx-2 mb-1" type="number" value="{{recipe.cookingTime}}" placeholder="45" maxlength="6" style="width:10%">
           </div>
 
           <div class="input-group mb-3">
             <label for="servings">Servings:</label>
-            <input id="servings" class="mx-2 mb-1" type="text" value="{{recipe.servings}}" placeholder="1" maxlength="2" style="width:25%">
+            <input id="servings" class="mx-2 mb-1" type="number" value="{{recipe.servings}}" placeholder="1" maxlength="2" style="width:25%">
             <label for="servingSize">Serving Size:</label>
             <input id="servingSize" class="mx-2 mb-1" type="text" value="{{recipe.servingSize}}" placeholder="1 cup" style="width:25%">
           </div>
@@ -88,7 +88,7 @@
               <li>
                 <span name="ingli">
                   <input type="text" value="{{i.0}}" placeholder="ingredient" class="border" style="width:35%">
-                  <input type="text" value="{{i.1}}" placeholder="amount" class="border" style="width:15%">
+                  <input type="number" value="{{i.1}}" placeholder="amount" class="border" style="width:15%">
                   <input type="text" value="{{i.2}}" placeholder="unit" class="border" style="width:25%">
                 </span>
                 <button type="button" class="btn btn-danger" onClick="removeIngredient(this.parentNode)">X</button>

@@ -23,7 +23,7 @@ const ingredientItem = `
 <li>
   <span name="ingli">
     <input type="text" value="" placeholder="ingredient" class="border" style="width:35%">
-    <input type="text" value="" placeholder="amount" class="border" style="width:15%">
+    <input type="number" value="" placeholder="amount" class="border" style="width:15%">
     <input type="text" value="" placeholder="unit" class="border" style="width:25%">
   </span>
   <button type="button" class="btn btn-danger" onClick="removeIngredient(this.parentNode)">X</button>
