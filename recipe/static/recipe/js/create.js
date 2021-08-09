@@ -57,7 +57,7 @@ function pushIngredients() {
   ingredients.length = 0;
   let inps = $('span[name=ingli]').children();
   for (let i = 0; i < inps.length; i+=3) {
-    ingredients.push([inps[i].value, inps[i + 1].value, inps[i + 2].value]);
+    ingredients.push([inps[i].value, Number(inps[i + 1].value), inps[i + 2].value]);
   }
   ingJSON = JSON.stringify(ingredients);
 }
@@ -138,10 +138,10 @@ function createFD() {
   message.append("name", recipeName);
   message.append("description", recipeDesc);
   message.append("cookingTime", recipeCT);
-  message.append("image", document.getElementById('upload').files[0]);
+  message.append("files[]", document.getElementById('upload').files[0]);
   message.append("classification", recipeType);
   message.append("servings", recipeServings);
-  message.append("servingSize", recipeServings);
+  message.append("servingSize", recipeServingSize);
   message.append("author", uid);
   message.append("private", priva);
   message.append("ingredients", ingJSON);
