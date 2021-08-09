@@ -1,0 +1,65 @@
+{% extends 'recipe/base.html' %}
+
+{% block style %}
+<style>
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-image:none !important;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color:#8EB19D;
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <div class="col-3"><!-- Blank Space --></div>
+        <div class="col-6">
+            <!-- Drop Down Menu -->
+            <div class="dropdown">
+                <button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Menu
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="{% url 'shopping-list' ids %}">Shopping List</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="">Save Meal</a></li>
+                </ul>
+                <div id= "rec-overflow">
+                    <a href="#" class="previous">&#8592;</a>
+                    <a href="#" class="next">&#8594;</a>
+                </div>
+            </div>
+            
+            <!-- Shopping List -->
+            <h1><u>Shopping List</u></h1>
+            <ul>
+                {% for ingredient in allIngredients %} 
+				<li>
+					{{ingredient}}
+				</li>
+				{% endfor %}
+            </ul>
+
+            <!-- Download Button -->
+            <button type="button" class="shoppingListBroken">Download</button>
+        </div>
+        <div class="col-3"><!-- Blank Space --></div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+$(function(){
+    $(".shoppingListBroken").click(function() {
+        alert("We apologize, but this feature has not been implemented.");
+    });
+});
+</script>
+{% endblock scripts %}
