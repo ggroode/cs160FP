@@ -268,7 +268,7 @@
     				{% endfor %}  
     		</ol>  -->
 		<div class="ordered-ing"id="inglist-{{recipe.id}}">
-			<ul type="circle">
+			<ul type="disc">
 				{% for ingredient in recipe|get_right_ingredients:1 %} 
 				<li>
 					{{ingredient}}
@@ -302,11 +302,20 @@
  		function(data,status,JqXHR) {
  			const ingredients = data.split(",");
 			var rightlist = "inglist-" + recipeId;
- 			document.getElementById(rightlist).innerHTML = "<ul type=\"circle\">"
+ 			//document.getElementById(rightlist).innerHTML = "<ul style type=\"circle\">"
+ 	 		document.getElementById(rightlist).innerHTML = "<ul style type=\"circle\">"
+
  			for (var i = 0; i < ingredients.length;i++) {
- 				document.getElementById(rightlist).innerHTML += "<li>"+ ingredients[i]+"</li>"
+ 				var newList = document.getElementById(rightlist);
+ 				newList.innerHTML += "<li>"+ ingredients[i] +"</li>"
+ 			 	// newList.style.textAlign = 'left';
+ 			 	// newList.style.listStylePosition = 'inside';
+
  			}
- 			document.getElementById(rightlist).innerHTML += "</ul>"
+ 		document.getElementById(rightlist).innerHTML += "</ul>"
+ 		document.getElementById(rightlist).style.color = '#42CAFD';
+ 	 	document.getElementById(rightlist).style.listStylePosition = 'inside';
+
  		}) 
  		return newings
  	}
