@@ -26,6 +26,16 @@ def search_recipes(request):
     maxRating = float(request.GET.get('rating-max',5))
     minCookingTime = float(request.GET.get('cooking time-min',0))
     maxCookingTime = float(request.GET.get('cooking time-max',"")) if request.GET.get('cooking time-max',"") else Max('cookingTime')
+
+    if not (private or public):
+        private = True
+        public = True
+    if not (entree or side or appetizer or dessert or drink):
+        entree=True
+        side = True
+        appetizer = True
+        dessert = True
+        drink = True
     # putting search parameters in proper form and filtering
     if request.user.is_authenticated:
         recipes = Recipe.objects.filter(Q(private=False) | Q(private=True,author=request.user))
@@ -33,8 +43,9 @@ def search_recipes(request):
         recipes=Recipe.objects.filter(private=False)
     recipes = recipes.filter(name__contains=name)
     if authors:
-        authors = User.objects.filter(username__in=re.split("[^\w]+",authors))
-        recipes = recipes.filter(author__in= authors)
+        authors = re.split("[^\w]+",authors)
+        authorList = User.objects.filter(username__in=authors)
+        recipes = recipes.filter(author__in= authorList)
     if tags:
         tags = re.split("[^\w]+",tags)
         for tag in tags:
@@ -43,7 +54,7 @@ def search_recipes(request):
         ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
         for ing in ingredients:
             recipes = recipes.filter(ingredient__name=ing)
-    if public != private:
+    if not (private and public):
         recipes = recipes.filter(private=private)
     if (entree or side or appetizer or dessert or drink) and not (entree and side and appetizer and dessert and drink):
         classifications = []
@@ -61,16 +72,20 @@ def search_recipes(request):
     recipes = recipes.annotate(avg_rating=Avg('rating__value'))
     if minRating ==0:
         recipes = recipes.annotate(rating_count=Count('rating'))
-        recipes = recipes.filter(Q(avg_rating__gte=minRating,avg_rating__lte=maxRating)|Q(rating_count=0))
+        recipes = recipes.filter(Q(avg_rating__lte=maxRating)|Q(rating_count=0))
     else:
         recipes = recipes.filter(avg_rating__gte=minRating,avg_rating__lte=maxRating)
     recipes = recipes.filter(cookingTime__lte=maxCookingTime,cookingTime__gte=minCookingTime)
-
+    if not request.GET.get('cooking time-max',""):
+        maxCookingTime='∞'
+    print(authors,tags)
     #Setting backup filters
-    filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
+    filters = zip(
+    ['visibility','classification','rating','cooking time','author','tags','ingredients'],
     ['multi-select','multi-select','numeric','numeric','text','text','text'],
-    [('public','private'),('entree','side','dessert','appetizer','drink'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
-
+    [zip(('public','private'),(public,private)),zip(('entree','side','dessert','appetizer','drink'),(entree,side,dessert,appetizer,drink)),
+        (0,5,'stars',minRating,maxRating),(0,'∞','min',minCookingTime,maxCookingTime),[",".join(authors)],[",".join(tags)],[",".join(ingredients)]]
+    )
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt
@@ -125,8 +140,10 @@ def recipe(request,id):
     recipe = Recipe.objects.get(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
 def meal(request,ids):
+    page = int(request.GET.get('page',1))
+    recPerPage = int(request.GET.get('recPerPage',3))
     idsList = ids.split(",")
-    recipes = Recipe.objects.filter(id__in=idsList)
+    recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 def help(request):
     return render(request,'recipe/help.html')
