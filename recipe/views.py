@@ -36,7 +36,7 @@ def search_recipes(request):
             recipes = recipes.filter(ingredient__name=ing)
     if public != private:
         recipes = recipes.filter(private=private)
-    
+
 
     #Setting backup filters
     filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
@@ -79,16 +79,18 @@ def create_recipe(request,rid=-1):
     if rid != -1:
         r = Recipe.objects.get(id=rid)
         if r.author.id != request.user.id:
-            # return redirect('recipe/{}'.format(id), context={'id':rid,'recipe':r,'test':0})
-            pass;
+            return redirect('recipe/{}?flash=You%20may%20only%20edit%20your%20own%20recipes%21'.format(rid), context={'id':rid,'recipe':r,'test':0})
         else:
-            pass;
+            context["recipe"] = r
+            context["tags"] = r.tags
+            context["ingredients"] = [[i, r.ingredients[i]["quantity"], r.ingredients[i]["unit"]] for i in r.ingredients.keys()]
+            # return render(request,'recipe/create_recipe.html', context)
     return render(request,'recipe/create_recipe.html', context)
 
-def edit_recipe(request, rid):
-    if not request.user.is_authenticated:
-        return redirect('accounts/login')
-    return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
+# def edit_recipe(request, rid):
+#     if not request.user.is_authenticated:
+#         return redirect('accounts/login')
+#     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 
 def recipe(request,id):
     test = request.GET.get("test",1)

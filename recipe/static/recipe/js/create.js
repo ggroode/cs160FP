@@ -2,7 +2,6 @@
 const steps = [];
 const ingredients = [];
 let tags = [];
-let priva = true;
 let recipeType = "Entree";
 let recipeName = "";
 let recipeDesc = "";
