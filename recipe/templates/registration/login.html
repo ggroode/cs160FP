@@ -7,12 +7,11 @@ body {
     background-size:100% auto;
 }
 #loginInput {
-    width: 260px; 
+    width: 200px; 
     border-color: black;
     border-radius: 25px;
 }
 #loginColMain {
-    /* margin-top: 15%; */
     background-color: rgba(255, 255, 255, 0.5);
 }
 </style>
@@ -23,14 +22,15 @@ body {
     <div class="row h-100 d-flex justify-content-center align-items-center">
         <div class="col-sm"><!-- Blank Space --></div>
         <div class="col-sm border border-2 border-dark rounded" id="loginColMain">
+            <h2 style="margin-top: 4%; margin-bottom: 0%;">Welcome!</h2>
             <form method="post">
                 <br>
                 {% csrf_token %}
-                {{ form.as_p }}
-                <!-- <input type="text" value="Username..."><br><br>
-                <input type="text" value="Password..."><br><br> -->
-                <br>
-                <input id="loginInput" type="submit" value="Login"><br>
+                <!-- {{ form.as_p }} -->
+                <input type="hidden" name="csrfmiddlewaretoken" value="5CJEUOUgUquXCsPdV2bBiDdbHBQwAjB3f0zRnMp2BHXKdlH61gxcPVYJRJFUNowu">
+                <p><label for="id_username"></label><input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder=" Username..." style="width: 260px; border-color: black;"></p>
+                <p><label for="id_password"></label><input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder=" Password..." style="width: 260px; border-color: black;"></p>
+                <input id="loginInput" type="submit" value="Login" style="margin-top: 3%;"><br>
             </form>
             <input class="loginBroken" id="loginInput" type="submit" value="Login with service"><br><br>
             <p><a href="{% url 'register' %}" style="text-decoration:none">New User?</a></p>

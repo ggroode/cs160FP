@@ -7,12 +7,11 @@ body {
     background-size:100% auto;
 }
 #registerInput {
-    width: 260px; 
+    width: 200px; 
     border-color: black;
     border-radius: 25px;
 }
 #registerColMain {
-    /* margin-top: 15%; */
     background-color: rgba(255, 255, 255, 0.5);
 }
 </style>
@@ -23,19 +22,38 @@ body {
     <div class="row h-100 d-flex justify-content-center align-items-center">
         <div class="col-sm"><!-- Blank Space --></div>
         <div class="col-sm border border-2 border-dark rounded" id="registerColMain">
-            <br>
-            <h2>Register</h2>
-            
+            <h2 style="margin-bottom: 5%; margin-top: 5%;">Register New User</h2>
             <form method="post">
                 {% csrf_token %}
-                {{form}}
+                <!-- {{form}} -->
+                <input type="hidden" name="csrfmiddlewaretoken" value="27ORVV1N1BOLxOm6zM4phkrKcJuh2omFQb4G807GCgXssDOed9QeS1cTZ2ss73Bz">
+                <p><label for="id_username"></label><input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username" placeholder="Username..." style="width: 260px;"></p>
+                <p><label for="id_password1"></label><input type="password" name="password1" autocomplete="new-password" required id="id_password1" placeholder="Password..." style="width: 260px;"></p>
+                <p><label for="id_password2"></label><input type="password" name="password2" autocomplete="new-password" required id="id_password2" placeholder="Password confirmation..." style="width: 260px;"></p>
                 <input id="registerInput" type="submit" value="Register">
             </form>
+            <a href="{% url 'login' %}" style="text-decoration:none">Back to login</a><br>
+            
+            <hr size="5" color="black">
 
-            <a href="{% url 'login' %}" style="text-decoration:none">Back to login</a>
-            <br><br>
+            <div>
+                <h4>Password Requirements</h4>
+                <p>
+                    <span class="helptext">
+                        <ul style="text-align: left; margin-left: 5%; list-style-type: none;">
+                            <li><b>Must</b> be 150 characters or fewer.</li>
+                            <li><b>Must</b> be letters, digits and @/./+/-/_ only.</li>
+                            <li><b>Must</b> contain at least 8 characters.</li>
+                            <li><b>Can’t</b> be a commonly used password.</li>
+                            <li><b>Can’t</b> be entirely numeric.</li>
+                            <li><b>Can’t</b> be too similar other personal information.</li>
+                        </ul>
+                    </span>
+                </p>
+            </div>
         </div>
         <div class="col-sm"><!-- Blank Space --></div>
     </div>
 </div>
 {% endblock %}
+
