@@ -54,6 +54,7 @@
 		}
 		h5{
 			text-align: center;
+			font-weight: bold;
 		}
 		input[type='number'] {
 			width: 55px;
@@ -198,13 +199,13 @@
 			</button>
 
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-				<li><a class="dropdown-item" href="">Shopping List</a></li>
+				<li><a class="dropdown-item" href="{% url 'shopping-list' ids %}">Shopping List</a></li>
 				<li><hr class="dropdown-divider"></li>
 				<li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
 				<li><hr class="dropdown-divider"></li>
 				<li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
 				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="#">Save Meal</a></li>
+				<li><a class="dropdown-item" href="">Save Meal</a></li>
 			</ul>
 
 			<div id= "rec-overflow">
@@ -218,7 +219,7 @@
 
 		{% for recipe in recipes %} 
 		<div class="col-md-4 scroll p-0" id= "box1"> 
-			<button type="button" class="btn-close exit" aria-label="Close"></button>
+			<button type="button" class="btn-close exit" id= "close-{{recipe.id}}" onClick="closeRecipe()"></button>
 
 			<h1> {{recipe.name}} </h1>
 			<!-- Button trigger modal -->
@@ -227,23 +228,23 @@
 					Rating
 				</button>
 			</div>
-			<button type="button" class="btn btn-default" aria-label="Left Align">
-				<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="false"></span>
-			</button>
-
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							{% with recipe.rating as rating %}
-							<h5 class="modal-title text-center" id="exampleModalLabel"> Average {% include 'recipe/rating.html' %}/5</h5>
+							<h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: {% include 'recipe/rating.html' %}</h5>
 							{% endwith %}
 
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
-							How would you rate this recipe? 
+							<h5> How would you rate this recipe? 
+							{% with 'input' as rating %}
+							{% include 'recipe/rating.html' %}
+							{% endwith %}
+							</h5>
 							<div style="display:inline-block;" id="rateYo"></div>
 							<input type="hidden" name="rating" id="rating_input"/>
 
@@ -315,6 +316,16 @@
  		var a = get_new_ing_list(new_val);
  	});
  });
+
+
+const url = new URL(window.location.href);
+function closeRecipe(){
+	//window.location.href = 'http://www.google.com'
+    let ids = url.searchParams.get('ids').split(",")
+    let removedID = $(this).attr("id").split("-")[1]
+    ids = ids.splice(ids.indexOf(removedID),1)
+    window.location.href = '/meal/?ids='+ids.join(",")
+}
 </script>
 {% endblock scripts %}
 
