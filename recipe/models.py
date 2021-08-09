@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.core.validators import MaxValueValidator
-from nltk.stem import ARLSTem2
+from nltk.stem import PorterStemmer
 import re
 
-ps = ARLSTem2()
+ps = PorterStemmer()
 
 def pluralize(noun):
     if re.search('[sxz]$', noun):
@@ -76,7 +76,7 @@ class Recipe(models.Model):
 
 
     def addIngredient(self,ingredientName,unit,quantity):
-        ingredientName = " ".join([ps.plur2sing(word.lower()) for word in ingredientName.split(' ')])
+        ingredientName = " ".join([ps.stem(word.lower()) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
         ing = Ingredient.objects.filter(name=ingredientName).first()
         if not ing:
