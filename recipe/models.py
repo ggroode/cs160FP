@@ -82,9 +82,11 @@ class Recipe(models.Model):
         if not ing:
             ing = Ingredient.objects.create(name=ingredientName)
         ing.recipes.add(self)
+        self.save()
 
     def addStep(self,stepText):
         self.steps.append(stepText)
+        self.save()
 
     def ingredientsAsText(self,multiplier):
         return Recipe.ingredientsToText(self.ingredients,multiplier)
@@ -125,11 +127,6 @@ class Recipe(models.Model):
 
     @staticmethod
     def createRecipeFromDict(dict):
-        # print("\n\n\n\n\n\n")
-        # print(dict.get("ingredients").split(','))
-        # print(dict.get("ingredients"))
-        # print(type(dict.get("ingredients")))
-        # print("\n\n\n\n\n\n")
         return Recipe.createRecipe(name = dict.get("name"), description = dict.get("description"),
          cookingTime = dict.get("cookingTime"), image = dict.get("image"),
          classification = dict.get("classification"), servings = dict.get("servings"),
