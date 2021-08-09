@@ -5,11 +5,12 @@
     <div class="px-1">
          <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
          <div class="float-start">
-            {% with recipe.rating as rating %}
+            {% with recipe.rating as rating  edit=1 %}
                 <h6>{% include 'recipe/rating.html' %}</h6>
             {% endwith %}
             <p>By {{recipe.author.username}}</p>
          </div>
          <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
-    </div>  
+
+    </div>
 </div>

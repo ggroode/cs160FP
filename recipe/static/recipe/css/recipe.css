@@ -52,3 +52,11 @@
     text-align: center;
     text-decoration: underline;
 }
+#edit {
+    height: 40px;
+    width: 40px;
+}
+#pencil {
+    height: 100%;
+    width: 100%;
+}

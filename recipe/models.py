@@ -4,7 +4,7 @@ from django.db.models.deletion import CASCADE
 from django.core.validators import MaxValueValidator
 from nltk.stem import PorterStemmer
 import re
-  
+
 ps = PorterStemmer()
 
 def pluralize(noun):
@@ -27,8 +27,8 @@ class Recipe(models.Model):
         ENTREE = 'en'
         SIDE = 'si'
         APPETIZER = 'ap'
-        DRINK ='dr' 
- 
+        DRINK ='dr'
+
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=250)
     cookingTime = models.IntegerField()
@@ -51,20 +51,32 @@ class Recipe(models.Model):
         ratings = Rating.objects.filter(recipe_id=self.id)
         if len(ratings)==0:
             return 0
-        return sum(ratings)/len(ratings)
+        totalvalue = 0
+        for rate in ratings:
+            totalvalue += rate.value
+            print(totalvalue)
+        return totalvalue/len(ratings)
 
     def rate(self,userName,ratingValue):
         # assert ratingValue in [1,2,3,4,5]
-        user = User.objects.get(username=userName)
+        user = User.objects.get(id=userName)
         rating = Rating.objects.filter(recipe_id=self.id,author=user).first()
+
         if rating:
             rating.value = ratingValue
+            rating.save()
         else:
             Rating.objects.create(recipe=self,author=user,value=ratingValue)
-            
+
+    def comment(self, userName,content,date_time):
+        user = User.objects.get(id=userName)
+        print(content)
+        print(date_time)
+        Comment.objects.create(recipe=self,author=user,content=content)
+
 
     def addIngredient(self,ingredientName,unit,quantity):
-        ingredientName = " ".join([ps.plur2sing(word) for word in ingredientName.split(' ')])
+        ingredientName = " ".join([ps.stem(word.lower()) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
         ing = Ingredient.objects.filter(name=ingredientName).first()
         if not ing:
@@ -73,7 +85,7 @@ class Recipe(models.Model):
 
     def addStep(self,stepText):
         self.steps.append(stepText)
-    
+
     def ingredientsAsText(self,multiplier):
         return Recipe.ingredientsToText(self.ingredients,multiplier)
 
@@ -82,7 +94,7 @@ class Recipe(models.Model):
         if not tag:
             tag = Tag.objects.create(name=tagName)
         tag.recipes.add(self)
-    
+
     @staticmethod
     def mergeIngredients(recipeList):
         ingredients = dict()
@@ -96,10 +108,11 @@ class Recipe(models.Model):
                 else:
                     ingredients[ingredientName] = recipe.ingredients[ingredientName]
         return ingredients
-    
+
     @staticmethod
     def createRecipe(name,description,cookingTime,image,classification,servings,servingSize,authorUserName,private=False,ingredients=[],steps=[],tags=[]):
-        user = User.objects.get(username=authorUserName)
+        # user = User.objects.get(username=authorUserName)
+        user = User.objects.get(id=authorUserName)
         r = Recipe(name=name,description=description,cookingTime=cookingTime,image=image,classification=classification,servings=servings,servingSize=servingSize,author=user,private=private)
         r.save()
         for name,quantity,unit in ingredients:
@@ -108,7 +121,22 @@ class Recipe(models.Model):
             r.addStep(step)
         for tag in tags:
             r.addTag(tag)
-    
+        return r
+
+    @staticmethod
+    def createRecipeFromDict(dict):
+        # print("\n\n\n\n\n\n")
+        # print(dict.get("ingredients").split(','))
+        # print(dict.get("ingredients"))
+        # print(type(dict.get("ingredients")))
+        # print("\n\n\n\n\n\n")
+        return Recipe.createRecipe(name = dict.get("name"), description = dict.get("description"),
+         cookingTime = dict.get("cookingTime"), image = dict.get("image"),
+         classification = dict.get("classification"), servings = dict.get("servings"),
+         servingSize = dict.get("servingSize"), authorUserName = dict.get("author"),
+         private = dict.get("private"), ingredients=dict.get("ingredients"),
+         steps = dict.get("steps"), tags = dict.get("tags"))
+
     @staticmethod
     def ingredientsToText(ingredients,multiplier):
         ingTextList=[]
@@ -119,11 +147,11 @@ class Recipe(models.Model):
                 quantity = int(quantity)
             if unit in ['count','cnt']:
                 if quantity == 1:
-                    ingTextList.append("{} {}".format(quantity,name))
+                    ingTextList.append("{} {}".format(quantity,name.capitalize()))
                 else:
-                    ingTextList.append("{} {}".format(quantity,pluralize(name)))
+                    ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
             else:
-                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name)))
+                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
         return ingTextList
 
 class Meal(models.Model):
@@ -145,8 +173,8 @@ class Comment(models.Model):
     content = models.CharField(max_length=500)
     date_modified = models.DateTimeField(auto_now=True)
 
+
 class Rating(models.Model):
     recipe = models.ForeignKey(Recipe,on_delete=CASCADE)
     author = models.ForeignKey(User,on_delete=CASCADE)
     value = models.IntegerField(validators=[MaxValueValidator(5)]) #1,2,3,4,5
-

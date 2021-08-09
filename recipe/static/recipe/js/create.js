@@ -10,6 +10,10 @@ let recipeCT = 0;
 let recipeServings = 0;
 let recipeServingSize = "";
 
+let stepsJSON = "";
+let ingJSON = "";
+let tagsJSON = "";
+
 // removals
 const removedSteps = [];
 const removedIngredients = [];
@@ -55,18 +59,20 @@ function pushIngredients() {
   for (let i = 0; i < inps.length; i+=3) {
     ingredients.push([inps[i].value, inps[i + 1].value, inps[i + 2].value]);
   }
+  ingJSON = JSON.stringify(ingredients);
 }
 
 function setBasicInfo() {
   recipeName = $('#name').val();
-  recipeDesc = $('description').val();
-  recipeCT = $('ct').val();
-  recipeServings = $('servings').val();
-  recipeServingSize = $('servingSize').val();
+  recipeDesc = $('#description').val();
+  recipeCT = Number($('#ct').val());
+  recipeServings = Number($('#servings').val());
+  recipeServingSize = $('#servingSize').val();
 }
 
 function pushTags() {
-  tags = $('#tags').val().split(/[^a-zA-Z0-9]/);
+  tags = $('#tags').val().split(/[^\w]/);
+  // tagsJSON = JSON.stringify(tags);
 }
 
 function setRecipeInfo() {
@@ -79,10 +85,14 @@ function setRecipeInfo() {
 function sendRecipeInfo() {
   // TODO: finish
   setRecipeInfo();
-  const message = createDict();
+  const message = createFD();
   let xhr = new XMLHttpRequest();
   xhr.open("POST", "#", true);
+  // xhr.onload = function () {
+  //   window.location.href = xhr.responseURL;
+  // };
   xhr.send(message);
+
 }
 
 function removeStep(item) {
@@ -112,7 +122,7 @@ function createDict() {
   message["servingSize"] = recipeServingSize;
   message["author"] = uid;
   message["private"] = priva;
-  message["ingredients"] = ingredients;
+  message["ingredients"] = ingJSON;
   message["steps"] = steps;
   message["tags"] = tags;
   message["removedSteps"] = removedSteps;
@@ -122,6 +132,27 @@ function createDict() {
   return message;
 }
 
+function createFD() {
+  const message = new FormData();
+
+  message.append("name", recipeName);
+  message.append("description", recipeDesc);
+  message.append("cookingTime", recipeCT);
+  message.append("image", document.getElementById('upload').files[0]);
+  message.append("classification", recipeType);
+  message.append("servings", recipeServings);
+  message.append("servingSize", recipeServings);
+  message.append("author", uid);
+  message.append("private", priva);
+  message.append("ingredients", ingJSON);
+  message.append("steps", steps);
+  message.append("tags", tags);
+  // message.append("removedSteps", removedSteps);
+  // message.append("removedIngredients", removedIngredients);
+  // message.append("removedTags", removedTags);
+
+  return message;
+}
 
 // very cool image js
 /*  ==========================================
