@@ -63,23 +63,23 @@ def create_recipe(request,rid=-1):
         d2["private"] = True if d2["private"] == "true" else False
         d2["tags"] = d2["tags"].split(",")
         d2["steps"] = d2["steps"].split(",")
-
-        print("\n\n")
-        print(d2["steps"])
-        print(d2["tags"])
-        print(d2["ingredients"])
+        d2["image"] = request.FILES['files[]']
+        # print("\n\n")
+        # print(d2["steps"])
+        # print(d2["tags"])
+        # print(d2["ingredients"])
         d2["ingredients"] = json.loads(d2["ingredients"])
-        print(d2["ingredients"])
-        print("\n\n")
+        # print(d2["ingredients"])
+        # print("\n\n")
         recipe = Recipe.createRecipeFromDict(d2)
         id = recipe.id
         test = 0
-        return
-        # return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
+        return redirect('recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
     context={'classifications':Recipe.Classifications}
     if rid != -1:
         r = Recipe.objects.get(id=rid)
         if r.author.id != request.user.id:
+            # return redirect('recipe/{}'.format(id), context={'id':rid,'recipe':r,'test':0})
             pass;
         else:
             pass;
@@ -143,4 +143,3 @@ def comment(request):
     recipe = Recipe.objects.filter(id=recipe_id)[0]
     recipe.comment(rater,content,date_time)
     return HttpResponse(1)
-
