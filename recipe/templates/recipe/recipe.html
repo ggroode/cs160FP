@@ -168,6 +168,10 @@
             ) 
 
         });
+
+        $("#edit").click(function() {
+            window.location.href = '/edit_recipe/' + {{recipe.id}}
+        });
     });
     </script>
 {% endblock scripts %}

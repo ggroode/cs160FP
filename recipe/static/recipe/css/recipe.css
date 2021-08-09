@@ -55,8 +55,10 @@
 #edit {
     height: 40px;
     width: 40px;
+    cursor: pointer;
 }
 #pencil {
     height: 100%;
     width: 100%;
+    cursor: pointer;
 }
