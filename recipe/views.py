@@ -101,6 +101,10 @@ def meal(request,ids):
 def help(request):
     return render(request,'recipe/help.html')
 def shoppingList(request,ids):
+    #get list of recipes from ids. 
+    #get merged ingredients from Recipe.mergeIngredients
+    #convert to text with Recipe.ingredientsToText(ingredients)
+    #add that to the context and of course make it point to a correct html
     return render(request,'recipe/base.html')
 
 @csrf_exempt
