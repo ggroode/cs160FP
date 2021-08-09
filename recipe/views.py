@@ -5,7 +5,7 @@ import json
 from .models import Recipe,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from django.db.models import Q
+from django.db.models import Q, Avg, Count,Max
 import re
 
 # Create your views here.
@@ -22,6 +22,10 @@ def search_recipes(request):
     appetizer = bool(request.GET.get('classification-appetizer',False))
     dessert = bool(request.GET.get('classification-dessert',False))
     drink = bool(request.GET.get('classification-drink',False))
+    minRating = float(request.GET.get('rating-min',0))
+    maxRating = float(request.GET.get('rating-max',5))
+    minCookingTime = float(request.GET.get('cooking time-min',0))
+    maxCookingTime = float(request.GET.get('cooking time-max',"")) if request.GET.get('cooking time-max',"") else Max('cookingTime')
     # putting search parameters in proper form and filtering
     if request.user.is_authenticated:
         recipes = Recipe.objects.filter(Q(private=False) | Q(private=True,author=request.user))
@@ -54,7 +58,13 @@ def search_recipes(request):
         if drink:
             classifications.append('dr')
         recipes = recipes.filter(classification__in=classifications)
-
+    recipes = recipes.annotate(avg_rating=Avg('rating__value'))
+    if minRating ==0:
+        recipes = recipes.annotate(rating_count=Count('rating'))
+        recipes = recipes.filter(Q(avg_rating__gte=minRating,avg_rating__lte=maxRating)|Q(rating_count=0))
+    else:
+        recipes = recipes.filter(avg_rating__gte=minRating,avg_rating__lte=maxRating)
+    recipes = recipes.filter(cookingTime__lte=maxCookingTime,cookingTime__gte=minCookingTime)
 
     #Setting backup filters
     filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
