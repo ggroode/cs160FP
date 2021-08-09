@@ -322,6 +322,7 @@ const url = new URL(window.location.href);
 function closeRecipe(t){
 	//window.location.href = 'http://www.google.com'
     let ids = "{{ids}}".split(",")
+    console.log(ids)
     let removedID = $(t).attr("id").split("-")[1]
     ids.splice(ids.indexOf(removedID),1)
     window.location.href = '/meal/'+ids.join(",")
