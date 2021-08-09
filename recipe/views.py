@@ -126,7 +126,7 @@ def create_recipe(request,rid=-1):
     if rid != -1:
         r = Recipe.objects.get(id=rid)
         if r.author.id != request.user.id:
-            return redirect('recipe/{}?flash=You%20may%20only%20edit%20your%20own%20recipes%21'.format(rid), context={'id':rid,'recipe':r,'test':0})
+            return redirect('/recipe/{}?flash=You%20may%20only%20edit%20your%20own%20recipes%21'.format(rid), context={'id':rid,'recipe':r,'test':0})
         else:
             context["recipe"] = r
             context["tags"] = r.tags
