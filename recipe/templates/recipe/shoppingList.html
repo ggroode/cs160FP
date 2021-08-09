@@ -1,0 +1,73 @@
+{% extends 'recipe/base.html' %}
+
+{% block style %}
+<style>
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-image:none !important;
+}
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color:#8EB19D;
+}
+.myContentMiddle {
+    height: 100vh;
+    border-left: 1px solid #333;
+    border-right: 1px solid #333;
+}
+.menu{
+    background-color: #F6EFA6;
+    margin-top: 0px;
+    margin-left: 0px;
+
+}
+</style>
+{% endblock style %}
+
+{% block content %}
+<div class="container-fluid" style="padding: 0px;">
+    <div class="row">
+        <div class="col-lg-3 col-md-2 col-sm-1">
+            <img src="../../static/recipe/images/BLT-Small.png" alt="" class="w-100 h-100"/>
+        </div>
+        
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <div class="myContentMiddle">
+                <!-- Drop Down Menu -->
+                <div class="dropdown">
+                    <button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Menu
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{% url 'shopping-list' ids %}">Shopping List</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="">Save Meal</a></li>
+                    </ul>
+                </div>
+                
+                <h1 style="text-align: center; margin-bottom: 5%;"><u>Shopping List</u></h1>
+                
+                <div class="text-center">
+                    <!-- Shopping List -->
+                    <ul style="text-align: left; margin-left: 15%; list-style-type: none; font-size: 20px;">
+                        {% for ingredient in allIngredients %} 
+                            <li style="margin-bottom: 2%;"><input type="checkbox" style="width: 20px; height: 15px;"><span> {{ingredient}}</span></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Download Button -->
+                <div style="text-align: center;">
+                    <button type="button" class="btn color4" onclick="window.print();">Download</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-2 col-sm-1">
+            <img src="../../static/recipe/images/BLT-Small.png" alt="" class="w-100 h-100"/>
+        </div>
+    </div>
+</div>
+{% endblock content %}

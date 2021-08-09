@@ -54,7 +54,6 @@ class Recipe(models.Model):
         totalvalue = 0
         for rate in ratings:
             totalvalue += rate.value
-            print(totalvalue)
         return totalvalue/len(ratings)
 
     def setid(self, id):
@@ -75,8 +74,6 @@ class Recipe(models.Model):
 
     def comment(self, userName,content,date_time):
         user = User.objects.get(id=userName)
-        print(content)
-        print(date_time)
         Comment.objects.create(recipe=self,author=user,content=content)
 
 
@@ -95,6 +92,13 @@ class Recipe(models.Model):
 
     def ingredientsAsText(self,multiplier):
         return Recipe.ingredientsToText(self.ingredients,multiplier)
+
+    @property
+    def stepsAsHtml(self):
+        steps = []
+        for step in self.steps:
+            steps.append("<h5>"+step+"</h5><br>")
+        return steps
 
     def addTag(self,tagName):
         tag = Tag.objects.filter(name=tagName).first()

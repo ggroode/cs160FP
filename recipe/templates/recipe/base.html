@@ -74,26 +74,26 @@
 
             highlight2 (index) {
                 this.stars.forEach((star, i) => {
-                    {% comment %} index is the rating so i needs to be larger than the rating but smaller than 1-rating{% endcomment %}
-                    {% comment %} buggy need fix {% endcomment %}
-                    {% comment %} star.classList.toggle('half', index < i < index + 1); {% endcomment %}
+                    star.classList.toggle('half',  i < index + 1);
                 });
             }
 
         constructor () {
             super();
             this.number = this.number;
-            console.log($(this).attr("id").split("-")[1]);
-            console.log("value:" + this.getAttribute('value'));
             if (this.getAttribute('display') == "no") {
-                {% comment %} console.log(this.getAttribute('value')) {% endcomment %}
                 this.highlight(this.getAttribute('value') - 1 || 0);
                 this.highlight2(this.getAttribute('value') - 1 || 0);
             }
+            var None = -1;
             this.addEventListener('click', e => {
                 let box = this.getBoundingClientRect(),
                     starIndex = Math.floor((e.pageX - box.left) / box.width * this.stars.length);
                 if (this.getAttribute('display') == "yes") {
+                    if ({{user.id}} == -1) {
+                        alert("Please Sign In to Rate!");
+                        return;
+                    }
                     $.post("{% url 'rate' %}",{id: $(this).attr("id").split("-")[1], rater: uid, rating: starIndex + 1});
                     this.highlight(starIndex);
                 }
