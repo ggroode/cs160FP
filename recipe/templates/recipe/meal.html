@@ -217,7 +217,7 @@
 		</div>
 
 		{% for recipe in recipes %} 
-		<div class="col-md-4 scroll p-0" id= "box1"> 
+		<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
 			<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
 			<h1> {{recipe.name}} </h1>
@@ -338,6 +338,13 @@ function closeRecipe(t){
     let removedID = $(t).attr("id").split("-")[1]
     ids.splice(ids.indexOf(removedID),1)
     window.location.href = '/meal/'+ids.join(",")
+}
+window.onload = function(){
+	//size = url.get('size')
+	//if window.size == 'small' and recPerPage != 1:
+		//set recPerPage =1 and refresh
+	//if window.size == 'medium' and size != medium:
+		//set size parameter to medium and refresh
 }
 </script>
 {% endblock scripts %}
