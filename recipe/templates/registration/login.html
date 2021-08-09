@@ -25,11 +25,11 @@ body {
             <h2 style="margin-top: 4%; margin-bottom: 0%;">Welcome!</h2>
             <form method="post">
                 <br>
-                {% csrf_token %} -->
-                {{ form.as_p }}
-                <!-- <input type="hidden" name="csrfmiddlewaretoken" value="5CJEUOUgUquXCsPdV2bBiDdbHBQwAjB3f0zRnMp2BHXKdlH61gxcPVYJRJFUNowu">
+                {% csrf_token %}
+                <!-- {{ form.as_p }} -->
+                <!-- <input type="hidden" name="csrfmiddlewaretoken" value="5CJEUOUgUquXCsPdV2bBiDdbHBQwAjB3f0zRnMp2BHXKdlH61gxcPVYJRJFUNowu"> -->
                 <p><label for="id_username"></label><input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username" placeholder=" Username..." style="width: 260px; border-color: black;"></p>
-                <p><label for="id_password"></label><input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder=" Password..." style="width: 260px; border-color: black;"></p> -->
+                <p><label for="id_password"></label><input type="password" name="password" autocomplete="current-password" required id="id_password" placeholder=" Password..." style="width: 260px; border-color: black;"></p>
                 <input id="loginInput" type="submit" value="Login" style="margin-top: 3%;"><br>
             </form>
             <input class="loginBroken" id="loginInput" type="submit" value="Login with service"><br><br>
