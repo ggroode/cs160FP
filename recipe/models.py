@@ -56,6 +56,11 @@ class Recipe(models.Model):
             totalvalue += rate.value
         return totalvalue/len(ratings)
 
+    def setid(self, id):
+        if id != -1:
+            self.id = id
+            self.save()
+
     def rate(self,userName,ratingValue):
         # assert ratingValue in [1,2,3,4,5]
         user = User.objects.get(id=userName)
@@ -116,10 +121,12 @@ class Recipe(models.Model):
         return ingredients
 
     @staticmethod
-    def createRecipe(name,description,cookingTime,image,classification,servings,servingSize,authorUserName,private=False,ingredients=[],steps=[],tags=[]):
+    def createRecipe(name,description,cookingTime,image,classification,servings,servingSize,authorUserName,private=False,ingredients=[],steps=[],tags=[], optid = False):
         # user = User.objects.get(username=authorUserName)
         user = User.objects.get(id=authorUserName)
         r = Recipe(name=name,description=description,cookingTime=cookingTime,image=image,classification=classification,servings=servings,servingSize=servingSize,author=user,private=private)
+        if optid:
+            r.id = optid
         r.save()
         for name,quantity,unit in ingredients:
             r.addIngredient(name,unit,quantity)
@@ -136,7 +143,7 @@ class Recipe(models.Model):
          classification = dict.get("classification"), servings = dict.get("servings"),
          servingSize = dict.get("servingSize"), authorUserName = dict.get("author"),
          private = dict.get("private"), ingredients=dict.get("ingredients"),
-         steps = dict.get("steps"), tags = dict.get("tags"))
+         steps = dict.get("steps"), tags = dict.get("tags"), optid = dict.get("id"))
 
     @staticmethod
     def ingredientsToText(ingredients,multiplier):
