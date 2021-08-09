@@ -137,9 +137,9 @@ def shoppingList(request,ids):
     #get merged ingredients from Recipe.mergeIngredients
     mergedIngredients = Recipe.mergeIngredients(recipes)
     #convert to text with Recipe.ingredientsToText(ingredients)
-    allIngredients = Recipe.ingredientsToText(mergedIngredients)
+    allIngredients = Recipe.ingredientsToText(mergedIngredients, 1)
     #add that to the context and of course make it point to a correct html
-    return render(request,'recipe/shoppingList.html', context={'allIngredients':allIngredients})
+    return render(request,'recipe/shoppingList.html', context={'ids': ids, 'allIngredients':allIngredients})
 
 @csrf_exempt
 def get_new_ing_list(request):
