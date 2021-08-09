@@ -68,8 +68,7 @@
 }
 
 #comments {
-    text-align: center;
-    text-decoration: underline;
+    
 }
 #yourcomment {
     border-radius: 3px;
@@ -108,5 +107,12 @@
     background-color: #F6EFA6;
     border-radius: 10px;
     box-shadow: 10px 10px #dacf5e;
-
+    max-width:1000px;
+}
+#oldcomments {
+    
+}
+#com {
+    text-decoration: underline;
+    text-align: center;
 }

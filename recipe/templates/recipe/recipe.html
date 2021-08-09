@@ -19,7 +19,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-3">
-                        <img id="image" src='{{recipe.image.url}}'>
+                        <div style="max-width:200px; max-height:150px;" id="imagerec">
+                            <img id="image" src='{{recipe.image.url}}'>
+                        </div>
                     </div>
                     <div id ="name_and_desc" class="col-md-6">
                         <div id="name">
@@ -34,15 +36,22 @@
                             {{recipe.description}}
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div>
-                            Rating: {{recipe.rating}}
-                            {% with ecipe.rating as rating %}
+                    <div class="col-md-3"align="center">
+                        <div id="rightbox">
+                            <div id="rating">
+                                Rating: {{recipe.rating}} 
+                            </div>
+                            <div id="ratingstars">
+                            {% with recipe.rating as rating %}
                                 {% include 'recipe/rating.html' %}
                             {% endwith %}
+                            </div>
                         </div>
                         <div>
-                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
+                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+                                {% comment %} <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus-1320568577900980298.png' />  {% endcomment %}
+                                {% comment %} <img id="delete" style="width: 100%; height: 100%;" src="{% static 'recipe/images/plus.png' %}" />  {% endcomment %}
+                            </button>
                         </div>
                         <div id="edit">
                             <img id="pencil" src="{% static 'recipe/images/pencil.png' %}" />
@@ -53,15 +62,17 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" align="center">
                     Classification: {{recipe.classification}}
                     <br>
                     Tags:
-                    <br>
+                    <ul>
                     {% for tag in recipe.tags %} 
+                        <li>
                         {{tag}}
-                            <br>
+                        </li>
                     {% endfor %}
+                    </ul>
                 </div>
                 <div id = "middlecol" class="col-md-6">
                     Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
@@ -92,11 +103,13 @@
             </div>
         </div>
         <div id="comments">
-            Comments <br>
+            <div id="com">Comments<br><br>
             <input id="yourcomment" type="text" placeholder="Add a comment">
+            {% comment %} <span class="input" id= "yourcomment"role="textbox" contenteditable>99</span> {% endcomment %}
             <label class="btn border btn-outline-info" id="addcomment">Save</label>
+            </div>
             <br>
-            <div id ="oldcomments">
+            <div id ="oldcomments" align="center">
             {% for comment in recipe.comments %} 
                 <div id="comment1">
                     {{comment.author}}: {{comment.content}}
