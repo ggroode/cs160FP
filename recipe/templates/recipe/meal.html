@@ -307,13 +307,16 @@
  			for (var i = 0; i < ingredients.length;i++) {
  				var newList = document.getElementById(rightlist);
  				newList.innerHTML += "<li>"+ ingredients[i] +"</li>"
- 			 	// newList.style.textAlign = 'left';
- 			 	// newList.style.listStylePosition = 'inside';
 
  			}
- 		document.getElementById(rightlist).innerHTML += "</ul>"
- 		document.getElementById(rightlist).style.color = '#42CAFD';
- 	 	document.getElementById(rightlist).style.listStylePosition = 'inside';
+ 		var updatedList = document.getElementById(rightlist);
+ 		updatedList.innerHTML += "</ul>"
+ 		updatedList.style.color = '#42CAFD';
+ 	 	updatedList.style.listStylePosition = 'inside';
+ 	  	updatedList.style.textAlign = 'left';
+ 	  	updatedList.style.marginLeft = '20px';
+
+
 
  		}) 
  		return newings
