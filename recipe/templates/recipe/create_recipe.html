@@ -17,7 +17,7 @@
             <label for="name">Name:</label>
             <input id="name" class="mx-2 mb-1" type="text" value="" placeholder="My Recipe" maxlength="50" style="width:25%">
             <label for="ct">Cooking Time (minutes):</label>
-            <input id="ct" class="mx-2 mb-1" type="text" value="" placeholder="45" maxlength="6" style="width:10%">
+            <input id="ct" class="mx-2 mb-1" pattern="[0-9]*" type="text" value="" placeholder="45" maxlength="6" style="width:10%">
           </div>
 
           <div class="input-group mb-3">
@@ -87,7 +87,7 @@
 
 {% block scripts %}
   <script type="text/javascript" src="{% static 'recipe/js/create.js' %}"></script>
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     const uid = {{user.id}};
-  </script>
+  </script> -->
 {% endblock scripts %}
