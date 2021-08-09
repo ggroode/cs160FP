@@ -95,8 +95,8 @@ def recipe(request,id):
     recipe = Recipe.objects.get(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
 def meal(request,ids):
-    ids = ids.split(",")
-    recipes = Recipe.objects.filter(id__in=ids)
+    idsList = ids.split(",")
+    recipes = Recipe.objects.filter(id__in=idsList)
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 def help(request):
     return render(request,'recipe/help.html')

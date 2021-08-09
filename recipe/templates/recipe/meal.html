@@ -219,7 +219,7 @@
 
 		{% for recipe in recipes %} 
 		<div class="col-md-4 scroll p-0" id= "box1"> 
-			<button type="button" class="btn-close exit" id= "close-{{recipe.id}}" onClick="closeRecipe()"></button>
+			<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
 			<h1> {{recipe.name}} </h1>
 			<!-- Button trigger modal -->
@@ -256,7 +256,7 @@
 				</div>
 			</div>
 			<div class="ingredients">
-    			Ingredients | Servings: <input id="servings" type="number" value="{{recipe.servings}}" min=0> 
+    			Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
 
     		</div>
     		<div class= "servSize">
@@ -294,10 +294,10 @@
  {% block scripts %}
  <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
  <script>
- 	function get_new_ing_list(multiplier) {
+ 	function get_new_ing_list(recipeId, multiplier) {
  		newings = 'no';
  		$.post("{% url 'get_new_ing_list'%}",{
- 			id: {{recipe.id}}, mult: multiplier
+ 			id: recipeId, mult: multiplier
  		},
  		function(data,status,JqXHR) {
  			const ingredients = data.split(",");
@@ -309,22 +309,22 @@
  		}) 
  		return newings
  	}
- 	$('#servings').on('input', function() {
- 		var val = $("#servings").val();
- 		{% comment %} $("#inglist" ).replaceWith("") {% endcomment %}
- 		var new_val = val/{{recipe.servings}}
- 		var a = get_new_ing_list(new_val);
+ 	$('.servings').on('input', function() {
+ 		var val = $(this).val();
+ 		$("#inglist" ).replaceWith("")
+ 		var new_val = val/Number($(this).attr('placeholder'));
+		let recipeId = Number($(this).attr('id').split("-")[1]);
+ 		var a = get_new_ing_list(recipeId, new_val);
  	});
- });
 
 
 const url = new URL(window.location.href);
-function closeRecipe(){
+function closeRecipe(t){
 	//window.location.href = 'http://www.google.com'
-    let ids = url.searchParams.get('ids').split(",")
-    let removedID = $(this).attr("id").split("-")[1]
-    ids = ids.splice(ids.indexOf(removedID),1)
-    window.location.href = '/meal/?ids='+ids.join(",")
+    let ids = "{{ids}}".split(",")
+    let removedID = $(t).attr("id").split("-")[1]
+    ids.splice(ids.indexOf(removedID),1)
+    window.location.href = '/meal/'+ids.join(",")
 }
 </script>
 {% endblock scripts %}
