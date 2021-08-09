@@ -29,7 +29,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     {% block scripts %}{% endblock scripts %}
     <script>
-        const uid = {{user.id}};
+        const uid ={% if user.is_authenticated %} {{user.id}} {% else %} -1 {% endif %};
         let base = {}
         base.url = new URL(window.location.href);
         flash = base.url.searchParams.get("flash");

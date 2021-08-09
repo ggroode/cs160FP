@@ -15,32 +15,33 @@
               <input id="ct" class="mx-2 w-25" type="text" value="" placeholder="Minutes">
             </span> -->
             <label for="name">Name:</label>
-            <input id="name" class="mx-2 mb-1" type="text" value="" placeholder="My Recipe" maxlength="50" style="width:25%">
+            <input id="name" class="mx-2 mb-1" type="text" value="{{recipe.name}}" placeholder="My Recipe" maxlength="50" style="width:25%">
             <label for="ct">Cooking Time (minutes):</label>
-            <input id="ct" class="mx-2 mb-1" type="text" value="" placeholder="45" maxlength="6" style="width:10%">
+            <input id="ct" class="mx-2 mb-1" required pattern="/[0-9]*/g" type="text" value="{{recipe.cookingTime}}" placeholder="45" maxlength="6" style="width:10%">
           </div>
 
           <div class="input-group mb-3">
             <label for="servings">Servings:</label>
-            <input id="servings" class="mx-2 mb-1" type="text" value="" placeholder="1" maxlength="2" style="width:25%">
+            <input id="servings" class="mx-2 mb-1" type="text" value="{{recipe.servings}}" placeholder="1" maxlength="2" style="width:25%">
             <label for="servingSize">Serving Size:</label>
-            <input id="servingSize" class="mx-2 mb-1" type="text" value="" placeholder="1 cup" style="width:25%">
+            <input id="servingSize" class="mx-2 mb-1" type="text" value="{{recipe.servingSize}}" placeholder="1 cup" style="width:25%">
           </div>
 
           <label for="description">Description: </label>
           <!-- <input  type="text" value="" placeholder="Description..." maxlength="250" class="form-control"> -->
-          <textarea id="description" style="width:95%"></textarea>
+          <textarea id="description" style="width:95%">{{recipe.description}}</textarea>
 
+          <!-- adapted from https://getbootstrap.com/docs/5.0/forms/checks-radios/ -->
           <div class="input-group mb-3">
             {% for c in classifications %}
-              <input type="radio" class="btn-check" name="options" id="option{{forloop.counter}}" autocomplete="off">
+              <input type="radio" class="btn-check" name="options" id="option{{forloop.counter}}" {% if recipe.classification == c %}checked{% endif %} autocomplete="off">
               <label class="btn border btn-outline-info" for="option{{forloop.counter}}" onclick="recipeType = this.innerHTML">{{c.label}}</label>
             {% endfor %}
           </div>
 
-          <!-- very cool image thing adapted from  -->
+          <!-- very cool image thing adapted from https://jsfiddle.net/bootstrapious/8w7a50n2 -->
           <!-- Uploaded image area-->
-          <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
+          <div class="image-area mt-4"><img id="imageResult" src="{% if recipe.image %}{{recipe.image.url}}{% else %}#{% endif %}" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
 
           <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
                 <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0 btn btn-outline-info">
@@ -57,27 +58,42 @@
           <input id="recipe-pic" type="file" placeholder="Upload an Image"> -->
           <span>
             <!-- <button type="button" name="button" class="btn" style="background-color:rgba(58,248,200,.2)">Preview</button> -->
-            <input type="checkbox" id="priv" checked="true" onchange="priva = !priva">
+            <input type="checkbox" id="priv" {% if recipe.private == 'True' %}checked{% endif %} onchange="priva = !priva">
             <label for="priv">Private</label>
 
-            <button id="save" class="btn border btn-outline-info" type="button" name="button" onClick="throw new Error('NYI. Remove from onClick when done.'); sendRecipeInfo()">Save</button>
+            <button id="save" class="btn border btn-outline-info" type="button" name="button" onClick="sendRecipeInfo()">Save</button>
             <!-- <button type="button" name="button">Publish</button> -->
           </span>
         </div>
         <div class="col-lg-4 col-sm-12 d-flex flex-column align-items-center">
           <h3><u>Instructions</u></h3>
           <ol id="steps">
-
+            {% for s in recipe.steps %}
+              <li>
+                <span name="stepspan" class="text-decoration-underline" contenteditable>{{s}}</span>
+                <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode)">X</button>
+              </li>
+            {% endfor %}
           </ol>
           <button type="button" class="btn btn-outline-info w-25" onClick="addStep()" style="font-size:2rem">⊕</button>
           <h3><u>Tags</u></h3>
-          <textarea id="tags" style="width:95%"></textarea>
+          <textarea id="tags" style="width:95%">{% for t in tags %}{{t}} {% endfor %}</textarea>
+          <!-- <textarea id="tags" style="width:95%"></textarea> -->
           <!-- <button type="button" class="btn btn-info" onClick="addTags()" style="font-size:3rem">⊕</button> -->
         </div>
         <div class="col-lg-4 col-sm-12 border d-flex flex-column align-items-center">
           <h3><u>Ingredients</u></h3>
           <ol id="ingredients">
-
+            {% for i in ingredients %}
+              <li>
+                <span name="ingli">
+                  <input type="text" value="{{i.0}}" placeholder="ingredient" class="border" style="width:35%">
+                  <input type="text" value="{{i.1}}" placeholder="amount" class="border" style="width:15%">
+                  <input type="text" value="{{i.2}}" placeholder="unit" class="border" style="width:25%">
+                </span>
+                <button type="button" class="btn btn-danger" onClick="removeIngredient(this.parentNode)">X</button>
+              </li>
+            {% endfor %}
           </ol>
           <button type="button" class="btn btn-outline-info" onClick="addIngredient()" style="font-size:2rem; width:25%">⊕</button>
         </div>
@@ -87,7 +103,14 @@
 
 {% block scripts %}
   <script type="text/javascript" src="{% static 'recipe/js/create.js' %}"></script>
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     const uid = {{user.id}};
+  </script> -->
+  <script type="text/javascript">
+    {% if recipe.private == 'True' %}
+      let priva = true;
+    {% else %}
+      let priva = false;
+    {% endif %}
   </script>
 {% endblock scripts %}
