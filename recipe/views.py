@@ -101,3 +101,14 @@ def register(request):
             user = form.save()
             login(request, user)
             return search_recipes(request)
+
+@csrf_exempt
+def comment(request):
+    rater = request.POST.get("rater")
+    recipe_id = request.POST.get("id")
+    content = request.POST.get("content")
+    date_time = request.POST.get("date_time")
+    recipe = Recipe.objects.filter(id=recipe_id)[0]
+    recipe.comment(rater,content,date_time)
+    return HttpResponse(1)
+

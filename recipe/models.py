@@ -67,6 +67,12 @@ class Recipe(models.Model):
             rating.save()
         else:
             Rating.objects.create(recipe=self,author=user,value=ratingValue)
+
+    def comment(self, userName,content,date_time):
+        user = User.objects.get(id=userName)
+        print(content)
+        print(date_time)
+        Comment.objects.create(recipe=self,author=user,content=content)
             
 
     def addIngredient(self,ingredientName,unit,quantity):
@@ -150,6 +156,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User,on_delete=CASCADE)
     content = models.CharField(max_length=500)
     date_modified = models.DateTimeField(auto_now=True)
+
 
 class Rating(models.Model):
     recipe = models.ForeignKey(Recipe,on_delete=CASCADE)
