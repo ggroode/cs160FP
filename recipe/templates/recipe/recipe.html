@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div style="max-width:200px; max-height:150px;" id="imagerec">
-                            <img id="image" src='{{recipe.image.url}}'>
+                            <img id="image" style="width:100%; height:100%" src='{{recipe.image.url}}'>
                         </div>
                     </div>
                     <div id ="name_and_desc" class="col-md-6">
@@ -48,7 +48,7 @@
                             </div>
                         </div>
                         <div>
-                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')"> +
                                 {% comment %} <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus-1320568577900980298.png' />  {% endcomment %}
                                 {% comment %} <img id="delete" style="width: 100%; height: 100%;" src="{% static 'recipe/images/plus.png' %}" />  {% endcomment %}
                             </button>
@@ -64,9 +64,15 @@
             <div class="row">
                 <div class="col-md-3" align="center">
                     Classification: {{recipe.classification}}
+                    {% comment %} Classification: {% for c in classifications %} 
+                                            {% if recipe.classification == c %}
+                                                {{c.label}}
+                                            {% endif %}
+                                            {{recipe.classification}}
+                                    {% endfor %} {% endcomment %}
                     <br>
                     Tags:
-                    <ul>
+                    <ul id="taglist">
                     {% for tag in recipe.tags %} 
                         <li>
                         {{tag}}
@@ -75,9 +81,9 @@
                     </ul>
                 </div>
                 <div id = "middlecol" class="col-md-6">
-                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
+                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} defaultvalue={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
-                        <ul type="circle">
+                        <ul id="ininlist" type="circle">
                         {% comment %} get rid of extraneous zeros {% endcomment %}
                         {% comment %} link to the edit page if current user matches author id then display button {% endcomment %}
                         {% comment %} fill back with original {% endcomment %}
@@ -134,11 +140,15 @@
         },
         function(data,status,JqXHR) {
             const ingredients = data.split(",");
-            document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
+            {% comment %} document.getElementById("inglist").innerHTML = "<ul type=\"circle\">" {% endcomment %}
             for (var i = 0; i < ingredients.length;i++) {
-                document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+                if (i==0) {
+                    document.getElementById("ininlist").innerHTML = "<li>"+ ingredients[i]+"</li>"
+                } else {
+                    document.getElementById("ininlist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+                }
             }
-            document.getElementById("inglist").innerHTML += "</ul>"
+            {% comment %} document.getElementById("inglist").innerHTML += "</ul>" {% endcomment %}
         }
         ) 
         return newings
@@ -178,13 +188,15 @@
                 alert("Please Sign In to Comment!");
                 return;
             }
+            time = Date.now()
             $.post("{% url 'comment'%}",{
-            id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:Date.now() }
-             {% comment %} },
+            id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:time }
+             ,
             function(data,status,JqXHR) {
-                need this to add the comment
-                $( "#oldcomments" ).prepend();
-            } {% endcomment %}
+                var name = "{{user.get_username}}";
+                
+                $( "#oldcomments" ).prepend("<div id=\"comment1\">" + name +": " +$("#yourcomment").val() +"<br>written: " +new Date(time)+"<br></div><br>");
+            } 
             ) 
 
         });

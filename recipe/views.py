@@ -142,7 +142,7 @@ def create_recipe(request,rid=-1):
 def recipe(request,id):
     test = request.GET.get("test",1)
     recipe = Recipe.objects.get(id=id)
-    return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
+    return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test,'classifications':Recipe.Classifications})
 def meal(request,ids):
     page = int(request.GET.get('page',1))
     recPerPage = int(request.GET.get('recPerPage',3))
