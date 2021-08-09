@@ -76,7 +76,7 @@
                 this.stars.forEach((star, i) => {
                     {% comment %} index is the rating so i needs to be larger than the rating but smaller than 1-rating{% endcomment %}
                     {% comment %} buggy need fix {% endcomment %}
-                    star.classList.toggle('half', index < i < index + 1);
+                    {% comment %} star.classList.toggle('half', index < i < index + 1); {% endcomment %}
                 });
             }
 
