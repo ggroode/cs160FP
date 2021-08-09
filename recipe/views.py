@@ -12,14 +12,23 @@ def search_recipes(request):
     #getting search parameters
     name = request.GET.get("name","")
     authors = request.GET.get('author',"")
-    tags = request.GET.get('tag',"")
+    tags = request.GET.get('tags',"")
+    ingredients = request.GET.get('ingredients',"")
     # putting search parameters in proper form and filtering
     recipes = Recipe.objects.filter(name__contains=name)
     if authors:
         authors = User.objects.filter(username__in=re.split("[^\w]+",authors))
         recipes = recipes.filter(author__in= authors)
+    if tags:
+        tags = re.split("[^\w]+",tags)
+        for tag in tags:
+            recipes = recipes.filter(tag__name=tag)
+    if ingredients:
+        ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
+        for ing in ingredients:
+            recipes = recipes.filter(ingredient__name=ing)
     #Setting backup filters
-    filters = zip(['visibility','classification','rating','cooking time','author','tag','ingredients'],
+    filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
     ['multi-select','multi-select','numeric','numeric','text','text','text'],
     [('public','private'),('entree','side','dessert','appetizer'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
 

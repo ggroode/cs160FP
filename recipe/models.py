@@ -70,7 +70,7 @@ class Recipe(models.Model):
             
 
     def addIngredient(self,ingredientName,unit,quantity):
-        ingredientName = " ".join([ps.plur2sing(word) for word in ingredientName.split(' ')])
+        ingredientName = " ".join([ps.plur2sing(word.lower()) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
         ing = Ingredient.objects.filter(name=ingredientName).first()
         if not ing:
@@ -125,11 +125,11 @@ class Recipe(models.Model):
                 quantity = int(quantity)
             if unit in ['count','cnt']:
                 if quantity == 1:
-                    ingTextList.append("{} {}".format(quantity,name))
+                    ingTextList.append("{} {}".format(quantity,name.capitalize()))
                 else:
-                    ingTextList.append("{} {}".format(quantity,pluralize(name)))
+                    ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
             else:
-                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name)))
+                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
         return ingTextList
 
 class Meal(models.Model):
