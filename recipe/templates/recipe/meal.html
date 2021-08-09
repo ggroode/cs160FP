@@ -242,7 +242,7 @@
 						<div class="modal-body">
 							<h5> How would you rate this recipe? 
 							{% with 'input' as rating %}
-							{% include 'recipe/rating.html' %}
+								{% include 'recipe/rating.html' %}
 							{% endwith %}
 							</h5>
 							<div style="display:inline-block;" id="rateYo"></div>
@@ -267,7 +267,7 @@
     				<li><span>{{ing}}</span></li>
     				{% endfor %}  
     		</ol>  -->
-		<div class="ordered-ing"id="inglist">
+		<div class="ordered-ing"id="inglist-{{recipe.id}}">
 			<ul type="circle">
 				{% for ingredient in recipe|get_right_ingredients:1 %} 
 				<li>
@@ -301,11 +301,12 @@
  		},
  		function(data,status,JqXHR) {
  			const ingredients = data.split(",");
- 			document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
+			var rightlist = "inglist-" + recipeId;
+ 			document.getElementById(rightlist).innerHTML = "<ul type=\"circle\">"
  			for (var i = 0; i < ingredients.length;i++) {
- 				document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+ 				document.getElementById(rightlist).innerHTML += "<li>"+ ingredients[i]+"</li>"
  			}
- 			document.getElementById("inglist").innerHTML += "</ul>"
+ 			document.getElementById(rightlist).innerHTML += "</ul>"
  		}) 
  		return newings
  	}

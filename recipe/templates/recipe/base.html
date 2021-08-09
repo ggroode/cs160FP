@@ -29,7 +29,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
     {% block scripts %}{% endblock scripts %}
     <script>
-        const uid ={% if user.is_authenticated %} {{user.id}} {% else %} 1 {% endif %};
+        const uid ={% if user.is_authenticated %} {{user.id}} {% else %} -1 {% endif %};
         let base = {}
         base.url = new URL(window.location.href);
         flash = base.url.searchParams.get("flash");
@@ -72,12 +72,21 @@
                 });
             }
 
+            highlight2 (index) {
+                this.stars.forEach((star, i) => {
+                    {% comment %} index is the rating so i needs to be larger than the rating but smaller than 1-rating{% endcomment %}
+                    {% comment %} buggy need fix {% endcomment %}
+                    {% comment %} star.classList.toggle('half', index < i < index + 1); {% endcomment %}
+                });
+            }
+
         constructor () {
             super();
             this.number = this.number;
             if (this.getAttribute('display') == "no") {
                 console.log(this.getAttribute('value'))
                 this.highlight(this.getAttribute('value') - 1 || 0);
+                this.highlight2(this.getAttribute('value') - 1 || 0);
             }
             this.addEventListener('click', e => {
                 let box = this.getBoundingClientRect(),
