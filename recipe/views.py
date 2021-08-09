@@ -103,11 +103,15 @@ def meal(request,ids):
 def help(request):
     return render(request,'recipe/help.html')
 def shoppingList(request,ids):
-    #get list of recipes from ids. 
+    #get list of recipes from ids.
+    idsList = ids.split(",")
+    recipes = Recipe.objects.filter(id__in=idsList)
     #get merged ingredients from Recipe.mergeIngredients
+    mergedIngredients = Recipe.mergeIngredients(recipes)
     #convert to text with Recipe.ingredientsToText(ingredients)
+    allIngredients = Recipe.ingredientsToText(mergedIngredients)
     #add that to the context and of course make it point to a correct html
-    return render(request,'recipe/base.html')
+    return render(request,'recipe/shoppingList.html', context={'allIngredients':allIngredients})
 
 @csrf_exempt
 def get_new_ing_list(request):
