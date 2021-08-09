@@ -88,6 +88,13 @@ class Recipe(models.Model):
     def ingredientsAsText(self,multiplier):
         return Recipe.ingredientsToText(self.ingredients,multiplier)
 
+    @property
+    def stepsAsHtml(self):
+        steps = []
+        for step in self.steps:
+            steps.append("<h5>"+step+"</h5><br>")
+        return steps
+
     def addTag(self,tagName):
         tag = Tag.objects.filter(name=tagName).first()
         if not tag:
