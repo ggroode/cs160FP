@@ -97,12 +97,16 @@ def recipe(request,id):
     recipe = Recipe.objects.get(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test})
 def meal(request,ids):
-    ids = ids.split(",")
-    recipes = Recipe.objects.filter(id__in=ids)
+    idsList = ids.split(",")
+    recipes = Recipe.objects.filter(id__in=idsList)
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 def help(request):
     return render(request,'recipe/help.html')
 def shoppingList(request,ids):
+    #get list of recipes from ids. 
+    #get merged ingredients from Recipe.mergeIngredients
+    #convert to text with Recipe.ingredientsToText(ingredients)
+    #add that to the context and of course make it point to a correct html
     return render(request,'recipe/base.html')
 
 @csrf_exempt
@@ -135,6 +139,7 @@ def register(request):
             user = form.save()
             login(request, user)
             return search_recipes(request)
+        return redirect(request.path+"?flash=Invalid Password!")
 
 @csrf_exempt
 def comment(request):
