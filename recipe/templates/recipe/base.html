@@ -83,8 +83,10 @@
         constructor () {
             super();
             this.number = this.number;
+            console.log($(this).attr("id").split("-")[1]);
+            console.log("value:" + this.getAttribute('value'));
             if (this.getAttribute('display') == "no") {
-                console.log(this.getAttribute('value'))
+                {% comment %} console.log(this.getAttribute('value')) {% endcomment %}
                 this.highlight(this.getAttribute('value') - 1 || 0);
                 this.highlight2(this.getAttribute('value') - 1 || 0);
             }

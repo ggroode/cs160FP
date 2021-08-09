@@ -3,7 +3,6 @@ x-star-rating {
     font-family: 'Ionicons';
     font-size: 48px;
     display: inline-flex;
-    cursor: pointer;
 }
 
 x-star-rating > .star::after {

@@ -224,12 +224,12 @@
 			<h1> {{recipe.name}} </h1>
 			<!-- Button trigger modal -->
 			<div class= "mx-auto text-center">
-				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
 					Rating
 				</button>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
