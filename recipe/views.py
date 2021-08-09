@@ -5,7 +5,7 @@ import json
 from .models import Recipe,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
-from django.db.models import Q
+from django.db.models import Q, Avg, Count,Max
 import re
 
 # Create your views here.
@@ -17,6 +17,15 @@ def search_recipes(request):
     ingredients = request.GET.get('ingredients',"")
     private = bool(request.GET.get('visibility-private',False))
     public =bool(request.GET.get('visibility-public',False))
+    entree = bool(request.GET.get('classification-entree',False))
+    side = bool(request.GET.get('classification-side',False))
+    appetizer = bool(request.GET.get('classification-appetizer',False))
+    dessert = bool(request.GET.get('classification-dessert',False))
+    drink = bool(request.GET.get('classification-drink',False))
+    minRating = float(request.GET.get('rating-min',0))
+    maxRating = float(request.GET.get('rating-max',5))
+    minCookingTime = float(request.GET.get('cooking time-min',0))
+    maxCookingTime = float(request.GET.get('cooking time-max',"")) if request.GET.get('cooking time-max',"") else Max('cookingTime')
     # putting search parameters in proper form and filtering
     if request.user.is_authenticated:
         recipes = Recipe.objects.filter(Q(private=False) | Q(private=True,author=request.user))
@@ -36,12 +45,31 @@ def search_recipes(request):
             recipes = recipes.filter(ingredient__name=ing)
     if public != private:
         recipes = recipes.filter(private=private)
-
+    if (entree or side or appetizer or dessert or drink) and not (entree and side and appetizer and dessert and drink):
+        classifications = []
+        if entree:
+            classifications.append('en')
+        if side:
+            classifications.append('si')
+        if appetizer:
+            classifications.append('ap')
+        if dessert:
+            classifications.append('de')
+        if drink:
+            classifications.append('dr')
+        recipes = recipes.filter(classification__in=classifications)
+    recipes = recipes.annotate(avg_rating=Avg('rating__value'))
+    if minRating ==0:
+        recipes = recipes.annotate(rating_count=Count('rating'))
+        recipes = recipes.filter(Q(avg_rating__gte=minRating,avg_rating__lte=maxRating)|Q(rating_count=0))
+    else:
+        recipes = recipes.filter(avg_rating__gte=minRating,avg_rating__lte=maxRating)
+    recipes = recipes.filter(cookingTime__lte=maxCookingTime,cookingTime__gte=minCookingTime)
 
     #Setting backup filters
     filters = zip(['visibility','classification','rating','cooking time','author','tags','ingredients'],
     ['multi-select','multi-select','numeric','numeric','text','text','text'],
-    [('public','private'),('entree','side','dessert','appetizer'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
+    [('public','private'),('entree','side','dessert','appetizer','drink'),(0,5,'stars'),(0,'∞','min'),(),(),(),()])
 
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 

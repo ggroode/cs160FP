@@ -204,8 +204,7 @@
 				<li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
 				<li><hr class="dropdown-divider"></li>
 				<li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="">Save Meal</a></li>
+
 			</ul>
 
 			<div id= "rec-overflow">
@@ -224,12 +223,12 @@
 			<h1> {{recipe.name}} </h1>
 			<!-- Button trigger modal -->
 			<div class= "mx-auto text-center">
-				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal">
+				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
 					Rating
 				</button>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -242,7 +241,7 @@
 						<div class="modal-body">
 							<h5> How would you rate this recipe? 
 							{% with 'input' as rating %}
-							{% include 'recipe/rating.html' %}
+								{% include 'recipe/rating.html' %}
 							{% endwith %}
 							</h5>
 							<div style="display:inline-block;" id="rateYo"></div>
@@ -267,8 +266,8 @@
     				<li><span>{{ing}}</span></li>
     				{% endfor %}  
     		</ol>  -->
-		<div class="ordered-ing"id="inglist">
-			<ul type="circle">
+		<div class="ordered-ing"id="inglist-{{recipe.id}}">
+			<ul type="disc">
 				{% for ingredient in recipe|get_right_ingredients:1 %} 
 				<li>
 					{{ingredient}}
@@ -301,11 +300,24 @@
  		},
  		function(data,status,JqXHR) {
  			const ingredients = data.split(",");
- 			document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
+			var rightlist = "inglist-" + recipeId;
+ 			//document.getElementById(rightlist).innerHTML = "<ul style type=\"circle\">"
+ 	 		document.getElementById(rightlist).innerHTML = "<ul style type=\"circle\">"
+
  			for (var i = 0; i < ingredients.length;i++) {
- 				document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+ 				var newList = document.getElementById(rightlist);
+ 				newList.innerHTML += "<li>"+ ingredients[i] +"</li>"
+
  			}
- 			document.getElementById("inglist").innerHTML += "</ul>"
+ 		var updatedList = document.getElementById(rightlist);
+ 		updatedList.innerHTML += "</ul>"
+ 		updatedList.style.color = '#42CAFD';
+ 	 	updatedList.style.listStylePosition = 'inside';
+ 	  	updatedList.style.textAlign = 'left';
+ 	  	updatedList.style.marginLeft = '20px';
+
+
+
  		}) 
  		return newings
  	}
@@ -322,6 +334,7 @@ const url = new URL(window.location.href);
 function closeRecipe(t){
 	//window.location.href = 'http://www.google.com'
     let ids = "{{ids}}".split(",")
+    console.log(ids)
     let removedID = $(t).attr("id").split("-")[1]
     ids.splice(ids.indexOf(removedID),1)
     window.location.href = '/meal/'+ids.join(",")
