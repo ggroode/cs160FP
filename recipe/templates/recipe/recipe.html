@@ -94,6 +94,8 @@
         </div>
         <div id="comments">
             Comments:
+            <input id="yourcomment" type="text" placeholder="Add a comment">
+            <label class="btn border btn-outline-info" id="addcomment"></label>
             <br>
             {% for comment in recipe.comments %} 
                     {{comment.author}}: {{comment.content}}
@@ -150,11 +152,25 @@
         });
         $('#servings').on('input', function() {
             var val = $("#servings").val();
-            {% comment %} $("#inglist" ).replaceWith("") {% endcomment %}
             var new_val = val/{{recipe.servings}}
             var a = get_new_ing_list(new_val);
             // page refresh? tmux
             // var newingredient = "<ul type=\"circle\">{% for ingredient in recipe|get_right_ingredients:6 %} <li>{{ingredient}}</li>{% endfor %}</ul>";
+        });
+        $('#addcomment').click(function() {
+            $.post("{% url 'comment'%}",{
+            id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:Date.now() }
+             {% comment %} },
+            function(data,status,JqXHR) {
+                const ingredients = data.split(",");
+                document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
+                for (var i = 0; i < ingredients.length;i++) {
+                    document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+                }
+                document.getElementById("inglist").innerHTML += "</ul>"
+            } {% endcomment %}
+            ) 
+
         });
     });
     </script>
