@@ -70,8 +70,11 @@
           <ol id="steps">
             {% for s in recipe.steps %}
               <li>
-                <span name="stepspan" class="text-decoration-underline" contenteditable>{{s}}</span>
-                <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode)">X</button>
+                <div class="d-flex flex-nowrap w-100">
+                  <span name="stepspan" class="text-decoration-underline mr-auto" style="min-width:90%; max-width:90%" contenteditable>{{s}}</span>
+                  &nbsp;
+                  <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode.parentNode)">X</button>
+                </div>
               </li>
             {% endfor %}
           </ol>

@@ -30,8 +30,11 @@ const ingredientItem = `
 </li>`;
 const stepItem = `
   <li>
-    <span name="stepspan" class="text-decoration-underline" contenteditable>instruction</span>
-    <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode)">X</button>
+    <div class="d-flex flex-nowrap w-100">
+      <span name="stepspan" class="text-decoration-underline" style="min-width:90%; max-width:90%" contenteditable>instruction</span>
+      &nbsp;
+      <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode.parentNode)">X</button>
+    </div>
   </li>`;
 
 // create XMLHttpRequest
@@ -95,12 +98,12 @@ function sendRecipeInfo() {
 }
 
 function removeStep(item) {
-  removedSteps.push(item.children[0].innerHTML.replace(/&nbsp;|<br>/g," "));
+  // removedSteps.push(item.children[0].innerHTML.replace(/&nbsp;|<br>/g," "));
   item.remove();
 }
 
 function removeIngredient(item) {
-  removedIngredients.push([item.children[0].children[0].value, item.children[0].children[1].value, item.children[0].children[2].value]);
+  // removedIngredients.push([item.children[0].children[0].value, item.children[0].children[1].value, item.children[0].children[2].value]);
   item.remove();
 }
 
