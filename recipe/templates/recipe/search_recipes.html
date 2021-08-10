@@ -94,6 +94,7 @@
     var showingMenuBar = true;
     var showingFilterBar = true;
     var doResize = true;
+    var initialLoad = true;
     app = {};
     app.setup = function(){
         // $("#menubar").hide();
@@ -109,6 +110,13 @@
     window.onload = function(){
         currentOnload()
         app.setup()
+        if (initialLoad && $(window).width() < 768) {
+            $('#menubar').hide();
+            $('#filterbar').hide();
+            showingMenuBar = false;
+            showingFilterBar = false;
+            doResize = false;
+        }
     }
     $('.check-single-type').click(function() {
         $('.check-single-type').not(this).prop('checked', false);
@@ -137,9 +145,11 @@
             showingFilterBar = false;
             doResize = false;
         } else if ($(this).width() >= 768) {
-            doResize = true;
             $('#menubar').show(1000);
             $('#filterbar').show(1000);
+            showingMenuBar = true;
+            showingFilterBar = true;
+            doResize = true;
         }
     });
 </script>
