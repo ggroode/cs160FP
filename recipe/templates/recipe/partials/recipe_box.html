@@ -1,15 +1,76 @@
-<div class='border border-dark col-lg-4 col-md-6 col-xs-12 px-0 m-2'>
+<style>
+    .px-1{
+        border-color: red;
+        background-color: #8EB19D;
+
+    }
+    .border{
+        background-color: #42CAFD;
+    }
+
+
+.hovering {
+   background-color: #42CAFD;
+}
+
+.hovering .name:hover {
+ background: #F6EFA6;
+ box-shadow: 10px 5px 5px #8EB19D;
+
+}
+
+.picture{
+    border-left: 10px;
+}
+.hovering .picture:hover {
+    background-color: orange;
+}
+img:hover{
+   color: red;
+}
+.border-warning{
+    border-color: #66B3BA !important;
+    border-radius: 10px !important;
+}
+.bg-warning{
+    background-color: #F6EFA6 !important;
+}
+
+.single:hover {
+    border-color: yellow;
+}
+.image:hover{
+    border-left-color: red;
+}
+
+
+
+</style>
+
+
+<div class='single hovering border border-5 border-warning col-lg-4 col-md-6 col-xs-12 px-0 m-2' style= "border-color: red">
     <a href="{% url 'recipe' recipe.id %}" class="h-100 w-100">
-        <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark' style="height:60%"/>
+        <div class= "picture">
+            <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark image' style="height:60%"/>
+        </div>
     </a>
     <div class="px-1">
-         <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
-         <div class="float-start">
+        <div class= "name">
+           <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
+       </div>
+       <div class="float-start">
+
+        <div class= "recipe-details">
             {% with recipe.rating as rating %}
-                {% include 'recipe/rating.html' %}
+            {% include 'recipe/rating.html' %}
             {% endwith %}
             <p>By {{recipe.author.username}}</p>
-         </div>
-         <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
-    </div>  
+        </div>
+    </div>
+    <div class= "addButton">
+        <button id="addToMeal-{{recipe.id}}" type="button" class="btn bg-warning float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},
+        '{{recipe.name}}')">+</button>
+    </div>
+</div>  
 </div>
+
