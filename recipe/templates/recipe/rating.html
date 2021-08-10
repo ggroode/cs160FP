@@ -1,5 +1,7 @@
+{% load app_filters %}
+
 {% if rating == 'input' %}
-    <x-star-rating value={{rating}} number="5" display="yes" id="rating-{{recipe.id}}" style="cursor: pointer;"></x-star-rating>
+    <x-star-rating value={{user|get_rating:recipe.id}} number="5" display="yes" id="rating-{{recipe.id}}" style="cursor: pointer;"></x-star-rating>
 {% else %}
     <x-star-rating value={{recipe.rating}} number="5" display="no" id="rating-{{recipe.id}}"></x-star-rating>
 {% endif %}

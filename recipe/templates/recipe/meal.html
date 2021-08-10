@@ -198,27 +198,11 @@
 
 <div class="container-fluid h-100 p-0">
 	<div class="row">
-		<div class="dropdown">
-			<button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-				Menu
-			</button>
-
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-				<li><a class="dropdown-item" href="{% url 'shopping-list' ids %}">Shopping List</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
-			</ul>
-
-			<div id= "rec-overflow">
-				<a href="#" class="previous">&#8592;</a>
-				<a href="#" class="next">&#8594;</a>
-
-
-			</div>
-
-		</div>
+		{% include 'recipe/partials/mealDropdown.html' %}
+		<div id= "rec-overflow">
+			<a href="#" class="previous">&#8592;</a>
+			<a href="#" class="next">&#8594;</a>
+    	</div>
 
 		{% for recipe in recipes %} 
 			<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 

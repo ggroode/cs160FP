@@ -9,11 +9,11 @@ mealApp.addToMeal = function(t,id,name){
         mealApp.recipe_ids.push(id);
         mealApp.recipe_names.push(name);
         // $(t).html('-');
-        $(t).html('<img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
+        $(t).html('<img id="plus" style="width: 100%; height: 100%; color:black" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
         $('#menu-recipes').append(
             `<li>
                 <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px;"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
-                <a href=/recipe/`+id+`>`
+                <a href="/recipe/`+id+`"style="color:black">`
                 + name +
                 `</a>
             </li>`       
