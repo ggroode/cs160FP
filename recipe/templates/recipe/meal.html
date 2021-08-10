@@ -255,7 +255,6 @@
 				</div>
 				<div class="ingredients">
 					Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
-
 				</div>
 				<div class= "servSize">
 					Serving Size: {{recipe.servingSize}}
@@ -314,11 +313,12 @@
  		return newings
  	}
 	 
- 	$('.servings').on('input', function() {
+ 	$('.servings').on('input click', function() {
  		var val = $(this).val();
  		$("#inglist" ).replaceWith("")
  		var new_val = val/Number($(this).attr('placeholder'));
 		let recipeId = Number($(this).attr('id').split("-")[1]);
+		document.cookie = "servings-"+recipeId+"="+val+";path=/"
  		var a = get_new_ing_list(recipeId, new_val);
  	});
 
@@ -330,15 +330,16 @@
 		console.log(ids)
 		let removedID = $(t).attr("id").split("-")[1]
 		ids.splice(ids.indexOf(removedID),1)
+		mealApp.removeFromMeal("JUNK",Number(removedID))
 		window.location.href = '/meal/'+ids.join(",")
 	}
-	window.onload = function(){
+	//window.onload = function(){
 		//size = url.get('size')
 		//if window.size == 'small' and recPerPage != 1:
 			//set recPerPage =1 and refresh
 		//if window.size == 'medium' and size != medium:
 			//set size parameter to medium and refresh
-	}
+	//}
 </script>
 {% endblock scripts %}
 
