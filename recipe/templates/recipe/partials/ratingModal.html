@@ -1,0 +1,26 @@
+<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                {% with recipe.rating as rating %}
+                <h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: {% include 'recipe/rating.html' %}</h5>
+                {% endwith %}
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5> How would you rate this recipe? 
+                {% with 'input' as rating %}
+                    {% include 'recipe/rating.html' %}
+                {% endwith %}
+                </h5>
+                <div style="display:inline-block;" id="rateYo"></div>
+                <input type="hidden" name="rating" id="rating_input"/>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,7 +7,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
 
 	<style type="text/css">
-
+		main{
+			padding:0px;
+		}
 		.container{
 			height: 100vh; 
 			background-color: magenta;
@@ -40,10 +42,17 @@
 
 		}
 		h1{
-			text-align: center;
-			margin-top: 20px;
-			font-weight: bold;
-			text-decoration: underline;
+			text-align: center !important;
+			margin-top: 20px !important;
+			font-weight: bold !important;
+			text-decoration: underline !important;
+		}
+		.title{
+			text-align: center !important;
+			margin-top: 20px !important;
+			font-weight: bold !important;
+			text-decoration: underline !important;
+			color:black;
 		}
 		h2{
 			margin-top: 40px;
@@ -58,9 +67,9 @@
 		}
 		input[type='number'] {
 			width: 55px;
-			height: 50px;
+			height: 45px;
 			font-size: 18px;
-			margin-bottom: 20px;
+			margin-bottom: 0px;
 			background-color: rgb(214, 212, 210);
 			border-radius: 5px;
 
@@ -80,7 +89,7 @@
 			text-align: left;
 		}
 		.steps{
-			margin-top: 60px;
+			margin-top: 35px;
 			text-align: center;
 			font-size: 30px;
 			text-decoration: underline;
@@ -175,13 +184,12 @@
 			color: black;
 		}
 		.servSize{
-			margin-top: 10px;
+			margin-top: 0px;
 			margin-bottom: 0px;
 			text-align: center;
-			font-size: 30px;
-			text-decoration: underline;
+			font-size: 20px;
+			{% comment %} text-decoration: underline; {% endcomment %}
 		}
-
 
 		#rec-overflow{
 			float: right;
@@ -190,99 +198,58 @@
 	</style>
 {% endblock style %}
 
+<div class="row">
+	<div class="dropdown">
+		{% include 'recipe/partials/mealDropdown.html' %}
+		<div id= "rec-overflow">
+			<a href="#" class="previous">&#8592;</a>
+			<a href="#" class="next">&#8594;</a>
+		</div>
+	</div>
+	
 
+	{% for recipe in recipes %} 
+		<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
+			<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
-<div class="container-fluid h-100 p-0">
-	<div class="row">
-		<div class="dropdown">
-			<button class="btn menu dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-				Menu
-			</button>
-
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-				<li><a class="dropdown-item" href="{% url 'shopping-list' ids %}">Shopping List</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="{% url 'search-recipes' %}">Recipes</a></li>
-				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item" href="{% url 'create-recipe' %}">+ New Recipe</a></li>
+			<h1><a href="{% url 'recipe' recipe.id %}" class="title">{{recipe.name}} </a></h1>
+			<!-- Button trigger modal -->
+			<div class= "mx-auto text-center">
+				<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
+					Rating
+				</button>
+			</div>
+			<!-- Modal -->
+			{% include 'recipe/partials/ratingModal.html' %}
+			<div class="ingredients text-decoration-underline">
+				Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
+			</div>
+			<div class= "servSize">
+				Serving Size: {{recipe.servingSize}}
+			</div>
+		<div class="ordered-ing"id="inglist-{{recipe.id}}">
+			<ul type="disc">
+				{% for ingredient in recipe|get_right_ingredients:1 %} 
+					<li> {{ingredient}} </li>
+				{% endfor %}
 			</ul>
-
-			<div id= "rec-overflow">
-				<a href="#" class="previous">&#8592;</a>
-				<a href="#" class="next">&#8594;</a>
-
-
-			</div>
-
 		</div>
 
-		{% for recipe in recipes %} 
-			<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
-				<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
-
-				<h1> {{recipe.name}} </h1>
-				<!-- Button trigger modal -->
-				<div class= "mx-auto text-center">
-					<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
-						Rating
-					</button>
-				</div>
-				<!-- Modal -->
-				<div class="modal fade" id="exampleModal-{{recipe.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								{% with recipe.rating as rating %}
-								<h5 class="modal-title text-center" id="exampleModalLabel"> Average Rating: {% include 'recipe/rating.html' %}</h5>
-								{% endwith %}
-
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<h5> How would you rate this recipe? 
-								{% with 'input' as rating %}
-									{% include 'recipe/rating.html' %}
-								{% endwith %}
-								</h5>
-								<div style="display:inline-block;" id="rateYo"></div>
-								<input type="hidden" name="rating" id="rating_input"/>
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn bg-info" data-bs-dismiss="modal">Save</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="ingredients">
-					Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
-				</div>
-				<div class= "servSize">
-					Serving Size: {{recipe.servingSize}}
-				</div>
-			<div class="ordered-ing"id="inglist-{{recipe.id}}">
-				<ul type="disc">
-					{% for ingredient in recipe|get_right_ingredients:1 %} 
-						<li> {{ingredient}} </li>
-					{% endfor %}
-				</ul>
-			</div>
-
-			<div class="steps">
-				Steps | {{recipe.cookingTime}} min
-			</div>
-			<ol class="ordered-sps">
-				{% for step in recipe.steps %} 
-					<li>
-						<input type= "checkbox">
-						<span>{{step}}</span>
-					</li>
-				{% endfor %} 
-			</ol> 
+		<div class="steps text-decoration-underline">
+			Steps | {{recipe.cookingTime}} min
 		</div>
-	{% endfor %}    
+		<ol class="ordered-sps">
+			{% for step in recipe.steps %} 
+				<li>
+					<input type= "checkbox" onclick="$(this).parent().toggleClass('text-decoration-line-through')">
+					<span>{{step}}</span>
+				</li>
+			{% endfor %} 
+		</ol> 
+	</div>
+{% endfor %}    
 </div>
-</div>
+{% include 'recipe/partials/saveMeal.html' %}
 
  {% endblock content %}
  {% block scripts %}
@@ -306,7 +273,7 @@
  			}
  		var updatedList = document.getElementById(rightlist);
  		updatedList.innerHTML += "</ul>"
- 		updatedList.style.color = '#42CAFD';
+ 		//updatedList.style.color = '#42CAFD';
  	 	updatedList.style.listStylePosition = 'inside';
  	  	updatedList.style.textAlign = 'left';
  	  	updatedList.style.marginLeft = '20px';

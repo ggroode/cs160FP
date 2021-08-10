@@ -9,11 +9,11 @@ mealApp.addToMeal = function(t,id,name){
         mealApp.recipe_ids.push(id);
         mealApp.recipe_names.push(name);
         // $(t).html('-');
-        $(t).html('<img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
+        $(t).html('<img id="plus" style="width: 100%; height: 100%; color:black" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
         $('#menu-recipes').append(
             `<li>
                 <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px;"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
-                <a href=/recipe/`+id+`>`
+                <a href="/recipe/`+id+`"style="color:black">`
                 + name +
                 `</a>
             </li>`       
@@ -74,6 +74,19 @@ mealApp.goToShoppingList = function(){
     }else{
         alert("You need to add something to your list first");
     }
+    
+}
+mealApp.saveMeal = function(uid,url){
+    if (uid == -1) {
+        alert("Please Sign In to Save Meals!");
+        return;
+    }
+    let name = $("#meal-name").val();
+    $.post(url,{name:name},
+        function(data,status,JqXHR) {
+            window.location.href = url;
+        }
+    ) 
     
 }
 window.onload = function(){

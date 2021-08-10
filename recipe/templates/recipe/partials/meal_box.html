@@ -1,0 +1,15 @@
+<div class='hovering border-5 border-warning border col-lg-4 col-md-6 col-xs-12 px-0 m-2'>
+    <div class= "recipePicture border-dark">
+        <a href="{% url 'meal' mea.ids %}" class="h-100 w-100">
+            <img src='{{meal.image.url}}' class='w-100 border-bottom border-dark' style="height:60%"/>
+        </a>
+    </div>
+    <div class="px-1">
+        <div class= "name">
+         <a href="{% url 'meal' meal.ids %}"><h5>{{meal.name}}</h5></a>
+        </div>
+         {% for name in meal.recipeNames %}
+            {{name}}
+         {% endfor %}
+    </div>  
+</div>

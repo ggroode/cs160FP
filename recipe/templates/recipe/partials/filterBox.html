@@ -14,5 +14,13 @@
         <div class="w-100 color2 ">{{variable|capfirst}} ({{options.2}})</div>
         <input type="number" id="{{variable}}-min" name="{{variable}}-min" style="width:20%" value="{{options.3}}" placeholder="{{options.0}}" min={{options.0}} max={{options.1}}>
         - <input type="number" id="{{variable}}-max" name="{{variable}}-max" style="width:20%" value="{{options.4}}" placeholder="{{options.1}}" min={{options.0}} max={{options.1}}>
+    {% elif type == 'single-select' %}
+        <div class="w-100 color2 ">{{variable|capfirst}}</div>
+        {% for opt in options %}
+            <span>
+                <input id="{{varaible}}-{{opt.0}}" type="checkbox" class="check-single-{{variable}} checkbox-round" name="{{variable}}-{{opt.0}}" value="true" {% if opt.1%} checked {% endif %}>
+                <label for="{{varaible}}-{{opt.0}}">{{opt.0|capfirst}}</label>
+            </span>
+        {% endfor %}
     {% endif %}
 </div>
