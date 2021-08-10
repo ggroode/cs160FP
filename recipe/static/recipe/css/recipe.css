@@ -25,7 +25,8 @@
     columns: white;
     height: 100px;
     width: 200px;
-    background-color: #8EB19D;
+    /* background-color: #8EB19D; */
+    background-color:#42CAFD;
     font-size: 40px;
     color: white;
     border-radius: 30px;
@@ -105,7 +106,10 @@
     text-align: center;
     list-style-position: inside;
 }
-
+#ininlist, #instlist {
+    background-color: #99d7dd;
+    border-radius: 10px;
+}
 #comment1 {
     background-color: #F6EFA6;
     border-radius: 10px;
@@ -134,12 +138,15 @@ body {
 }
 #class {
     background-color: #8EB19D;
+    background-color: #42CAFD;
+    border-radius: 10px 10px 0px 0px;
 }
 #tag {
     background-color: #66B3BA;
 }
 #leftbox {
     width:150px;
+    border-radius: 10px;
 }
 body{
     background-color: #cdecea;
