@@ -236,14 +236,24 @@
 		<div class="steps text-decoration-underline">
 			Steps | {{recipe.cookingTime}} min
 		</div>
-		<ol class="ordered-sps">
+<!-- 		<ol class="ordered-sps">
 			{% for step in recipe.steps %} 
 				<li>
 					<input type= "checkbox" onclick="$(this).parent().toggleClass('text-decoration-line-through')">
 					<span>{{step}}</span>
 				</li>
 			{% endfor %} 
-		</ol> 
+		</ol>  -->
+
+		<div class="text-center">
+			<!-- Shopping List -->
+			<ul style="text-align: left; margin-left: 15%; list-style-type: none; font-size: 20px;">
+
+				{% for step in recipe.steps %} 
+				<li style="margin-bottom: 2%;"><input type="checkbox" style="width: 20px; height: 15px;" onclick="$(this).parent().toggleClass('text-decoration-line-through')"><span> {{step}}</span></li>
+				{% endfor %} 
+			</ul>
+		</div>
 	</div>
 {% endfor %}    
 </div>
