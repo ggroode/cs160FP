@@ -40,6 +40,10 @@ class Recipe(models.Model):
     private = models.BooleanField(default=False)
     ingredients = models.JSONField(default=dict)
     steps = models.JSONField(default=get_list)
+
+    @property
+    def classificationName(self):
+        return dict(Recipe.Classifications.choices)[self.classification]
     @property
     def tags(self):
         return [tag.name for tag in Tag.objects.filter(recipes__id=self.id)]
@@ -166,6 +170,18 @@ class Meal(models.Model):
     name = models.CharField(max_length=50)
     recipes = models.ManyToManyField(Recipe)
     author = models.ForeignKey(User,on_delete=CASCADE)
+
+    @property
+    def recipeNames(self):
+        return [recipe.name for recipe in self.recipes]
+
+    @property
+    def image(self):
+        return self.recipes.first().image
+    
+    @property
+    def ids(self):
+        return ",".join([recipe.id for recipe in self.recipes])
 
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True,primary_key=True)
