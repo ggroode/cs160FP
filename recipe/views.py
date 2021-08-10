@@ -151,10 +151,18 @@ def meal(request,ids):
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 def help(request):
     return render(request,'recipe/help.html')
+
 def shoppingList(request,ids):
     #get list of recipes from ids.
     idsList = ids.split(",")
     recipes = Recipe.objects.filter(id__in=idsList)
+    for recipe in recipes:
+        servings = int(request.COOKIES.get("servings-"+str(recipe.id),recipe.servings))
+        multiplier = servings/recipe.servings
+        if multiplier != 1:
+            for ingName in recipe.ingredients:
+                recipe.ingredients[ingName]["quantity"]*=multiplier
+
     #get merged ingredients from Recipe.mergeIngredients
     mergedIngredients = Recipe.mergeIngredients(recipes)
     #convert to text with Recipe.ingredientsToText(ingredients)

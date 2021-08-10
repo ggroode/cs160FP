@@ -1,6 +1,7 @@
 {% extends 'recipe/base.html' %}
 {% load static %}
 {% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipebox.css' %}" />
     <style>
         #closeMenu{
             float:right;
@@ -24,13 +25,12 @@
         main{
             padding-left:0px !important;
             padding-right:0px !important;
-        }
-        .row{
-            background-color: #F0D2D1;
+            {% comment %} background-color: #F0D2D1; {% endcomment %}
         }
         #recipeArea{
             border-color: red;
         }
+
     </style>
 {% endblock style %}
 {% block content %}

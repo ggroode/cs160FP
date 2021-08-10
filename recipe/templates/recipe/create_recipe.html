@@ -41,7 +41,7 @@
 
           <!-- very cool image thing adapted from https://jsfiddle.net/bootstrapious/8w7a50n2 -->
           <!-- Uploaded image area-->
-          <div class="image-area mt-4"><img id="imageResult" src="{% if recipe.image %}{{recipe.image.url}}{% else %}#{% endif %}" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
+          <div class="image-area mt-4"><img id="imageResult" style="max-height:300px" src="{% if recipe.image %}{{recipe.image.url}}{% else %}#{% endif %}" alt="" class="img-fluid rounded shadow-sm mx-auto d-block">
 
           <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
                 <input id="upload" type="file" onchange="readURL(this);" class="form-control border-0 btn btn-outline-info">
