@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
       <!-- <form class="" action="index.html" method="post"> -->
-        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-items-center">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 border d-flex flex-column align-items-center">
           <div class="input-group mb-3">
             <!-- TODO: put label & input in same span with no extra space -->
             <!-- <span class="mx-0 px-0 mw-100">
@@ -65,7 +65,7 @@
             <!-- <button type="button" name="button">Publish</button> -->
           </span>
         </div>
-        <div class="col-lg-4 col-sm-12 d-flex flex-column align-items-center">
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 d-flex flex-column align-items-center">
           <h3><u>Instructions</u></h3>
           <ol id="steps">
             {% for s in recipe.steps %}
@@ -78,13 +78,13 @@
               </li>
             {% endfor %}
           </ol>
-          <button type="button" class="btn btn-outline-info w-25" onClick="addStep()" style="font-size:2rem">⊕</button>
+          <button type="button" class="btn btn-outline-info rounded-pill" onClick="addStep()" style="aspect-ratio: 1 / 1; font-size:1.5rem">+</button>
           <h3><u>Tags</u></h3>
           <textarea id="tags" style="width:95%">{% for t in tags %}{{t}} {% endfor %}</textarea>
           <!-- <textarea id="tags" style="width:95%"></textarea> -->
           <!-- <button type="button" class="btn btn-info" onClick="addTags()" style="font-size:3rem">⊕</button> -->
         </div>
-        <div class="col-lg-4 col-sm-12 border d-flex flex-column align-items-center">
+        <div class="col-xl-4 col-lg-12 col-sm-12 border d-flex flex-column align-items-center">
           <h3><u>Ingredients</u></h3>
           <ol id="ingredients">
             {% for i in ingredients %}
@@ -98,7 +98,7 @@
               </li>
             {% endfor %}
           </ol>
-          <button type="button" class="btn btn-outline-info" onClick="addIngredient()" style="font-size:2rem; width:25%">⊕</button>
+          <button type="button" class="btn btn-outline-info rounded-pill" onClick="addIngredient()" style="aspect-ratio: 1 / 1; font-size:1.5rem">+</button>
         </div>
       <!-- </form> -->
     </div>
