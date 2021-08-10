@@ -253,46 +253,61 @@
  {% block scripts %}
  <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
  <script>
-	let ids = "{{ids}}".split(",");
-	console.log("id1:" +ids)
+	let ids = "{{ids}}".split(",").map(i=>Number(i));
+	ids.sort((a, b) => a - b);
 	var index = 0;
 	var rec_display_num = 3;
 
+	function choose_display_num () {
+		if ($(window).width() < 750) {
+			rec_display_num = 1;
+		} else if ($(window).width() < 1000) {
+			rec_display_num = 2;
+		} else {
+			rec_display_num = 3;
+		}
+	}
+
 	function display_certain(index) {
-		console.log("yeet");
+		choose_display_num();
 		displayed = 0;
 		for (var i = 0; i < ids.length; i++) {
 			if (i < index) {
-				console.log("inloop")
 				$("#box-" + ids[i]).hide();
 			} else if (displayed < rec_display_num) {
-				console.log("inloop2")
 				$("#box-" + ids[i]).show();
 				displayed += 1;
 			} else {
-				console.log("hide big")
 				$("#box-" + ids[i]).hide();
 			}
 		}
 	}
-	window.onload = display_certain(index);
+	currentOnload = window.onload;
+	window.onload = function () {
+		for (var i = 0; i < ids.length; i++) {
+			$("#box-" + ids[i]).hide();
+		}
+		currentOnload();
+		display_certain(index);
+	}
+	$(window).resize(function () {
+		display_certain(index);
+	});
 
 	$("#previousPage").on('input click', function() {
 		if (index == 0) {
 			return;
 		}
 		index -= 1;
-		display_certain(index)
+		display_certain(index);
 
 
 	});
 	$("#nextPage").on('input click', function() {
 		if (index >= ids.length || index >= ids.length - rec_display_num) {
-			console.log("next1")
 			return;
 		}
 		index +=1;
-		console.log("next")
 
 		display_certain(index)
 

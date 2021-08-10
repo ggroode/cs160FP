@@ -173,7 +173,6 @@ def meal(request,ids):
         idsList = ids.split(",")
         recipes = list(Recipe.objects.filter(id__in=idsList))
 
-
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 
 def help(request):
