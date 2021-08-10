@@ -31,6 +31,7 @@ mealApp.removeFromMeal = function(t,id){
     mealApp.recipe_names.splice(index,1);
     document.cookie = "mealIds="+mealApp.recipe_ids.join(",")+";path=/"
     document.cookie = "mealNames="+mealApp.recipe_names.join(",")+";path=/"
+    document.cookie = "servings-"+id+"= ;expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/"
 }
 mealApp.setup = function(){
     let cookies = document.cookie.split(";");
@@ -38,12 +39,17 @@ mealApp.setup = function(){
     let recipe_names=[];
     for(let i=0; i<cookies.length;i++){
         let key = cookies[i].split("=")[0].trim();
+        let value=cookies[i].split("=")[1].trim()
         if(key=='mealIds'){
-            recipe_ids=cookies[i].split("=")[1].split(",").map(function (e){
+            recipe_ids=value.split(",").map(function (e){
                 return parseInt(e.trim());
             })
         } else if (key=='mealNames'){
-            recipe_names=cookies[i].split("=")[1].split(",").map(function(e){return e.trim()});
+            recipe_names=value.split(",").map(function(e){return e.trim()});
+        } else if (/^servings-\d+/.test(key)){
+            const id = Number(key.split("-")[1])
+            $("#servings-"+id).val(Number(value));
+            $("#servings-"+id).click();
         }
     }
     for(let i=0; i<recipe_ids.length;i++){
