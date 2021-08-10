@@ -70,13 +70,13 @@
                     <div id="leftbox" class='border border-dark'>
                     <div id="class">
                     {% comment %} Classification: {{recipe.classificationName}} {% endcomment %}
-                     Classification: {% for c in classifications %} 
+                     Classification: </div>{% for c in classifications %} 
                                             {% if recipe.classification == c %}
                                                 {{c.label}}
                                             {% endif %}
                                             {% comment %} {{recipe.classification}} {% endcomment %}
                                     {% endfor %} 
-                    </div>
+                    
                     <div id="tag">
                     Tags: 
                     </div>
@@ -95,7 +95,6 @@
                     <div id="inglist">
                         <br>
                         <ul id="ininlist" type="circle">
-                        {% comment %} get rid of extraneous zeros {% endcomment %}
                         {% comment %} link to the edit page if current user matches author id then display button {% endcomment %}
                         {% comment %} fill back with original {% endcomment %}
                         {% for ingredient in recipe|get_right_ingredients:1 %} 
