@@ -89,6 +89,10 @@ mealApp.saveMeal = function(uid,url){
     ) 
     
 }
+mealApp.mealLink = function(ids,names){
+    document.cookie = "mealIds="+ids+";path=/"
+    document.cookie = "mealNames="+String(names).replace(/[^\w,]/,"")+";path=/"
+}
 window.onload = function(){
     mealApp.setup()
 }
