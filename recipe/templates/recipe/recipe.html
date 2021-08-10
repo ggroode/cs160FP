@@ -123,7 +123,7 @@
             <div id="com">Comments<br><br>
             <input id="yourcomment" type="text" placeholder="Add a comment">
             {% comment %} <span class="input" id= "yourcomment"role="textbox" contenteditable>99</span> {% endcomment %}
-            <label class="btn border btn-outline-info" id="addcomment">Save</label>
+            <label style="background-color:#66B3BA; color:#F6EFA6;"class="btn border btn-outline-info" id="addcomment">Save</label>
             </div>
             <br>
             <div id ="oldcomments" align="center">
@@ -197,6 +197,10 @@
         $('#addcomment').click(function() {
             if ({{user.id}} == -1) {
                 alert("Please Sign In to Comment!");
+                return;
+            }
+            if (!$("#yourcomment").val()) {
+                alert("Write Something Before Submitting a Comment!")
                 return;
             }
             time = Date.now()

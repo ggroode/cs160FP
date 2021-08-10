@@ -49,6 +49,7 @@
 #top_display {
     background-color: #66B3BA;
     padding: 20px;
+    border-radius: 20px;
 }
 #name {
     font-family: 'Poppins', sans-serif;
@@ -139,4 +140,7 @@ body {
 }
 #leftbox {
     width:150px;
+}
+body{
+    background-color: #cdecea;
 }
