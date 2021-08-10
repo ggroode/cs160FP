@@ -68,8 +68,7 @@
 }
 
 #comments {
-    text-align: center;
-    text-decoration: underline;
+    
 }
 #yourcomment {
     border-radius: 3px;
@@ -100,13 +99,24 @@
 #middlecol {
     text-align: center;
 }
-#inglist, #instlist {
-    display: table;
+#inglist, #instlist, #taglist{
+    text-align: center;
+    list-style-position: inside;
 }
 
 #comment1 {
     background-color: #F6EFA6;
     border-radius: 10px;
     box-shadow: 10px 10px #dacf5e;
-
+    max-width:1000px;
+}
+#oldcomments {
+    
+}
+#com {
+    text-decoration: underline;
+    text-align: center;
+}
+#ininlist {
+    /* text-align:left; */
 }
