@@ -3,6 +3,7 @@
 {% load app_filters %}
 
 {% block style %}
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
 {% endblock style %} 
 
@@ -18,7 +19,7 @@
         <div id="top_display">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" align="center">
                         <div style="max-width:200px; max-height:150px;" id="imagerec">
                             <img id="image" style="width:100%; height:100%" src='{{recipe.image.url}}'>
                         </div>
@@ -36,7 +37,7 @@
                             {{recipe.description}}
                         </div>
                     </div>
-                    <div class="col-md-3"align="center">
+                    <div class="col-md-2"align="center">
                         <div id="rightbox">
                             <div id="rating">
                                 Rating: {{recipe.rating}} 
@@ -48,8 +49,9 @@
                             </div>
                         </div>
                         <div>
-                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')"> +
+                            <button id="addToMeal-{{recipe.id}}" style="width: 80px; height: 75px; background-color: #F6EFA6; box-shadow: 5px 5px #dacf5e; color: white; font-size: 20px; font-weight: bold;" type="button" class="btn addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
                                 {% comment %} <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus-1320568577900980298.png' />  {% endcomment %}
+                                <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
                                 {% comment %} <img id="delete" style="width: 100%; height: 100%;" src="{% static 'recipe/images/plus.png' %}" />  {% endcomment %}
                             </button>
                         </div>
@@ -63,6 +65,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3" align="center">
+                    <br>
+                    <div id="leftbox" class='border border-dark'>
+                    <div id="class">
                     Classification: {{recipe.classification}}
                     {% comment %} Classification: {% for c in classifications %} 
                                             {% if recipe.classification == c %}
@@ -70,8 +75,10 @@
                                             {% endif %}
                                             {{recipe.classification}}
                                     {% endfor %} {% endcomment %}
-                    <br>
-                    Tags:
+                    </div>
+                    <div id="tag">
+                    Tags: 
+                    </div>
                     <ul id="taglist">
                     {% for tag in recipe.tags %} 
                         <li>
@@ -80,9 +87,12 @@
                     {% endfor %}
                     </ul>
                 </div>
+            </div>
                 <div id = "middlecol" class="col-md-6">
-                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} defaultvalue={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
+                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} defaultvalue={{recipe.servings}} min=0> 
+                    <br> Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
+                        <br>
                         <ul id="ininlist" type="circle">
                         {% comment %} get rid of extraneous zeros {% endcomment %}
                         {% comment %} link to the edit page if current user matches author id then display button {% endcomment %}
@@ -94,12 +104,13 @@
                         {% endfor %}
                         </ul>
                     </div>
-                    Instructions | {{recipe.cookingTime}} min
+                    Instructions | {{recipe.cookingTime}} min <br><br>
                     <ol id="instlist" type="1">
                     {% for instruction in recipe.steps %} 
                         <li>{{instruction}}</li>
                     {% endfor %}
                     </ol>
+                    <br>
                     Rate this Recipe: <br>
                     {% with 'input' as rating %}
                         {% include 'recipe/rating.html' %}

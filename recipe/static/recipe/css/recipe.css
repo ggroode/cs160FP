@@ -51,6 +51,7 @@
     padding: 20px;
 }
 #name {
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     text-decoration: underline;
     font-size: 40px;
@@ -118,5 +119,24 @@
     text-align: center;
 }
 #ininlist {
-    /* text-align:left; */
+    /* padding-left: 0;
+    list-style-position: inside; */
+    display: inline-block;
+    text-align: left;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+}
+#instlist, #taglist {
+    display: inline-block;
+    text-align: left;
+}
+#class {
+    background-color: #8EB19D;
+}
+#tag {
+    background-color: #66B3BA;
+}
+#leftbox {
+    width:150px;
 }

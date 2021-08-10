@@ -10,6 +10,8 @@
             {% endwith %}
             <p>By {{recipe.author.username}}</p>
          </div>
-         <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
+         <button id="addToMeal-{{recipe.id}}" style="weight: 50px; height: 50px; background-color: #F6EFA6; box-shadow: 2px 2px #dacf5e;"type="button" class="btn  float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+            <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
+         </button>
     </div>  
 </div>
