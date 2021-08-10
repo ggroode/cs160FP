@@ -163,10 +163,14 @@ def meal(request,ids):
             m.recipes.add(recipe)
         m.save()
     else:
-        page = int(request.GET.get('page',1))
-        recPerPage = int(request.GET.get('recPerPage',3))
+        # page = int(request.GET.get('page',1))
+        # recPerPage = int(request.GET.get('recPerPage',3))
+        # idsList = ids.split(",")
+        # recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
         idsList = ids.split(",")
-        recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
+        recipes = list(Recipe.objects.filter(id__in=idsList))
+
+
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 
 def help(request):

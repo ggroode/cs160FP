@@ -18,7 +18,7 @@
 		.row{
 			background-color: #F0D2D1;
 		}
-		#box1{
+		.box1{
 			font-family: Ubuntu;
 			height: 100vh; 
 			margin-left: 0px;
@@ -161,8 +161,6 @@
 			margin-top: 65px;
 		}
 
-
-
 		a {
 			text-decoration: none;
 			display: inline-block;
@@ -202,14 +200,14 @@
 	<div class="dropdown">
 		{% include 'recipe/partials/mealDropdown.html' %}
 		<div id= "rec-overflow">
-			<a href="#" class="previous">&#8592;</a>
-			<a href="#" class="next">&#8594;</a>
+			<a href="#" id="previousPage" class="previous">&#8592;</a>
+			<a href="#" id="nextPage" class="next">&#8594;</a>
 		</div>
 	</div>
 	
 
 	{% for recipe in recipes %} 
-		<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
+		<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0 box1" id= "box-{{recipe.id}}"> 
 			<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
 			<h1><a href="{% url 'recipe' recipe.id %}" class="title">{{recipe.name}} </a></h1>
@@ -255,6 +253,50 @@
  {% block scripts %}
  <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
  <script>
+	let ids = "{{ids}}".split(",");
+	console.log("id1:" +ids)
+	var index = 0;
+	var rec_display_num = 3;
+
+	function display_certain(index) {
+		console.log("yeet");
+		displayed = 0;
+		for (var i = 0; i < ids.length; i++) {
+			if (i < index) {
+				console.log("inloop")
+				$("#box-" + ids[i]).hide();
+			} else if (displayed < rec_display_num) {
+				console.log("inloop2")
+				$("#box-" + ids[i]).show();
+				displayed += 1;
+			} else {
+				console.log("hide big")
+				$("#box-" + ids[i]).hide();
+			}
+		}
+	}
+	window.onload = display_certain(index);
+
+	$("#previousPage").on('input click', function() {
+		if (index == 0) {
+			return;
+		}
+		index -= 1;
+		display_certain(index)
+
+
+	});
+	$("#nextPage").on('input click', function() {
+		if (index >= ids.length || index >= ids.length - rec_display_num) {
+			console.log("next1")
+			return;
+		}
+		index +=1;
+		console.log("next")
+
+		display_certain(index)
+
+	});
  	function get_new_ing_list(recipeId, multiplier) {
  		newings = 'no';
  		$.post("{% url 'get_new_ing_list'%}",{
@@ -295,7 +337,6 @@
 	function closeRecipe(t){
 		//window.location.href = 'http://www.google.com'
 		let ids = "{{ids}}".split(",")
-		console.log(ids)
 		let removedID = $(t).attr("id").split("-")[1]
 		ids.splice(ids.indexOf(removedID),1)
 		mealApp.removeFromMeal("JUNK",Number(removedID))
