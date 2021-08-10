@@ -1,4 +1,5 @@
 {% extends 'recipe/base.html' %}
+{% load static %}
 
 {% block style %}
 <style>
@@ -59,3 +60,7 @@
 </div>
 {% include 'recipe/partials/saveMeal.html' %}
 {% endblock content %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
+{% endblock scripts %}
