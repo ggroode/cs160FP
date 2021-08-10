@@ -19,3 +19,7 @@ main{
 .color5{
     background-color:#F0D2D1;
 }
+.star{
+    max-height:100%;
+    max-width:18%;
+}
