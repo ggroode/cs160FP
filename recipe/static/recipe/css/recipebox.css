@@ -1,0 +1,36 @@
+.px-1{
+    border-color: red;
+    background-color: #8EB19D;
+}
+.border{
+    background-color: #42CAFD;
+}
+.hovering {
+    background-color: #42CAFD;
+}
+.hovering .name:hover {
+    background: #F6EFA6;
+    box-shadow: 10px 5px 5px #8EB19D;
+}
+.picture{
+    border-left: 10px;
+}
+.hovering .picture:hover {
+    background-color: orange;
+}
+img:hover{
+    color: red;
+}
+.border-warning{
+    border-color: #66B3BA !important;
+    border-radius: 10px !important;
+}
+.bg-warning{
+    background-color: #F6EFA6 !important;
+}
+.single:hover {
+    border-color: yellow;
+}
+.image:hover{
+    border-left-color: red;
+}
