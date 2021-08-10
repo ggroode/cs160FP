@@ -39,10 +39,17 @@
 
 		}
 		h1{
-			text-align: center;
-			margin-top: 20px;
-			font-weight: bold;
-			text-decoration: underline;
+			text-align: center !important;
+			margin-top: 20px !important;
+			font-weight: bold !important;
+			text-decoration: underline !important;
+		}
+		.title{
+			text-align: center !important;
+			margin-top: 20px !important;
+			font-weight: bold !important;
+			text-decoration: underline !important;
+			font-color:black;
 		}
 		h2{
 			margin-top: 40px;
@@ -57,9 +64,9 @@
 		}
 		input[type='number'] {
 			width: 55px;
-			height: 50px;
+			height: 45px;
 			font-size: 18px;
-			margin-bottom: 20px;
+			margin-bottom: 0px;
 			background-color: rgb(214, 212, 210);
 			border-radius: 5px;
 
@@ -79,7 +86,7 @@
 			text-align: left;
 		}
 		.steps{
-			margin-top: 60px;
+			margin-top: 35px;
 			text-align: center;
 			font-size: 30px;
 			text-decoration: underline;
@@ -174,13 +181,12 @@
 			color: black;
 		}
 		.servSize{
-			margin-top: 10px;
+			margin-top: 0px;
 			margin-bottom: 0px;
 			text-align: center;
-			font-size: 30px;
-			text-decoration: underline;
+			font-size: 20px;
+			{% comment %} text-decoration: underline; {% endcomment %}
 		}
-
 
 		#rec-overflow{
 			float: right;
@@ -188,8 +194,6 @@
 
 	</style>
 {% endblock style %}
-
-
 
 <div class="container-fluid h-100 p-0">
 	<div class="row">
@@ -219,7 +223,7 @@
 			<div class="col-lg-4 col-md-6 col-sm-12 scroll p-0" id= "box1"> 
 				<button type="button" class="btn-close exit" id="close-{{recipe.id}}" onClick="closeRecipe(this)"></button>
 
-				<h1> {{recipe.name}} </h1>
+				<h1><a href="{% url 'recipe' recipe.id %}" class="title">{{recipe.name}} </a></h1>
 				<!-- Button trigger modal -->
 				<div class= "mx-auto text-center">
 					<button type="button" class="btn rating"  data-bs-toggle="modal" data-bs-target="#exampleModal-{{recipe.id}}">
@@ -253,7 +257,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="ingredients">
+				<div class="ingredients text-decoration-underline">
 					Ingredients | Servings: <input id="servings-{{recipe.id}}" class="servings" type="number" value="{{recipe.servings}}" placeholder="{{recipe.servings}}" min=0> 
 				</div>
 				<div class= "servSize">
@@ -267,13 +271,13 @@
 				</ul>
 			</div>
 
-			<div class="steps">
+			<div class="steps text-decoration-underline">
 				Steps | {{recipe.cookingTime}} min
 			</div>
 			<ol class="ordered-sps">
 				{% for step in recipe.steps %} 
 					<li>
-						<input type= "checkbox">
+						<input type= "checkbox" onclick="$(this).parent().toggleClass('text-decoration-line-through')">
 						<span>{{step}}</span>
 					</li>
 				{% endfor %} 
@@ -305,7 +309,7 @@
  			}
  		var updatedList = document.getElementById(rightlist);
  		updatedList.innerHTML += "</ul>"
- 		updatedList.style.color = '#42CAFD';
+ 		//updatedList.style.color = '#42CAFD';
  	 	updatedList.style.listStylePosition = 'inside';
  	  	updatedList.style.textAlign = 'left';
  	  	updatedList.style.marginLeft = '20px';
