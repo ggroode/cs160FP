@@ -76,6 +76,19 @@ mealApp.goToShoppingList = function(){
     }
     
 }
+mealApp.saveMeal = function(uid,url){
+    if (uid == -1) {
+        alert("Please Sign In to Save Meals!");
+        return;
+    }
+    let name = $("#meal-name").val();
+    $.post(url,{name:name},
+        function(data,status,JqXHR) {
+            window.location.href = url;
+        }
+    ) 
+    
+}
 window.onload = function(){
     mealApp.setup()
 }

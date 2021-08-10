@@ -171,6 +171,10 @@ class Meal(models.Model):
     recipes = models.ManyToManyField(Recipe)
     author = models.ForeignKey(User,on_delete=CASCADE)
 
+    @property
+    def recipeNames(self):
+        return [recipe.name for recipe in self.recipes]
+
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True,primary_key=True)
     recipes = models.ManyToManyField(Recipe)

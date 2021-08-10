@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 import json
-from .models import Recipe,User
+from .models import Recipe,Meal,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Avg, Count,Max
@@ -123,8 +123,6 @@ def create_recipe(request,rid=-1):
                 d2["image"] = Recipe.objects.get(id=rid).image
             Recipe.objects.get(id=rid).delete()
             d2["id"] = rid
-
-
             # recipe.setid(rid)
         recipe = Recipe.createRecipeFromDict(d2)
         id = recipe.id
@@ -144,21 +142,29 @@ def create_recipe(request,rid=-1):
             # return render(request,'recipe/create_recipe.html', context)
     return render(request,'recipe/create_recipe.html', context)
 
-# def edit_recipe(request, rid):
-#     if not request.user.is_authenticated:
-#         return redirect('accounts/login')
-#     return render(request,'recipe/create_recipe.html',context={'classifications':Recipe.Classifications})
 
 def recipe(request,id):
     test = request.GET.get("test",1)
     recipe = Recipe.objects.get(id=id)
     return render(request,'recipe/recipe.html',context={'id':id,'recipe':recipe,'test':test,'classifications':Recipe.Classifications})
+
+@csrf_exempt
 def meal(request,ids):
-    page = int(request.GET.get('page',1))
-    recPerPage = int(request.GET.get('recPerPage',3))
-    idsList = ids.split(",")
-    recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
+    if request.method == "POST":
+        idsList = [int(i) for i in ids.split(",")]
+        recipes = Recipe.objects.filter(id__in=idsList)
+        name = request.POST.get("name")
+        m = Meal.objects.create(name=name,author=request.user)
+        for recipe in recipes:
+            m.recipes.add(recipe)
+        m.save()
+    else:
+        page = int(request.GET.get('page',1))
+        recPerPage = int(request.GET.get('recPerPage',3))
+        idsList = ids.split(",")
+        recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
+
 def help(request):
     return render(request,'recipe/help.html')
 
@@ -172,7 +178,6 @@ def shoppingList(request,ids):
         if multiplier != 1:
             for ingName in recipe.ingredients:
                 recipe.ingredients[ingName]["quantity"]*=multiplier
-
     #get merged ingredients from Recipe.mergeIngredients
     mergedIngredients = Recipe.mergeIngredients(recipes)
     #convert to text with Recipe.ingredientsToText(ingredients)
@@ -197,6 +202,7 @@ def rate(request):
     # recipe.ingredientsAsText(2)
     recipe.rate(rater,rating)
     return HttpResponse(1)
+
 def register(request):
     if request.method == "GET":
         return render(
