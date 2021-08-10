@@ -35,7 +35,7 @@
           <div class="input-group mb-3">
             {% for c in classifications %}
               <input type="radio" class="btn-check" name="options" id="option{{forloop.counter}}" {% if recipe.classification == c %}checked{% endif %} autocomplete="off">
-              <label class="btn border btn-outline-info" for="option{{forloop.counter}}" onclick="recipeType = this.innerHTML">{{c.label}}</label>
+              <label class="btn border btn-outline-info" for="option{{forloop.counter}}" onclick="recipeType = '{{c.value}}'">{{c.label}}</label>
             {% endfor %}
           </div>
 
