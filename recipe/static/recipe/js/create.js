@@ -73,7 +73,7 @@ function setBasicInfo() {
 }
 
 function pushTags() {
-  tags = $('#tags').val().split(/[^\w]/);
+  tags = $('#tags').val().split(/[^\w]+/);
   // tagsJSON = JSON.stringify(tags);
 }
 
