@@ -12,6 +12,7 @@ import re
 def search_recipes(request):
     #getting search parameters
     name = request.GET.get("name","")
+    meal = bool(request.GET.get('type-meal',False))
     authors = request.GET.get('author',"")
     tags = request.GET.get('tags',"")
     ingredients = request.GET.get('ingredients',"")
@@ -78,14 +79,17 @@ def search_recipes(request):
     recipes = recipes.filter(cookingTime__lte=maxCookingTime,cookingTime__gte=minCookingTime)
     if not request.GET.get('cooking time-max',""):
         maxCookingTime='∞'
-    print(authors,tags)
+    
     #Setting backup filters
     filters = zip(
-    ['visibility','classification','rating','cooking time','author','tags','ingredients'],
-    ['multi-select','multi-select','numeric','numeric','text','text','text'],
-    [zip(('public','private'),(public,private)),zip(('entree','side','dessert','appetizer','drink'),(entree,side,dessert,appetizer,drink)),
+    ['type','visibility','classification','rating','cooking time','author','tags','ingredients'],
+    ['single-select','multi-select','multi-select','numeric','numeric','text','text','text'],
+    [zip(('recipe','meal'),[not meal,meal]),zip(('public','private'),(public,private)),zip(('entree','side','dessert','appetizer','drink'),(entree,side,dessert,appetizer,drink)),
         (0,5,'stars',minRating,maxRating),(0,'∞','min',minCookingTime,maxCookingTime),[",".join(authors)],[",".join(tags)],[",".join(ingredients)]]
     )
+    if meal:
+        recipes = Meal.objects.filter(name__contains=name)
+        return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters,'meal':True})
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
 @csrf_exempt

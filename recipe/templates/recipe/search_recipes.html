@@ -30,6 +30,20 @@
         #recipeArea{
             border-color: red;
         }
+        .checkbox-round {
+            width: .9em;
+            height: .9em;
+            background-color: white;
+            border-radius: 100%;
+            vertical-align: middle;
+            border: 1px solid #ddd;
+            -webkit-appearance: none;
+            outline: none;
+            cursor: pointer;
+        }
+        .checkbox-round:checked {
+            background-color: gray;
+        }
 
     </style>
 {% endblock style %}
@@ -65,8 +79,6 @@
             </div>
         </div>
     </form>
-    
-
 {% endblock content %}
 
 {% block scripts %}
@@ -87,6 +99,9 @@
     window.onload = function(){
         currentOnload()
         app.setup()
+        $('.check-single-type').click(function() {
+            $('.check-single-type').not(this).prop('checked', false);
+        });
     } 
 </script>
 {% endblock scripts %}

@@ -175,6 +175,14 @@ class Meal(models.Model):
     def recipeNames(self):
         return [recipe.name for recipe in self.recipes]
 
+    @property
+    def image(self):
+        return self.recipes.first().image
+    
+    @property
+    def ids(self):
+        return ",".join([recipe.id for recipe in self.recipes])
+
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True,primary_key=True)
     recipes = models.ManyToManyField(Recipe)
