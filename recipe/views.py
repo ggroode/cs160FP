@@ -130,8 +130,9 @@ def create_recipe(request,rid=-1):
         id = recipe.id
         test = 0
         return redirect('/recipe/{}'.format(id), context={'id':id,'recipe':recipe,'test':test})
-    context={'classifications':Recipe.Classifications}
+    context={'classifications':Recipe.Classifications,'edit':"false"}
     if rid != -1:
+        context['edit']="true"
         r = Recipe.objects.get(id=rid)
         if r.author.id != request.user.id:
             return redirect('/recipe/{}?flash=You%20may%20only%20edit%20your%20own%20recipes%21'.format(rid), context={'id':rid,'recipe':r,'test':0})

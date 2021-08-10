@@ -86,6 +86,11 @@ function setRecipeInfo() {
 
 function sendRecipeInfo() {
   // TODO: finish
+    if (!edit && !document.getElementById('upload').files[0]) {
+      alert("You must upload a picture!")
+      return;
+    }
+
   setRecipeInfo();
   const message = createFD();
   let xhr = new XMLHttpRequest();
