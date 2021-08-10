@@ -115,7 +115,7 @@ class Recipe(models.Model):
                     if ingredients[ingredientName]['unit'] == recipe.ingredients[ingredientName]['unit']:
                         ingredients[ingredientName]['quantity'] += recipe.ingredients[ingredientName]['quantity']
                     else:
-                        pass
+                        ingredients[ingredientName+" "] = recipe.ingredients[ingredientName]
                 else:
                     ingredients[ingredientName] = recipe.ingredients[ingredientName]
         return ingredients
