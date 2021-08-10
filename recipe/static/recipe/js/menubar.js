@@ -8,10 +8,11 @@ mealApp.addToMeal = function(t,id,name){
     } else{
         mealApp.recipe_ids.push(id);
         mealApp.recipe_names.push(name);
-        $(t).html('-');
+        // $(t).html('-');
+        $(t).html('<img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
         $('#menu-recipes').append(
             `<li>
-                <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" onclick="mealApp.removeFromMeal(this,`+id+`)"> X </button>
+                <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px;"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
                 <a href=/recipe/`+id+`>`
                 + name +
                 `</a>
@@ -23,12 +24,14 @@ mealApp.addToMeal = function(t,id,name){
 }
 mealApp.removeFromMeal = function(t,id){
     $(t).parent().remove();
-    $('#addToMeal-'+id).html('+');
+    // $('#addToMeal-'+id).html('+');
+    $('#addToMeal-'+id).html('<img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png\' />')
     let index = mealApp.recipe_ids.indexOf(id)
     mealApp.recipe_ids.splice(index,1);
     mealApp.recipe_names.splice(index,1);
     document.cookie = "mealIds="+mealApp.recipe_ids.join(",")+";path=/"
     document.cookie = "mealNames="+mealApp.recipe_names.join(",")+";path=/"
+    document.cookie = "servings-"+id+"= ;expires = Thu, 01 Jan 1970 00:00:00 GMT;path=/"
 }
 mealApp.setup = function(){
     let cookies = document.cookie.split(";");
@@ -36,12 +39,17 @@ mealApp.setup = function(){
     let recipe_names=[];
     for(let i=0; i<cookies.length;i++){
         let key = cookies[i].split("=")[0].trim();
+        let value=cookies[i].split("=")[1].trim()
         if(key=='mealIds'){
-            recipe_ids=cookies[i].split("=")[1].split(",").map(function (e){
+            recipe_ids=value.split(",").map(function (e){
                 return parseInt(e.trim());
             })
         } else if (key=='mealNames'){
-            recipe_names=cookies[i].split("=")[1].split(",").map(function(e){return e.trim()});
+            recipe_names=value.split(",").map(function(e){return e.trim()});
+        } else if (/^servings-\d+/.test(key)){
+            const id = Number(key.split("-")[1])
+            $("#servings-"+id).val(Number(value));
+            $("#servings-"+id).click();
         }
     }
     for(let i=0; i<recipe_ids.length;i++){

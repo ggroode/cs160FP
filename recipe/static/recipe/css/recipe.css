@@ -51,6 +51,7 @@
     padding: 20px;
 }
 #name {
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     text-decoration: underline;
     font-size: 40px;
@@ -68,8 +69,7 @@
 }
 
 #comments {
-    text-align: center;
-    text-decoration: underline;
+    
 }
 #yourcomment {
     border-radius: 3px;
@@ -100,13 +100,43 @@
 #middlecol {
     text-align: center;
 }
-#inglist, #instlist {
-    display: table;
+#inglist, #instlist, #taglist{
+    text-align: center;
+    list-style-position: inside;
 }
 
 #comment1 {
     background-color: #F6EFA6;
     border-radius: 10px;
     box-shadow: 10px 10px #dacf5e;
-
+    max-width:1000px;
+}
+#oldcomments {
+    
+}
+#com {
+    text-decoration: underline;
+    text-align: center;
+}
+#ininlist {
+    /* padding-left: 0;
+    list-style-position: inside; */
+    display: inline-block;
+    text-align: left;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+}
+#instlist, #taglist {
+    display: inline-block;
+    text-align: left;
+}
+#class {
+    background-color: #8EB19D;
+}
+#tag {
+    background-color: #66B3BA;
+}
+#leftbox {
+    width:150px;
 }

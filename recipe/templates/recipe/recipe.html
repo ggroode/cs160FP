@@ -3,6 +3,7 @@
 {% load app_filters %}
 
 {% block style %}
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipe.css' %}" />
 {% endblock style %} 
 
@@ -18,8 +19,10 @@
         <div id="top_display">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
-                        <img id="image" src='{{recipe.image.url}}'>
+                    <div class="col-md-3" align="center">
+                        <div style="max-width:200px; max-height:150px;" id="imagerec">
+                            <img id="image" style="width:100%; height:100%" src='{{recipe.image.url}}'>
+                        </div>
                     </div>
                     <div id ="name_and_desc" class="col-md-6">
                         <div id="name">
@@ -34,15 +37,23 @@
                             {{recipe.description}}
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div>
-                            Rating: {{recipe.rating}}
-                            {% with ecipe.rating as rating %}
+                    <div class="col-md-2"align="center">
+                        <div id="rightbox">
+                            <div id="rating">
+                                Rating: {{recipe.rating}} 
+                            </div>
+                            <div id="ratingstars">
+                            {% with recipe.rating as rating %}
                                 {% include 'recipe/rating.html' %}
                             {% endwith %}
+                            </div>
                         </div>
                         <div>
-                            <button id="addToMeal-{{recipe.id}}" type="button" class="btn btn-success addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">+</button>
+                            <button id="addToMeal-{{recipe.id}}" style="width: 80px; height: 75px; background-color: #F6EFA6; box-shadow: 5px 5px #dacf5e; color: white; font-size: 20px; font-weight: bold;" type="button" class="btn addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+                                {% comment %} <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus-1320568577900980298.png' />  {% endcomment %}
+                                <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
+                                {% comment %} <img id="delete" style="width: 100%; height: 100%;" src="{% static 'recipe/images/plus.png' %}" />  {% endcomment %}
+                            </button>
                         </div>
                         <div id="edit">
                             <img id="pencil" src="{% static 'recipe/images/pencil.png' %}" />
@@ -53,20 +64,36 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3" align="center">
+                    <br>
+                    <div id="leftbox" class='border border-dark'>
+                    <div id="class">
                     Classification: {{recipe.classification}}
-                    <br>
-                    Tags:
-                    <br>
+                    {% comment %} Classification: {% for c in classifications %} 
+                                            {% if recipe.classification == c %}
+                                                {{c.label}}
+                                            {% endif %}
+                                            {{recipe.classification}}
+                                    {% endfor %} {% endcomment %}
+                    </div>
+                    <div id="tag">
+                    Tags: 
+                    </div>
+                    <ul id="taglist">
                     {% for tag in recipe.tags %} 
+                        <li>
                         {{tag}}
-                            <br>
+                        </li>
                     {% endfor %}
+                    </ul>
                 </div>
+            </div>
                 <div id = "middlecol" class="col-md-6">
-                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} min=0>  Serving Size: {{recipe.servingSize}}
+                    Ingredients | Servings: <input id="servings" type="number" value={{recipe.servings}} defaultvalue={{recipe.servings}} min=0> 
+                    <br> Serving Size: {{recipe.servingSize}}
                     <div id="inglist">
-                        <ul type="circle">
+                        <br>
+                        <ul id="ininlist" type="circle">
                         {% comment %} get rid of extraneous zeros {% endcomment %}
                         {% comment %} link to the edit page if current user matches author id then display button {% endcomment %}
                         {% comment %} fill back with original {% endcomment %}
@@ -77,12 +104,13 @@
                         {% endfor %}
                         </ul>
                     </div>
-                    Instructions | {{recipe.cookingTime}} min
+                    Instructions | {{recipe.cookingTime}} min <br><br>
                     <ol id="instlist" type="1">
                     {% for instruction in recipe.steps %} 
                         <li>{{instruction}}</li>
                     {% endfor %}
                     </ol>
+                    <br>
                     Rate this Recipe: <br>
                     {% with 'input' as rating %}
                         {% include 'recipe/rating.html' %}
@@ -92,11 +120,13 @@
             </div>
         </div>
         <div id="comments">
-            Comments <br>
+            <div id="com">Comments<br><br>
             <input id="yourcomment" type="text" placeholder="Add a comment">
+            {% comment %} <span class="input" id= "yourcomment"role="textbox" contenteditable>99</span> {% endcomment %}
             <label class="btn border btn-outline-info" id="addcomment">Save</label>
+            </div>
             <br>
-            <div id ="oldcomments">
+            <div id ="oldcomments" align="center">
             {% for comment in recipe.comments %} 
                 <div id="comment1">
                     {{comment.author}}: {{comment.content}}
@@ -121,11 +151,15 @@
         },
         function(data,status,JqXHR) {
             const ingredients = data.split(",");
-            document.getElementById("inglist").innerHTML = "<ul type=\"circle\">"
+            {% comment %} document.getElementById("inglist").innerHTML = "<ul type=\"circle\">" {% endcomment %}
             for (var i = 0; i < ingredients.length;i++) {
-                document.getElementById("inglist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+                if (i==0) {
+                    document.getElementById("ininlist").innerHTML = "<li>"+ ingredients[i]+"</li>"
+                } else {
+                    document.getElementById("ininlist").innerHTML += "<li>"+ ingredients[i]+"</li>"
+                }
             }
-            document.getElementById("inglist").innerHTML += "</ul>"
+            {% comment %} document.getElementById("inglist").innerHTML += "</ul>" {% endcomment %}
         }
         ) 
         return newings
@@ -165,13 +199,15 @@
                 alert("Please Sign In to Comment!");
                 return;
             }
+            time = Date.now()
             $.post("{% url 'comment'%}",{
-            id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:Date.now() }
-             {% comment %} },
+            id: {{recipe.id}}, rater: {{user.id}}, content: $("#yourcomment").val(), date_time:time }
+             ,
             function(data,status,JqXHR) {
-                need this to add the comment
-                $( "#oldcomments" ).prepend();
-            } {% endcomment %}
+                var name = "{{user.get_username}}";
+                
+                $( "#oldcomments" ).prepend("<div id=\"comment1\">" + name +": " +$("#yourcomment").val() +"<br>written: " +new Date(time)+"<br></div><br>");
+            } 
             ) 
 
         });
