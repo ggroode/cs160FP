@@ -43,11 +43,14 @@
         .checkbox-round:checked {
             background-color: gray;
         }
+        nav{
+            z-index:100;
+        }
     </style>
 {% endblock style %}
 {% block content %}
     <form>
-        <div class='row h-100 w-100 px-0 fixed-top' style="margin-left: 0%;margin-top:58px">
+        <div class='row h-100 w-100 px-0 ' style="margin-left: 0%;margin-top:58px">
             <div id="menuArea" class='col-md-3 order-md-1 order-1 overflow-auto' style="padding: 0%;">
                 <!-- <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 <div id="menubar" class="position-relative">
