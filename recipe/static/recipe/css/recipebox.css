@@ -34,10 +34,12 @@ img:hover{
 }
 .recipePicture{
     transition: all 300ms ease-out;
+    overflow: visible;
 }
 .recipePicture:hover {
-   box-shadow: 10px 0px 30px rgb(0,0,0,0.3);
+   box-shadow: 20px 0px 40px rgb(0,0,0,0.7);
    transform: translate(0, -7px);
    border-color: #F6EFA6;
+   overflow: visible;
 
 }
