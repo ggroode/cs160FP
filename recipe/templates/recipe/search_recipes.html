@@ -70,7 +70,14 @@
                 </div>
                 <div id='recipeArea' class='row w-100 h-auto p-4' style="border-color: red">
                     {% for recipe in recipes %} 
-                        {% include 'recipe/partials/recipe_box.html' %}
+                        {% if meal %}
+                            {% with recipe as meal %}
+                                {% include 'recipe/partials/meal_box.html' %}
+                            {% endwith %}
+                        {% else %}
+                            {% include 'recipe/partials/recipe_box.html' %}
+                        {% endif %}
+                        
                     {% endfor %}    
                 </div>
             </div>
