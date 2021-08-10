@@ -32,8 +32,9 @@
                             By {{recipe.author}}
                         </div>
                         <div id="desc">
+                            <div id="description">
                             Description: 
-                            <br>
+                            </div>
                             {{recipe.description}}
                         </div>
                     </div>
@@ -73,7 +74,7 @@
                                             {% if recipe.classification == c %}
                                                 {{c.label}}
                                             {% endif %}
-                                            {{recipe.classification}}
+                                            {% comment %} {{recipe.classification}} {% endcomment %}
                                     {% endfor %} 
                     </div>
                     <div id="tag">

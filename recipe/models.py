@@ -173,7 +173,7 @@ class Meal(models.Model):
 
     @property
     def recipeNames(self):
-        return [recipe.name for recipe in self.recipes]
+        return [recipe.name for recipe in self.recipes.all()]
 
     @property
     def image(self):
@@ -181,7 +181,7 @@ class Meal(models.Model):
     
     @property
     def ids(self):
-        return ",".join([recipe.id for recipe in self.recipes])
+        return ",".join([str(recipe.id) for recipe in self.recipes.all()])
 
 class Tag(models.Model):
     name = models.CharField(max_length=15, unique=True,primary_key=True)

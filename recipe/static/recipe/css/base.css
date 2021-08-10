@@ -1,5 +1,6 @@
 html,body{
     height:100%;
+    font-family: 'Poppins', sans-serif;
 }
 main{
     margin-top:58px;
@@ -18,4 +19,8 @@ main{
 }
 .color5{
     background-color:#F0D2D1;
+}
+.star{
+    max-height:100%;
+    max-width:18%;
 }

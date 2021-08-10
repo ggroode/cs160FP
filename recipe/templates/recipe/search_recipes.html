@@ -1,7 +1,7 @@
 {% extends 'recipe/base.html' %}
 {% load static %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'recipe/css/recipebox.css' %}" />
+<link rel="stylesheet" href="{% static 'recipe/css/recipebox.css' %}">
     <style>
         #closeMenu{
             float:right;
@@ -25,7 +25,6 @@
         main{
             padding-left:0px !important;
             padding-right:0px !important;
-            {% comment %} background-color: #F0D2D1; {% endcomment %}
         }
         #recipeArea{
             border-color: red;
@@ -44,50 +43,61 @@
         .checkbox-round:checked {
             background-color: gray;
         }
-
     </style>
 {% endblock style %}
 {% block content %}
     <form>
-        <div class='row h-100 w-100 px-0'>
-            <div id="menuArea" class='col-md-3'>
-                <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+        <div class='row h-100 w-100 px-0' style="margin-left: 0%;">
+            <div id="menuArea" class='col-md-3 order-md-1 order-1' style="padding: 0%;">
+                <!-- <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 <div id="menubar" class="position-relative">
                     {% include 'recipe/partials/menubar.html' %}
-                    <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                    <!-- <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 </div>
             </div> 
-            <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
+            <div id="mainSearchArea" class='col-md-6 h-100 p-2 order-md-2 order-3' style="padding: 0%;">
                 <div id='searchTop' class='row'>
                     <div class="input-group">
+                        <button type="button" id="openMenu"class="rounded" onclick="toggleMenuBar()" aria-expanded="false" aria-controls="menubar">My Meal</button>
+                        <span>&nbsp; &nbsp;</span>
                         <input id="search-input" name="name" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                         <button type="submit" class="btn btn-outline-primary">search</button>
+                        <span>&nbsp; &nbsp;</span>
+                        <button type="button" id="openFilters" class="rounded" onclick="toggleFilterBar()" aria-expanded="false" aria-controls="menubar">Filters</button>
                     </div>
                 </div>
-                <div id='recipeArea' class='row w-100 h-auto p-4'>
+                <div id='recipeArea' class='row w-100 h-auto p-4' style="border-color: red">
                     {% for recipe in recipes %} 
-                        {% include 'recipe/partials/recipe_box.html' %}
+                        {% if meal %}
+                            {% with recipe as meal %}
+                                {% include 'recipe/partials/meal_box.html' %}
+                            {% endwith %}
+                        {% else %}
+                            {% include 'recipe/partials/recipe_box.html' %}
+                        {% endif %}
                     {% endfor %}    
                 </div>
             </div>
-            <div id='filterArea' class='col-md-3'>
-                <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+            <div id='filterArea' class='col-md-3 order-md-3 order-2' style="padding: 0%;">
+                <!-- <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 <div id="filterbar" class="position-relative">
                     {% include 'recipe/partials/filterbar.html' %}
-                    <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                    <!-- <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 </div>
             </div>
         </div>
     </form>
 {% endblock content %}
-
 {% block scripts %}
 <script type="text/javascript" src="{% static 'recipe/js/menubar.js' %}"></script>
 <script>
+    var showingMenuBar = true;
+    var showingFilterBar = true;
+    var doResize = true;
     app = {};
     app.setup = function(){
-        $("#menubar").hide();
-        $("#openFilters").hide();
+        // $("#menubar").hide();
+        // $("#openFilters").hide();
         const url = new URL(window.location.href);
         const name = url.searchParams.get("name");
         if(name){
@@ -99,9 +109,40 @@
     window.onload = function(){
         currentOnload()
         app.setup()
-        $('.check-single-type').click(function() {
-            $('.check-single-type').not(this).prop('checked', false);
-        });
+    }
+    $('.check-single-type').click(function() {
+        $('.check-single-type').not(this).prop('checked', false);
+    });
+    function toggleMenuBar() {
+        if (showingMenuBar) {
+            $('#menubar').hide(1000);
+        } else {
+            $('#menubar').show(1000);
+        }
+        showingMenuBar = !showingMenuBar;
+    }
+    function toggleFilterBar() {
+        if (showingFilterBar) {
+            $('#filterbar').hide(1000);
+        } else {
+            $('#filterbar').show(1000);
+        }
+        showingFilterBar = !showingFilterBar;
     } 
+    $(window).resize(function() {
+        if ($(this).width() < 768 && doResize) {
+            $('#menubar').hide(1000);
+            $('#filterbar').hide(1000);
+            showingMenuBar = false;
+            showingFilterBar = false;
+            doResize = false;
+        } else if ($(this).width() >= 768) {
+            doResize = true;
+            $('#menubar').show(1000);
+            $('#filterbar').show(1000);
+        }
+    });
+</script>
 </script>
 {% endblock scripts %}
+

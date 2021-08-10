@@ -88,7 +88,10 @@ def search_recipes(request):
         (0,5,'stars',minRating,maxRating),(0,'∞','min',minCookingTime,maxCookingTime),[",".join(authors)],[",".join(tags)],[",".join(ingredients)]]
     )
     if meal:
-        recipes = Meal.objects.filter(name__contains=name)
+        if request.user.is_authenticated:
+            recipes = Meal.objects.filter(name__contains=name,author=request.user)
+        else:
+            recipes = Meal.objects.filter(name="ghyilop567kqe")
         return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters,'meal':True})
     return render(request,'recipe/search_recipes.html',context={'recipes':recipes,'filters':filters})
 
@@ -163,10 +166,13 @@ def meal(request,ids):
             m.recipes.add(recipe)
         m.save()
     else:
-        page = int(request.GET.get('page',1))
-        recPerPage = int(request.GET.get('recPerPage',3))
+        # page = int(request.GET.get('page',1))
+        # recPerPage = int(request.GET.get('recPerPage',3))
+        # idsList = ids.split(",")
+        # recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
         idsList = ids.split(",")
-        recipes = list(Recipe.objects.filter(id__in=idsList))[(page-1)*recPerPage:page*recPerPage]
+        recipes = list(Recipe.objects.filter(id__in=idsList))
+
     return render(request,'recipe/meal.html',context={'ids':ids, 'recipes' :recipes})
 
 def help(request):

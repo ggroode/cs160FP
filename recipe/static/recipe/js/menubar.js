@@ -77,7 +77,7 @@ mealApp.goToShoppingList = function(){
     
 }
 mealApp.saveMeal = function(uid,url){
-    if (uid == -1) {
+    if (uid == "None") {
         alert("Please Sign In to Save Meals!");
         return;
     }
