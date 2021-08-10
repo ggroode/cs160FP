@@ -68,13 +68,13 @@
                     <br>
                     <div id="leftbox" class='border border-dark'>
                     <div id="class">
-                    Classification: {{recipe.classificationName}}
-                    {% comment %} Classification: {% for c in classifications %} 
+                    {% comment %} Classification: {{recipe.classificationName}} {% endcomment %}
+                     Classification: {% for c in classifications %} 
                                             {% if recipe.classification == c %}
                                                 {{c.label}}
                                             {% endif %}
                                             {{recipe.classification}}
-                                    {% endfor %} {% endcomment %}
+                                    {% endfor %} 
                     </div>
                     <div id="tag">
                     Tags: 
