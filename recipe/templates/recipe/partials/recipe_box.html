@@ -1,14 +1,14 @@
-<div class='hovering border-5 border-warning border col-lg-5 col-md-10 col-xs-12 px-0 m-2' style="overflow:auto;">
+<div class='hovering border-5 border-warning border col-lg-5 col-md-10 col-xs-12 px-0 m-2'>
     <div class= "recipePicture border-dark">
         <a href="{% url 'recipe' recipe.id %}" class="h-100 w-100">
             <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark' style="height:60%"/>
         </a>
     </div>
-    <div class="px-1">
+    <div class="px-1" style="height:40%">
         <div class= "name">
          <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
         </div>
-         <div class="float-start" style="max-height:60px;">
+         <div class="float-start" style="max-height:60px;max-width:75%">
             {% with recipe.rating as rating %}
                 {% include 'recipe/rating.html' %}
             {% endwith %}
