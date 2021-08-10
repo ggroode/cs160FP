@@ -1,7 +1,7 @@
 <div class='hovering border-5 border-warning border col-lg-5 col-md-10 col-xs-12 px-0 m-2'>
     <div class= "recipePicture border-dark">
         <a href="{% url 'recipe' recipe.id %}" class="h-100 w-100">
-            <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark' style="height:60%"/>
+            <img src='{{recipe.image.url}}' class='w-100 border-bottom border-dark' style="height:60%; max-height:200px;"/>
         </a>
     </div>
     <div class="px-1" style="height:40%">
@@ -9,14 +9,14 @@
          <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
         </div>
         <div class="w-100 text-center d-flex flex-nowrap justify-content-between" style="height:50%">
-            <div  style="height:auto;max-height:100%;max-width:75%">
+            <div style="height:auto;max-height:100%;max-width:75%">
                 {% with recipe.rating as rating %}
                     {% include 'recipe/rating.html' %}
                 {% endwith %}
                 <p>By {{recipe.author.username}}</p>
             </div>
             <button id="addToMeal-{{recipe.id}}" style="width:23%; aspect-ratio:1 / 1;background-color: #F6EFA6; box-shadow: 2px 2px #dacf5e;"type="button" class="btn addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
-                <img id="plus" style="width: 100%;height:auto;aspect-ratio:1 / 1" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
+                <img class="plus" style="width: 100%;aspect-ratio:1 / 1" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
             </button>
         </div>
     </div>  
