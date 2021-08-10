@@ -51,10 +51,10 @@
     <form>
         <div class='row h-100 w-100 px-0'>
             <div id="menuArea" class='col-md-3'>
-                <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+                <button type="button" id="openMenu" class="btn btn-outline-secondary rounded position-fixed"  aria-expanded="false" aria-controls="menubar">=</button>
                 <div id="menubar" class="position-relative">
                     {% include 'recipe/partials/menubar.html' %}
-                    <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                    <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end"  aria-expanded="false" aria-controls="menubar">=</button>
                 </div>
             </div> 
             <div id="mainSearchArea" class='col-md-6 h-100 p-2'>
@@ -71,10 +71,10 @@
                 </div>
             </div>
             <div id='filterArea' class='col-md-3'>
-                <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button>
+                <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed"  aria-expanded="false" aria-controls="menubar">=</button>
                 <div id="filterbar" class="position-relative">
                     {% include 'recipe/partials/filterbar.html' %}
-                    <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button>
+                    <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end"  aria-expanded="false" aria-controls="menubar">=</button>
                 </div>
             </div>
         </div>
@@ -88,6 +88,13 @@
     app.setup = function(){
         $("#menubar").hide();
         $("#openFilters").hide();
+        if (screen.width < 960) {
+            $('#filterbar').hide();
+            $('#openFilters').show();
+            $('#closeFilters').hide();
+
+        }
+
         const url = new URL(window.location.href);
         const name = url.searchParams.get("name");
         if(name){
@@ -103,5 +110,55 @@
             $('.check-single-type').not(this).prop('checked', false);
         });
     } 
+    $(document).ready(function(){
+        $("#openMenu").click(function() {
+            $("#openMenu").hide();
+            $("#menubar").show();
+            $("#closeMenu").show();
+            if (screen.width < 960) {
+
+                $('#filterbar').hide();
+                $('#openFilters').hide();
+                $('#closeFilters').hide();
+                $('#mainSearchArea').hide();
+            }
+
+        });
+        $("#closeMenu").click(function() {
+            $("#openMenu").show();
+            $("#menubar").hide();
+            $("#closeMenu").hide();
+            if (screen.width < 960) {
+                $('#mainSearchArea').show();
+                $('#openFilters').show();
+            }
+        });
+        $("#openFilters").click(function() {
+            $('#filterbar').show();
+            $('#openFilters').hide();
+            $('#closeFilters').show();
+            if (screen.width < 960) {
+                $("#openMenu").show();
+                $("#menubar").hide();
+                $("#closeMenu").hide();
+                $('#mainSearchArea').hide();
+                $("#openMenu").hide();
+
+            }
+
+        });
+        $("#closeFilters").click(function() {
+            $('#filterbar').hide();
+            $('#openFilters').show();
+            $('#closeFilters').hide();
+            if (screen.width < 960) {
+                $('#mainSearchArea').show();
+                $("#openMenu").show();
+
+            }
+
+        });
+            
+    });
 </script>
 {% endblock scripts %}
