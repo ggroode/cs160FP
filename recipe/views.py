@@ -106,7 +106,11 @@ def create_recipe(request,rid=-1):
         d2["private"] = True if d2["private"] == "true" else False
         d2["tags"] = d2["tags"].split(",")
         d2["steps"] = d2["steps"].split(",")
-        d2["image"] = request.FILES['files[]']
+        # print("\n\n\n")
+        # print(bool(request.FILES))
+        # print("\n\n\n")
+        if request.FILES:
+            d2["image"] = request.FILES['files[]']
         # print("\n\n")
         # print(d2["steps"])
         # print(d2["tags"])
@@ -115,8 +119,12 @@ def create_recipe(request,rid=-1):
         # print(d2["ingredients"])
         # print("\n\n")
         if rid != -1:
+            if not request.FILES:
+                d2["image"] = Recipe.objects.get(id=rid).image
             Recipe.objects.get(id=rid).delete()
             d2["id"] = rid
+
+
             # recipe.setid(rid)
         recipe = Recipe.createRecipeFromDict(d2)
         id = recipe.id
@@ -130,6 +138,7 @@ def create_recipe(request,rid=-1):
         else:
             context["recipe"] = r
             context["tags"] = r.tags
+            context["cimage"] = r.image
             context["ingredients"] = [[i, r.ingredients[i]["quantity"], r.ingredients[i]["unit"]] for i in r.ingredients.keys()]
             # return render(request,'recipe/create_recipe.html', context)
     return render(request,'recipe/create_recipe.html', context)
