@@ -6,20 +6,18 @@
     background-color: #42CAFD;
 }
 .hovering {
-    background-color: #42CAFD;
+ background-color: #42CAFD;
 }
 .hovering .name:hover {
-    background: #F6EFA6;
-    box-shadow: 10px 5px 5px #8EB19D;
+   background: #F6EFA6;
+   box-shadow: 10px 5px 5px #8EB19D;
 }
 .picture{
     border-left: 10px;
 }
-.hovering .picture:hover {
-    background-color: orange;
-}
+
 img:hover{
-    color: red;
+ color: red;
 }
 .border-warning{
     border-color: #66B3BA !important;
@@ -33,4 +31,13 @@ img:hover{
 }
 .image:hover{
     border-left-color: red;
+}
+.recipePicture{
+    transition: all 300ms ease-out;
+}
+.recipePicture:hover {
+   box-shadow: 10px 0px 30px rgb(0,0,0,0.3);
+   transform: translate(0, -7px);
+   border-color: #F6EFA6;
+
 }
