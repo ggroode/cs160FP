@@ -40,6 +40,10 @@ class Recipe(models.Model):
     private = models.BooleanField(default=False)
     ingredients = models.JSONField(default=dict)
     steps = models.JSONField(default=get_list)
+
+    @property
+    def classificationName(self):
+        return dict(Recipe.Classifications.choices)[self.classification]
     @property
     def tags(self):
         return [tag.name for tag in Tag.objects.filter(recipes__id=self.id)]
