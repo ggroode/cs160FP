@@ -6,7 +6,7 @@
          <a href="{% url 'recipe' recipe.id %}"><h5>{{recipe.name}}</h5></a>
          <div class="float-start">
             {% with recipe.rating as rating  edit=1 %}
-                <h6>{% include 'recipe/rating.html' %}</h6>
+                {% include 'recipe/rating.html' %} 
             {% endwith %}
             <p>By {{recipe.author.username}}</p>
          </div>

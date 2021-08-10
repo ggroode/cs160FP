@@ -82,15 +82,7 @@
             $("#search-input").val(name);
         }
         const form = document.querySelector('form');
-        form.addEventListener('submit', app.search);
     }
-    app.search  = function(event){
-        const data = new FormData(event.target);
-        const value = data.get('classification-entree');
-        console.log(value)
-        //let name = $("#search-input").val();
-        //window.location.href = "{% url 'search-recipes' %}" +"?name="+name;
-    } 
     let currentOnload = window.onload
     window.onload = function(){
         currentOnload()

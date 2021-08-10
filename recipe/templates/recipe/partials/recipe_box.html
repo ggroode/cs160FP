@@ -65,12 +65,20 @@ img:hover{
             {% include 'recipe/rating.html' %}
             {% endwith %}
             <p>By {{recipe.author.username}}</p>
-        </div>
+<!-- <<<<<<< HEAD
+ -->        </div>
     </div>
     <div class= "addButton">
         <button id="addToMeal-{{recipe.id}}" type="button" class="btn bg-warning float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},
         '{{recipe.name}}')">+</button>
     </div>
 </div>  
-</div>
+<!-- ======= -->
+<!--          </div>
+         <button id="addToMeal-{{recipe.id}}" style="weight: 50px; height: 50px; background-color: #F6EFA6; box-shadow: 2px 2px #dacf5e;"type="button" class="btn  float-end addToMeal" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+            <img id="plus" style="width: 100%; height: 100%;" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' /> 
+         </button>
+    </div>   -->
+<!-- >>>>>>> 61ebd664caf9feeaace68e4135e23f12d8e291c9
+ --></div>
 

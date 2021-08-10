@@ -1,18 +1,18 @@
 <div class="btn border color3 mt-3 w-75 p-0">
     {% if type == 'text' %}
         <div class="w-100 color2 ">{{variable|capfirst}}</div>
-        <input id="{{variable}}" type="text" name="{{variable}}" class="form-control m-0" placeholder="Enter: {{variable}}(s)">
+        <input id="{{variable}}" type="text" name="{{variable}}" value="{{options.0}}" class="form-control m-0" placeholder="Enter: {{variable}}(s)">
     {% elif type == 'multi-select' %}
         <div class="w-100 color2 ">{{variable|capfirst}}</div>
         {% for opt in options %}
             <span>
-                <input id="{{varaible}}-{{opt}}" type="checkbox" name="{{variable}}-{{opt}}" value="true" checked>
-                <label for="{{varaible}}-{{opt}}">{{opt|capfirst}}</label>
+                <input id="{{varaible}}-{{opt.0}}" type="checkbox" name="{{variable}}-{{opt.0}}" value="true" {% if opt.1%} checked {% endif %}>
+                <label for="{{varaible}}-{{opt.0}}">{{opt.0|capfirst}}</label>
             </span>
         {% endfor %}
     {% elif type == 'numeric' %}
         <div class="w-100 color2 ">{{variable|capfirst}} ({{options.2}})</div>
-        <input type="number" id="{{variable}}-min" name="{{variable}}-min" style="width:20%" value="{{options.0}}" placeholder="{{options.0}}" min={{options.0}} max={{options.1}}>
-        - <input type="number" id="{{variable}}-max" name="{{variable}}-max" style="width:20%" value="{{options.1}}" placeholder="{{options.1}}" min={{options.0}} max={{options.1}}>
+        <input type="number" id="{{variable}}-min" name="{{variable}}-min" style="width:20%" value="{{options.3}}" placeholder="{{options.0}}" min={{options.0}} max={{options.1}}>
+        - <input type="number" id="{{variable}}-max" name="{{variable}}-max" style="width:20%" value="{{options.4}}" placeholder="{{options.1}}" min={{options.0}} max={{options.1}}>
     {% endif %}
 </div>
