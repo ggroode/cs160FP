@@ -9,10 +9,10 @@ mealApp.addToMeal = function(t,id,name){
         mealApp.recipe_ids.push(id);
         mealApp.recipe_names.push(name);
         // $(t).html('-');
-        $(t).html('<img id="plus" style="width: 100%; height: 100%; color:black" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
+        $(t).html('<img class="plus" style="width: 100%;aspect-ratio:1 / 1 color:black;max-height:100%" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
         $('#menu-recipes').append(
             `<li>
-                <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px; margin-top: 2%"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
+                <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px; margin-top: 2%"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img class="plus" style="width: 100%;aspect-ratio:1 / 1;max-height:100%" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
                 <a href="/recipe/`+id+`"style="color:black">`
                 + name +
                 `</a>
@@ -25,7 +25,7 @@ mealApp.addToMeal = function(t,id,name){
 mealApp.removeFromMeal = function(t,id){
     $(t).parent().remove();
     // $('#addToMeal-'+id).html('+');
-    $('#addToMeal-'+id).html('<img id="plus" style="width: 100%; height: 100%;" src=\'https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png\' />')
+    $('#addToMeal-'+id).html('<img class="plus" style="width: 100%;aspect-ratio:1 / 1;max-height:100%" src=\'https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png\' />')
     let index = mealApp.recipe_ids.indexOf(id)
     mealApp.recipe_ids.splice(index,1);
     mealApp.recipe_names.splice(index,1);
@@ -88,6 +88,10 @@ mealApp.saveMeal = function(uid,url){
         }
     ) 
     
+}
+mealApp.mealLink = function(ids,names){
+    document.cookie = "mealIds="+ids+";path=/"
+    document.cookie = "mealNames="+String(names).replace(/[^\w,]/,"")+";path=/"
 }
 window.onload = function(){
     mealApp.setup()
