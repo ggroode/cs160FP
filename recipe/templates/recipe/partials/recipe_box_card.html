@@ -1,0 +1,29 @@
+<div class="col">
+  <div class='card h-100' style="max-width:17rem">
+        <a href="{% url 'recipe' recipe.id %}">
+            <img src='{{recipe.image.url}}' class='card-img-top'/>
+        </a>
+      <div class="card-body">
+          <a href="{% url 'recipe' recipe.id %}">
+            <h5 class="card-title">{{recipe.name}}</h5>
+          </a>
+          <div class="card-text d-flex">
+
+            {% with recipe.rating as rating %}
+                {% include 'recipe/rating.html' %}
+            {% endwith %}
+            <!-- <button id="addToMeal-{{recipe.id}}" style="min-width:23%; aspect-ratio:1 / 1;background-color: #F6EFA6; box-shadow: 2px 2px #dacf5e; font-size:1.5rem" type="button" class="btn addToMeal rounded-pill" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+              <img id="plus" style="width: 100%;height:auto;aspect-ratio:1 / 1" src='https://icons-for-free.com/iconfiles/png/512/plus+icon-1320166903617346293.png' />
+            </button> -->
+            <button id="addToMeal-{{recipe.id}}" style="min-width:23%; aspect-ratio:1 / 1;background-color: #F6EFA6; box-shadow: 2px 2px #dacf5e; font-size:1.5rem" type="button" class="btn addToMeal rounded-pill" onclick="mealApp.addToMeal(this,{{recipe.id}},'{{recipe.name}}')">
+              +
+            </button>
+            <!-- <p class="card-text">★★★☆☆</p> -->
+            <!-- <button type="button" class="btn btn-warning card-text">+</button> -->
+          </div>
+      </div>
+      <div class="card-footer">
+        <small class="text-muted">By {{recipe.author.username}}</small>
+      </div>
+  </div>
+</div>
