@@ -30,8 +30,8 @@ const ingredientItem = `
 </li>`;
 const stepItem = `
   <li>
-    <div class="d-flex flex-nowrap w-100">
-      <span name="stepspan" class="text-decoration-underline" style="min-width:90%; max-width:90%" contenteditable>instruction</span>
+    <div class="d-flex flex-nowrap w-100 mb-1">
+      <span name="stepspan" class="mr-auto" style="min-width:90%; max-width:90%; border-bottom:solid black" contenteditable></span>
       &nbsp;
       <button type="button" class="btn btn-danger" onClick="removeStep(this.parentNode.parentNode)">X</button>
     </div>
