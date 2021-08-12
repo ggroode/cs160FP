@@ -43,12 +43,15 @@
         .checkbox-round:checked {
             background-color: gray;
         }
+        nav{
+            z-index:100;
+        }
     </style>
 {% endblock style %}
 {% block content %}
     <form>
-        <div class='row h-100 w-100 px-0' style="margin-left: 0%;">
-            <div id="menuArea" class='col-md-3 order-md-1 order-1' style="padding: 0%;">
+        <div class='row h-100 w-100 px-0 ' style="margin-left: 0%;margin-top:58px">
+            <div id="menuArea" class='col-md-3 order-md-1 order-1 overflow-auto' style="padding: 0%;">
                 <!-- <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 <div id="menubar" class="position-relative">
                     {% include 'recipe/partials/menubar.html' %}
@@ -66,7 +69,7 @@
                         <button type="button" id="openFilters" class="rounded" onclick="toggleFilterBar()" aria-expanded="false" aria-controls="menubar">Filters</button>
                     </div>
                 </div>
-                <div id='recipeArea' class='row w-100 h-auto p-4' style="border-color: red">
+                <div id='recipeArea' class='d-flex row justify-content-evenly w-100 h-auto p-4 mx-0 text-center' style="border-color: red">
                     {% for recipe in recipes %} 
                         {% if meal %}
                             {% with recipe as meal %}
@@ -78,9 +81,9 @@
                     {% endfor %}    
                 </div>
             </div>
-            <div id='filterArea' class='col-md-3 order-md-3 order-2' style="padding: 0%;">
+            <div id='filterArea' class='col-md-3 order-md-3 order-2 ' style="padding: 0%;">
                 <!-- <button type="button" id="openFilters"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#filterbar').show();$('#openFilters').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
-                <div id="filterbar" class="position-relative">
+                <div id="filterbar" class="position-relative  overflow-auto color4">
                     {% include 'recipe/partials/filterbar.html' %}
                     <!-- <button type="button" id="closeFilters" class="btn btn-outline-secondary rounded float-end" onclick="$('#filterbar').hide();$('#openFilters').show()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 </div>
@@ -94,6 +97,7 @@
     var showingMenuBar = true;
     var showingFilterBar = true;
     var doResize = true;
+    var initialLoad = true;
     app = {};
     app.setup = function(){
         // $("#menubar").hide();
@@ -109,6 +113,13 @@
     window.onload = function(){
         currentOnload()
         app.setup()
+        if (initialLoad && $(window).width() < 768) {
+            $('#menubar').hide();
+            $('#filterbar').hide();
+            showingMenuBar = false;
+            showingFilterBar = false;
+            doResize = false;
+        }
     }
     $('.check-single-type').click(function() {
         $('.check-single-type').not(this).prop('checked', false);
@@ -137,9 +148,11 @@
             showingFilterBar = false;
             doResize = false;
         } else if ($(this).width() >= 768) {
-            doResize = true;
             $('#menubar').show(1000);
             $('#filterbar').show(1000);
+            showingMenuBar = true;
+            showingFilterBar = true;
+            doResize = true;
         }
     });
 </script>
