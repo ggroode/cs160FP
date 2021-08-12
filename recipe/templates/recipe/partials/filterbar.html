@@ -1,5 +1,6 @@
 <div class="h-100 w-100 text-center">
-    <button class="btn btn-rounded border color5 mt-3 text-center " onclick="toggleFilterBar();return false;"><h3>|X| Filter Selection</h3></button>
+    <button class="btn position-relative float-start" id="closeMenu" onclick="toggleFilterBar();return false;">X</button>
+    <div class="btn btn-rounded border color5 mt-3 text-center "><h3>Filter Selection</h3></div>
     {% for filter in filters %}
         {% with variable=filter.0 type=filter.1 options=filter.2 %}
             {% include "recipe/partials/filterBox.html" %}

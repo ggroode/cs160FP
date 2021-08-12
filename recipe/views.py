@@ -6,7 +6,9 @@ from .models import Recipe,Meal,User
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.db.models import Q, Avg, Count,Max
+from nltk.stem import PorterStemmer
 import re
+ps = PorterStemmer()
 
 # Create your views here.
 def search_recipes(request):
@@ -50,7 +52,7 @@ def search_recipes(request):
     if tags:
         tags = re.split("[^\w]+",tags)
         for tag in tags:
-            recipes = recipes.filter(tag__name=tag)
+            recipes = recipes.filter(Q(tag__name__icontains=ps.stem(tag))|Q(tag__name__icontains=tag))
     if ingredients:
         ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
         for ing in ingredients:
@@ -112,7 +114,12 @@ def create_recipe(request,rid=-1):
             d2[k] = v
         d2["private"] = True if d2["private"] == "true" else False
         d2["tags"] = d2["tags"].split(",")
-        d2["steps"] = d2["steps"].split(",")
+        if d2["tags"] and d2["tags"][-1] == "":
+            d2["tags"].pop()
+        print(d2['steps'])
+        d2["steps"] = d2["steps"].split(";;;")
+        if d2["steps"] and d2["steps"][-1] == "":
+            d2["steps"].pop()
         # print("\n\n\n")
         # print(bool(request.FILES))
         # print("\n\n\n")

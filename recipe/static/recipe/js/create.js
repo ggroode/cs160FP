@@ -1,5 +1,5 @@
 // additions
-const steps = [];
+let steps = "";
 const ingredients = [];
 let tags = [];
 let recipeType = "en";
@@ -47,11 +47,10 @@ function addIngredient() {
 }
 
 function pushSteps() {
-  steps.length = 0;
+  steps = "";
   for (let step of $('span[name=stepspan]')) {
-    steps.push(
-      step.innerHTML.replace(/&nbsp;|<br>/g," ")
-    )
+      steps+=step.innerHTML.replace(/&nbsp;|<br>/g," ").replace(/<[^>]+>/g,"")
+      steps+=";;;"
   }
 }
 

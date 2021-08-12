@@ -22,6 +22,7 @@ def get_list():
     return []
 
 class Recipe(models.Model):
+    COUNTNAMES=['cnt','count','Count','']
     class Classifications(models.TextChoices):
         DESSERT = 'de'
         ENTREE = 'en'
@@ -116,7 +117,7 @@ class Recipe(models.Model):
         for recipe in recipeList:
             for ingredientName in recipe.ingredients.keys():
                 if ingredientName in ingredients:
-                    if ingredients[ingredientName]['unit'] == recipe.ingredients[ingredientName]['unit']:
+                    if ingredients[ingredientName]['unit'] == recipe.ingredients[ingredientName]['unit'] or (ingredients[ingredientName]['unit'] in Recipe.COUNTNAMES and recipe.ingredients[ingredientName]['unit'] in Recipe.COUNTNAMES):
                         ingredients[ingredientName]['quantity'] += recipe.ingredients[ingredientName]['quantity']
                     else:
                         ingredients[ingredientName+" "] = recipe.ingredients[ingredientName]
@@ -157,14 +158,25 @@ class Recipe(models.Model):
             unit,quantity = ing['unit'],ing['quantity']*multiplier
             if (quantity % 1 == 0):
                 quantity = int(quantity)
-            if unit in ['count','cnt']:
-                if quantity == 1:
-                    ingTextList.append("{} {}".format(quantity,name.capitalize()))
+                if unit in Recipe.COUNTNAMES:
+                    if quantity == 1:
+                        ingTextList.append("{} {}".format(quantity,name.capitalize()))
+                    else:
+                        ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
                 else:
-                    ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
+                    ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
             else:
-                ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
+                if unit in ['count','cnt']:
+                    if quantity == 1:
+                        ingTextList.append("{:.2f} {}".format(quantity,name.capitalize()))
+                    else:
+                        ingTextList.append("{:.2f} {}".format(quantity,pluralize(name).capitalize()))
+                else:
+                    ingTextList.append("{:.2f} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
         return ingTextList
+
+    def __str__(self):
+        return self.name
 
 class Meal(models.Model):
     name = models.CharField(max_length=50)
