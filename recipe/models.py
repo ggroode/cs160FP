@@ -3,19 +3,20 @@ from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 from django.core.validators import MaxValueValidator
 from nltk.stem import PorterStemmer
+from pattern.en import pluralize,singularize
 import re
 
 ps = PorterStemmer()
 
-def pluralize(noun):
-    if re.search('[sxz]$', noun):
-         return re.sub('$', 'es', noun)
-    elif re.search('[^aeioudgkprt]h$', noun):
-        return re.sub('$', 'es', noun)
-    elif re.search('[aeiou]y$', noun):
-        return re.sub('y$', 'ies', noun)
-    else:
-        return noun + 's'
+# def pluralize(noun):
+#     if re.search('[sxz]$', noun):
+#          return re.sub('$', 'es', noun)
+#     elif re.search('[^aeioudgkprt]h$', noun):
+#         return re.sub('$', 'es', noun)
+#     elif re.search('[aeiou]y$', noun):
+#         return re.sub('y$', 'ies', noun)
+#     else:
+#         return noun + 's'
 
 # Create your models here.
 def get_list():
@@ -83,11 +84,11 @@ class Recipe(models.Model):
 
 
     def addIngredient(self,ingredientName,unit,quantity):
-        ingredientName = " ".join([ps.stem(word.lower()) for word in ingredientName.split(' ')])
+        # ingredientName = " ".join([singularize(word.lower()) for word in ingredientName.split(' ')])
         self.ingredients[ingredientName] = {'quantity':quantity, 'unit':unit}
-        ing = Ingredient.objects.filter(name=ingredientName).first()
+        ing = Ingredient.objects.filter(name=ingredientName.lower()).first()
         if not ing:
-            ing = Ingredient.objects.create(name=ingredientName)
+            ing = Ingredient.objects.create(name=ingredientName.lower())
         ing.recipes.add(self)
         self.save()
 
@@ -112,17 +113,43 @@ class Recipe(models.Model):
         tag.recipes.add(self)
 
     @staticmethod
+    def isCount(ingredient,unit):
+        if unit in Recipe.COUNTNAMES:
+            return True
+        if singularize(unit.lower()) == singularize(ingredient.lower()):
+            return True
+        return False
+
+    @staticmethod
+    def pluralize(str):
+        ending = str[-1]
+        if ending in ['s','.']:
+            return str
+        return pluralize(str)
+
+    @staticmethod
     def mergeIngredients(recipeList):
         ingredients = dict()
+        ingredientsSing = dict()
+        space = " "
+        spaceCount=1
         for recipe in recipeList:
             for ingredientName in recipe.ingredients.keys():
-                if ingredientName in ingredients:
-                    if ingredients[ingredientName]['unit'] == recipe.ingredients[ingredientName]['unit'] or (ingredients[ingredientName]['unit'] in Recipe.COUNTNAMES and recipe.ingredients[ingredientName]['unit'] in Recipe.COUNTNAMES):
-                        ingredients[ingredientName]['quantity'] += recipe.ingredients[ingredientName]['quantity']
+                print(ingredientName)
+                singName = singularize(ingredientName.lower())
+                if singName in ingredientsSing.keys():
+                    if singularize(ingredientsSing[singName]['unit'].lower()) == singularize(recipe.ingredients[ingredientName]['unit'].lower()) or (Recipe.isCount(ingredientName,ingredientsSing[singName]['unit']) and Recipe.isCount(ingredientName,recipe.ingredients[ingredientName]['unit'])):
+                        
+                        ingredients[ingredientName]['quantity'] = recipe.ingredients[ingredientName]['quantity'] + ingredientsSing[singName]['quantity']
+                        # print(ingredients)[ingredientName]
+                        ingredientsSing[singName]['quantity'] =  ingredients[ingredientName]['quantity']
                     else:
-                        ingredients[ingredientName+" "] = recipe.ingredients[ingredientName]
+                        ingredients[ingredientName+space*spaceCount] = recipe.ingredients[ingredientName]
+                        ingredients[singName+space*spaceCount]= recipe.ingredients[ingredientName]
+                        spaceCount+=1
                 else:
                     ingredients[ingredientName] = recipe.ingredients[ingredientName]
+                    ingredientsSing[singName] = recipe.ingredients[ingredientName]
         return ingredients
 
     @staticmethod
@@ -158,21 +185,22 @@ class Recipe(models.Model):
             unit,quantity = ing['unit'],ing['quantity']*multiplier
             if (quantity % 1 == 0):
                 quantity = int(quantity)
-                if unit in Recipe.COUNTNAMES:
+                name = name.strip()
+                if Recipe.isCount(name,unit):
                     if quantity == 1:
                         ingTextList.append("{} {}".format(quantity,name.capitalize()))
                     else:
-                        ingTextList.append("{} {}".format(quantity,pluralize(name).capitalize()))
+                        ingTextList.append("{} {}".format(quantity,Recipe.pluralize(name).capitalize()))
                 else:
-                    ingTextList.append("{} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
-            else:
-                if unit in ['count','cnt']:
-                    if quantity == 1:
-                        ingTextList.append("{:.2f} {}".format(quantity,name.capitalize()))
+                    if quantity==1:
+                        ingTextList.append("{} {} of {}".format(quantity,unit,name.capitalize()))
                     else:
-                        ingTextList.append("{:.2f} {}".format(quantity,pluralize(name).capitalize()))
+                        ingTextList.append("{} {} of {}".format(quantity,Recipe.pluralize(unit),name.capitalize()))
+            else:
+                if Recipe.isCount(name,unit):
+                    ingTextList.append("{:.2f} {}".format(quantity,Recipe.pluralize(name).capitalize()))
                 else:
-                    ingTextList.append("{:.2f} {} of {}".format(quantity,unit,pluralize(name).capitalize()))
+                    ingTextList.append("{:.2f} {} of {}".format(quantity,Recipe.pluralize(unit),name.capitalize()))
         return ingTextList
 
     def __str__(self):

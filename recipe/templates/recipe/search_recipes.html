@@ -43,14 +43,11 @@
         .checkbox-round:checked {
             background-color: gray;
         }
-        nav{
-            z-index:100;
-        }
     </style>
 {% endblock style %}
 {% block content %}
     <form>
-        <div class='row h-100 w-100 px-0 ' style="margin-left: 0%;margin-top:58px">
+        <div class='row h-100 w-100 px-0 fixed-top' style="margin-left: 0%;margin-top:58px">
             <div id="menuArea" class='col-md-3 order-md-1 order-1 overflow-auto' style="padding: 0%;">
                 <!-- <button type="button" id="openMenu"class="btn btn-outline-secondary rounded position-fixed" onclick="$('#menubar').show();$('#openMenu').hide()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 <div id="menubar" class="position-relative">
@@ -58,9 +55,9 @@
                     <!-- <button type="button" id="closeMenu" class="btn btn-outline-secondary rounded float-end" onclick="$('#menubar').hide();$('#openMenu').show()" aria-expanded="false" aria-controls="menubar">=</button> -->
                 </div>
             </div> 
-            <div id="mainSearchArea" class='col-md-6 h-100 p-2 order-md-2 order-3' style="padding: 0%;">
+            <div id="mainSearchArea" class='col-md-6 h-100 p-2 order-md-2 order-3 overflow-auto' style="padding: 0%;">
                 <div id='searchTop' class='row'>
-                    <div class="input-group">
+                    <div class="input-group" >
                         <button type="button" id="openMenu"class="rounded" onclick="toggleMenuBar()" aria-expanded="false" aria-controls="menubar">My Meal</button>
                         <span>&nbsp; &nbsp;</span>
                         <input id="search-input" name="name" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />

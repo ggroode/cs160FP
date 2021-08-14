@@ -28,3 +28,8 @@ main{
     max-height:100%;
     max-width:18%;
 }
+.btn-exit{
+    background-color: red;
+    border-radius: 0px;
+
+}

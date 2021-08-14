@@ -56,7 +56,7 @@ def search_recipes(request):
     if ingredients:
         ingredients=[s.lower() for s in re.split("[^\w]+",ingredients)]
         for ing in ingredients:
-            recipes = recipes.filter(ingredient__name=ing)
+            recipes = recipes.filter(Q(ingredient__name__icontains=ing)| Q(ingredient__name__icontains=ps.stem(ing)))
     if not (private and public):
         recipes = recipes.filter(private=private)
     if (entree or side or appetizer or dessert or drink) and not (entree and side and appetizer and dessert and drink):

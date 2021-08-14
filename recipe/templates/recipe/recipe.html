@@ -105,7 +105,7 @@
                         </ul>
                     </div>
                     Instructions | {{recipe.cookingTime}} min <br><br>
-                    <ol id="instlist" type="1">
+                    <ol id="instlist" type="1" style="text-align: left; margin-left: 15%; margin-top: 5%; font-size: 20px;">
                     {% for instruction in recipe.steps %} 
                         <li>{{instruction}}</li>
                     {% endfor %}
@@ -192,6 +192,7 @@
             var val = $("#servings").val();
             var new_val = val/{{recipe.servings}}
             var a = get_new_ing_list(new_val);
+            document.cookie = "servings-{{recipe.id}}="+val+";path=/"
             // page refresh? tmux
         });
         $('#addcomment').click(function() {

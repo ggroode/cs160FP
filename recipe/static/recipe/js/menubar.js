@@ -12,7 +12,7 @@ mealApp.addToMeal = function(t,id,name){
         $(t).html('<img class="plus" style="width: 100%;aspect-ratio:1 / 1 color:black;max-height:100%" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png\' />')
         $('#menu-recipes').append(
             `<li>
-                <button id="removeFromMeal-`+id+`" class="btn btn-danger me-3" style="height:30px;width:40px; margin-top: 2%"onclick="mealApp.removeFromMeal(this,`+id+`)"> <img class="plus" style="width: 100%;aspect-ratio:1 / 1;max-height:100%" src=\'https://icons-for-free.com/iconfiles/png/512/x+icon-1320166903649367557.png'/> </button>
+                <button id="removeFromMeal-`+id+`" class="btn-exit btn-close me-3" style="height:20px;width:30px; margin-top: 2%" onclick="mealApp.removeFromMeal(this,`+id+`)"></button>
                 <a href="/recipe/`+id+`"style="color:black">`
                 + name +
                 `</a>
